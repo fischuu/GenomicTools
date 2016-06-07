@@ -1,0 +1,102 @@
+---
+title: "Function Tests for GeneticTools"
+author: "Daniel Fischer"
+date: "November 16, 2015"
+output: pdf_document
+---
+
+Load the package
+```{r setParameters}
+  library(GeneticTools)
+<<<<<<< HEAD
+  exampleDataDir <- "/home/fischuu/ownCloud/Luke/R-Packages/GeneticTools/exampleData"
+=======
+  library(snpStats)
+  exampleDataDir <- "/home/ejo138/ownCloud/Luke/R-Packages/GeneticTools/exampleData"
+>>>>>>> a9013138afb3cd93e082951d4d6b41023b9a5104
+```  
+  
+# calcDistances
+
+```{r calcDistances}
+  set.seed(4233)
+  X <-matrix(rnorm(1000),ncol=100)
+  calcDistances(X)
+  
+  calcDistances(X, method="eu")
+```
+  
+# eQTL
+ 
+<<<<<<< HEAD
+```{r eQTL}
+=======
+## Case: All files are prepare by hand:
+
+```{r cache=TRUE}
+>>>>>>> a9013138afb3cd93e082951d4d6b41023b9a5104
+  # Import the expression data
+    exprData <- read.table(file.path(exampleDataDir,"example.expr"), header=TRUE)
+  # Assign the Sample names to the rows and delete the non gene expression columns
+    rownames(exprData) <- exprData[,1]
+    exprData <- exprData[,-c(1,2)]
+  # Import the ped/map file pairs using the snpStas library
+    genoData <- read.pedfile(file=file.path(exampleDataDir,"example.ped"), snps=file.path(exampleDataDir,"example.map"))
+    annotData <- read.table(file.path(exampleDataDir,"genelocations.loc"))
+  annotData <- annotData[,c(4,1,2,3)]
+  colnames(annotData) <- c("Gene", "Chr", "Start", "End")
+  eqtlres <- eQTL(gex=exprData, geno=genoData, xAnnot=annotData)
+  eqtlres
+  eqtlres2 <- eQTL(gex=exprData, geno=genoData, xAnnot=annotData, which=c("PCDH1","PCDH10"))
+  eqtlres2
+  eqtlres.sig <- eQTL(gex=exprData, geno=genoData, xAnnot=annotData, sig=0.05)
+  eqtlres.sig
+  eqtlres.sig2 <- eQTL(gex=exprData, geno=genoData, xAnnot=annotData, sig=0.01, which=c("PCDH1","PCDH10"))
+  eqtlres.sig2
+  set.seed(323456)
+  system.time(eqtlres.dir <- eQTL(gex=exprData, geno=genoData, xAnnot=annotData, method="dir", nper=100, mc=4))
+  eqtlres.dir
+
+  eqtlres.vec <- eQTL(gex=exprData[,9], geno=genoData, xSamples=as.character(1:500), xAnnot=annotData)
+  eqtlres.vec
+  eqtlres.vec2 <- eQTL(gex=exprData[,9], geno=genoData, xSamples=as.character(1:500), xAnnot=annotData[9,])
+  eqtlres.vec2
+ # eqtlres.vec3 <- eQTL(gex=exprData[,9], geno=genoData, xSamples=as.character(1:500))
+ # eqtlres.vec3
+  eqtlres.vec4 <- eQTL(gex=exprData[,9], geno=genoData, xAnnot=annotData[9,])
+  eqtlres.vec4
+  eqtlres.vec5 <- eQTL(gex=exprData[,9], geno=genoData, genoSample=sample(500), xAnnot=annotData[9,])
+  eqtlres.vec5
+  eqtlres.vec6 <- eQTL(gex=exprData[,9], geno=genoData, genoSample=sample(500), xAnnot=annotData)
+  eqtlres.vec6
+
+# Trans eQTL
+  eqtlres.large <- eQTL(gex=exprData, geno=genoData, xAnnot=annotData, windowSize = NULL)
+  eqtlres.large2 <- eQTL(gex=exprData, geno=genoData, xAnnot=annotData, windowSize = NULL, mc=4)
+  eqtlres.large3 <- eQTL(gex=exprData, geno=genoData, xAnnot=annotData, windowSize = 0, mc=4)
+  
+  eqtlres.import <- eQTL(gex=exprData, geno=file.path(exampleDataDir,"example"), xAnnot=annotData)
+  
+<<<<<<< HEAD
+  set.seed(255)
+  rownames(exprData) <- sample(10000,500)
+  eqtlres1 <- eQTL(gex=exprData, geno=genoData, xAnnot=annotData)
+  eqtlres1
+  eqtlres2 <- eQTL(gex=exprData, geno=genoData, xAnnot=annotData, xSamples=as.character(1:500))
+  eqtlres2
+
+```
+
+# genotypePlot
+
+```{r genotypePlot}
+  genotypePlot(snp="rs17705472", gene="PCDH1", eqtl=eqtlres)
+  genotypePlot(snp="rs17705472", gene="CDH1", eqtl=eqtlres)
+  genotypePlot(snp="rs17705472", gene="PCDH1", gex=exprData, geno=genoData)
+  genotypePlot(snp="chr16:67319486", gene="PCDH1", gex=exprData, geno=genoData)
+  genotypePlot(snp="chr16:67319622", gene="PCDH1", gex=exprData, geno=genoData)
+  genotypePlot(snp="chr16:67319622", gex=exprData[,1], geno=genoData)
+=======
+  eqtlres.trans <- eQTL(gex=exprData, geno=genoData, xAnnot=annotData, windowSize=NULL)
+>>>>>>> a9013138afb3cd93e082951d4d6b41023b9a5104
+```

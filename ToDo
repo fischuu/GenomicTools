@@ -1,0 +1,8 @@
+Planned changes in later Versions:
+
+* Include importPedMap and importVCF from hoardeR for (e)QTL functions
+
+* Generalize the 'gtfToBed' function 
+* Change the eQTL summary function
+* Add the annotation track option for the eQTL plot
+

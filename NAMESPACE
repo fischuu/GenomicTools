@@ -1,0 +1,19 @@
+import(gMWT, parallel, plotrix, Rcpp, hoardeR, snpStats)
+
+importFrom("grDevices", "dev.off", "pdf", "rainbow")
+importFrom("graphics", "axis", "boxplot", "layout", "lines", "par", "points", "rect", "text")
+importFrom("stats", "density", "lm", "predict", "smooth.spline")
+
+S3method(print,eqtl)
+S3method(plot,eqtl)
+S3method(summary,eqtl)
+
+S3method(print,mdr)
+S3method(predict,mdr)
+S3method(plot,mdr)
+
+S3method(print,mdrPredict)
+
+export(calcDistances, eQTL, QTL, genotypePlot, getRegionsOI, gtfToBed, mdr, recodeData, visTrans, importSTARLog)
+
+useDynLib(GenomicTools)
