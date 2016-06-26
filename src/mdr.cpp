@@ -37,7 +37,7 @@ RcppExport SEXP mdr(SEXP X, SEXP fold, SEXP status, SEXP t, SEXP cv, SEXP cvp, S
     cube evalOneTrain(k,7,CV);
     cube evalOneTest(k,7,CV);
     
-    if(FIX==0){
+    if(FIX==-1){
       if(CV==0){
 	for(int i=0;i<k;i++){
 	    tempCOne = classOne(XXX.col(i),Status, T);
@@ -65,7 +65,7 @@ RcppExport SEXP mdr(SEXP X, SEXP fold, SEXP status, SEXP t, SEXP cv, SEXP cvp, S
 	    }
 	  }    
       } else {
-	// This is now the cross-validation for FOLD=1 and FIX=0
+	// This is now the cross-validation for FOLD=1 and FIX=-1
       }
     } else {
         if(CV==0){
@@ -110,7 +110,7 @@ RcppExport SEXP mdr(SEXP X, SEXP fold, SEXP status, SEXP t, SEXP cv, SEXP cvp, S
       // Calculate the Classifier Two:
       mat tempMatTwo(p,2);
       int runTwo=0;
-      if(FIX==0){
+      if(FIX==-1){
  	if(CV==0){
 	  for(int i=0;i<(k-1);i++){
 	    for(int j=i+1;j<k;j++){
@@ -195,15 +195,7 @@ RcppExport SEXP mdr(SEXP X, SEXP fold, SEXP status, SEXP t, SEXP cv, SEXP cvp, S
       
       
    } //END OF PART 2
-  // THIS DOESN'T WORK YET, I DO NOT KNOW HOW TO CREATE A VECTOR WITH POINTERS TO THE CUBE OBJECTS AND
-  // HOW TO STORE THOSE IN ORDER TO ACCESS AND EVALUATE LATER!!! I THINK THAT I NEED HELP HERE, I ONLY
-  // ADD THE CODE AS FAR AS I CAN DO, BUT WITHOUT STORING THE OBJECTS - THE SPEED SHOULD THEN BE ALMOST
-  // THE SPEED AS WE EXPECT IT LATER, BUT WE CANNOT EVALUATE THE MATRICES...
-  
-  // I dECIDEWD THAT IT IS A STUPID IDEA TO KEEP ALL MODELS IN THE MEMORY, I WILL DRASTICALLY FLOOD IT
-  // OTHERWISE. INSTEAD I WILL SIMPLY TRAIN ONE AND EVALUATE THAT THEN STRAIGHT AWAY (LATER I CAN CREATE
-  // THEN A TOPLIST BASED ON THAT, THAT I ONLY KEEP IT, WHEN IT FITS INTO THE TOP20 OR SO...)
-  
+
 //   // Calculate the Classifier Three
     cube classifierThree(3,3,3);
     mat evalClassifierThree(k*(k-1)*(k-2)/6,7);
@@ -223,7 +215,7 @@ RcppExport SEXP mdr(SEXP X, SEXP fold, SEXP status, SEXP t, SEXP cv, SEXP cvp, S
       mat tempMatThree(p,3);
       vec tempEvalThree(7);
       int runThree=0;
-      if(FIX==0){
+      if(FIX==-1){
 	for(int i=0;i<(k-2);i++){
 	  for(int j=i+1;j<(k-1);j++){
 	    for(int m=j+1;m<k;m++){
@@ -308,7 +300,7 @@ RcppExport SEXP mdr(SEXP X, SEXP fold, SEXP status, SEXP t, SEXP cv, SEXP cvp, S
       vec tempEvalFour(7);
     //  mat evalClassifierFour(k*(k-1)*(k-2)*(k-3)/24,7);
       int runFour=0;
-      if(FIX==0){
+      if(FIX==-1){
       for(int i=0;i<(k-3);i++){
 	for(int j=i+1;j<(k-2);j++){
 	  for(int m=j+1;m<(k-1);m++){

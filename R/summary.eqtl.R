@@ -1,5 +1,3 @@
-# Version: 30-11-2012, Daniel Fischer
-
 summary.eqtl <- function(object, ...){
   
   ws <- object$windowSize

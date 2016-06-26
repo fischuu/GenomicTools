@@ -9,7 +9,7 @@
   This function performs a Multifactor Dimension Reduction (MDR).
 }
 \usage{
-  mdr(X,status,fold=2,t=NULL,cv=0,cvp=0.75,top=20,NAasValues=TRUE,fix=NULL)
+  mdr(X,status,fold=2,t=NULL,cv=0,cvp=0.75,top=20,NAasValues=TRUE,fix=NULL, verbose=FALSE)
 }
 
 \arguments{
@@ -21,27 +21,28 @@
   \item{cvp}{Ratio of cross-validation sample.}
   \item{top}{Length of each top list.}
   \item{NAasValues}{How shall NAs be treated.}
-  \item{fix}{Shall one genotype be fixed.}
-
+  \item{fix}{Column number of the SNP to be fixed.}
+  \item{verbose}{Logical, if detailed status messages shall be given.}
 }
 
 \details{
- The matrix \code{X} contains the genotype information or the filename of a ped/map filepair. If a ped/map
- filename is given the status information from this pair is taken and no further \code{status} object has
- to be given. In case \code{status} is given as well, we will take this information.
+ The matrix \code{X} contains the genotype information, each column corresponds to a SNP, each row to an individuum. SNPs need to be coded as 0,1,2.
+ In case the matrix \code{X} is not given in 0,1,2 format the function \code{recodeData} recodes the data into the required 0,1,2 format.
 
- In case the matrix \code{X} is not given in 0,1,2 format the function \code{recodeData} recodes the data 
- into the required 0,1,2 format.
+ The \code{status} vector is as long as \code{X} has individuals/rows and specifies the group labels for each individual. Healthy individual need to be
+ encoded as 0 and cases as 1. If the labeling is different the smaller values are used as controls and the larger one as cases. 
 
- The \code{status} vector is as long as \code{X} has individuals and specifies the group labels for each
- individual. Healthy individual shall be encoded as 0 and cases as 1. If the labeling is different we take 
- the smaller values as controls and the larger one as cases. 
-
- The \code{fold} option specifies up to which dimension the contingency tables should be used. The current 
- maximum is four.
+ The \code{fold} option specifies up to which dimension the contingency tables should be used. The current maximum is four.
 
  The \code{t} option gives the threshold for the classification between high and low risk classes. The default
  is the ratio of the groups sizes.
+ 
+ The \code{cv} option sets the number of cross-validation runs and should be consequently a natural number larger than 0. If \code{cv=0} (default), no cross-validation 
+ runs are used. The \code{cvp} sets the ratio between test and training data for the cross-validation runs. The cross-validation option is currently under development.
+ 
+ With the \code{top} option the amount of results are set. 
+ 
+ Setting the \code{fix} option to a column number, forces the mdr function to include that particular SNP into the result.
 }
 \value{
  An object of class \code{mdr}.
@@ -60,23 +61,12 @@
 }
 
 \examples{
-# The datasets are not yet available. As soon as they will get published they will
-# be also added to the package
-
-\dontrun{
-# Read in the genotype data
-genotData <- read.table("MDR_data.txt",header=T)
-
-# Extract the status information
-status <- genotData[["Class"]]
-genotData <- as.matrix(genotData[,-which((colnames(genotData)=="Class")==TRUE)])
-
-# Bring the data into 0,1,2 format
-temp <- recodeData(genotData)
-
-# Perform the MDR
-res <- mdr(X=temp,status=status,fold=3,top=20)
-}
+data(mdrExample)
+mdrSNP <- mdrExample[,1:20]
+fit.mdr <- mdr(mdrSNP, mdrExample$Class, fold=4, top=5)
+fit.mdr
+fit.mdr <- mdr(mdrSNP, mdrExample$Class)
+fit.mdr
 }
 
 \keyword{

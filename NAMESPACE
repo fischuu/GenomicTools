@@ -11,6 +11,7 @@ S3method(summary,eqtl)
 S3method(print,mdr)
 S3method(predict,mdr)
 S3method(plot,mdr)
+S3method(summary,mdr)
 
 S3method(print,mdrPredict)
 

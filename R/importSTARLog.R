@@ -6,6 +6,3 @@ importSTARLog <- function(file){
   output <- cbind(sapply(rawInput,"[",1), sapply(rawInput,"[",2))
   output
 }
-
-file <- "/mnt/data2/Ruminomics/miRNA/logs/1PIntomieli2A_S1Log.final.out"
-importSTARLog("/mnt/data2/Ruminomics/miRNA/logs/1PIntomieli2A_S1Log.final.out")
