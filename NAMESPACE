@@ -15,6 +15,6 @@ S3method(summary,mdr)
 
 S3method(print,mdrPredict)
 
-export(calcDistances, eQTL, QTL, genotypePlot, getRegionsOI, gtfToBed, mdr, recodeData, visTrans, importSTARLog)
+export(calcDistances, eQTL, QTL, genotypePlot, getRegionsOI, gtfToBed, mdr, mdrEnsemble, recodeData, visTrans, importSTARLog)
 
 useDynLib(GenomicTools)

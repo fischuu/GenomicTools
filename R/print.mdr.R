@@ -6,9 +6,9 @@
   for(i in 1:tempFold){
     temp <- as.numeric(unlist(x$mdr[precPos[i]])[1:x$top])
     if(i==1){
-      if(fix!=0) temp <- temp[x$top]
+      if(fix!=-1) temp <- temp[x$top]
       temp2 <- colnames(x$X)[unlist(x$mdr[precPos[i]+1])[1:x$top]]
-      if(fix!=0) temp2 <- temp2[1]
+      if(fix!=-1) temp2 <- temp2[1]
     } else if(i==2){
       tempPos1 <- unlist(x$mdr[precPos[i]+1])[1:x$top]
       tempPos2 <- unlist(x$mdr[precPos[i]+2])[1:x$top]

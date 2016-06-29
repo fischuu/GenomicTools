@@ -1,11 +1,11 @@
-eQTL <- function(gex, geno, xAnnot=NULL, xSamples=NULL, genoSamples=NULL, windowSize=0.5, method="LM", mc=1, sig=NULL, which=NULL,nper=2000 , usehoardeR=FALSE, verbose=TRUE){
+eQTL <- function(gex, geno, xAnnot=NULL, gAnnot=NULL, xSamples=NULL, genoSamples=NULL, windowSize=0.5, method="LM", mc=1, sig=NULL, which=NULL,nper=2000 , usehoardeR=FALSE, verbose=TRUE){
 
     if(usehoardeR) stop("Currently not support, please keep the default setting!")
   
   # If the annotations are given as data frame, we will transform them into a list
     if(is.data.frame(xAnnot)){
       if(is.factor(xAnnot[,1])) xAnnot[,1] <- as.character(xAnnot[,1])
-      if(is.factor(xAnnot[,2])) xAnnot[,2] <- as.character(xAnnot[,2])
+      if(is.factor(xAnnot[,4])) xAnnot[,4] <- as.character(xAnnot[,4])
       if(verbose==TRUE) cat("We will transform the gene annotations into a list (",date(),")!\n", sep="")
       xAnnot <- makeAnnotList(xAnnot)
       if(verbose==TRUE) cat("We transformed the gene annotations (",date(),")!\n", sep="")
