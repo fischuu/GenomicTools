@@ -5,16 +5,17 @@ using namespace arma;
 
 RcppExport SEXP mdr(SEXP X, SEXP fold, SEXP status, SEXP t, SEXP cv, SEXP cvp, SEXP top, SEXP na, SEXP fix){
 
-    Rcpp::NumericMatrix XX(X);
-    Rcpp::NumericVector Status(status);
+    Rcpp::NumericMatrix XX(X);                 // contains the genotype data
+    Rcpp::NumericVector Status(status);        // contains the status
     
-    int FOLD = Rcpp::as<int>(fold);
-    double T = Rcpp::as<int>(t);
-    int CV = Rcpp::as<int>(cv);
-    int TOP = Rcpp::as<int>(top);
+    int FOLD = Rcpp::as<int>(fold);            // until what level of interaction should the data be analyzed
+    double T = Rcpp::as<int>(t);               // Threshold for low/high risk classification, default: ratio of group sizes
+    int CV = Rcpp::as<int>(cv);                // number of cross-validation runs
+    double CVP = Rcpp::as<double>(cvp);        // Ratio of training and testing data
+    int TOP = Rcpp::as<int>(top);              // Length of output list
     TOP = TOP + 1;
     // int NA = Rcpp::as<int>(na);
-    int FIX = Rcpp::as<int>(fix);
+    int FIX = Rcpp::as<int>(fix);              // Should one genotyp be forced to be part of the analysis
     
     int k = XX.ncol();
     int p = XX.nrow();
