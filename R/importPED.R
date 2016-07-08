@@ -56,5 +56,3 @@ importPED <- function(file, verbose=TRUE){
   }
   list(ped=ped, map=map, genotypes=genotypes)
 }
-
-importPED(file="/home/fischuu/ownCloud/Luke/Projects/Consulting/Dog-Liver/Data/NWT_20140808.ped")
