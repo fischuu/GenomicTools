@@ -25,7 +25,7 @@
       tempPos4 <- unlist(x$mdr[precPos[i]+4])[1:x$top]
       temp2 <- paste(colnames(x$X)[tempPos1],colnames(x$X)[tempPos2],colnames(x$X)[tempPos3],colnames(x$X)[tempPos4],sep=",")
     }
-    tempDF <- data.frame(SNP=temp2,Prec=temp)
+    tempDF <- data.frame(SNP=temp2,Acc=temp)
     X[[i]] <- tempDF[rev(rownames(tempDF)),]
     names(X)[i] <- paste("Fold",i,sep="")
     if((i==1) && (fix!=0)){

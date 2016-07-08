@@ -1,4 +1,4 @@
-import(gMWT, parallel, plotrix, Rcpp, hoardeR, snpStats)
+import(gMWT, parallel, plotrix, Rcpp, hoardeR, snpStats, data.table)
 
 importFrom("grDevices", "dev.off", "pdf", "rainbow")
 importFrom("graphics", "axis", "boxplot", "layout", "lines", "par", "points", "rect", "text")
