@@ -1,17 +1,9 @@
-`plot.eqtl` <- function(x, file=NULL, which=NULL, sig=0.01, verbose=TRUE, centered=TRUE,log=FALSE,x2=NULL, annot=NULL, track=NULL, trackAnnot=FALSE, trackOrder=NULL, mc.cores=1,...){
-  if(is.null(track)){
-     plotSingle.eqtl(x=x, file=file, which=which, sig=sig, verbose=verbose, centered=centered,log=log,x2=x2, annot=NULL,...)
+`plot.eqtl` <- function(x, file=NULL, which=NULL, sig=0.01, verbose=TRUE, centered=TRUE,log=FALSE, mc.cores=1, genome=NULL,...){
+  if(is.null(x$windowSize)){
+    if(is.null(genome)) stop("No genome information provided for the trans-eQTL plot!")
+    plot.trans(x, genome)
   } else {
-    par(mfrow=c(2,1),
-	oma=c(0,1,2,0),
-	mar=c(0,1,2,0))
-    plotSingle.eqtl(x=x, file=file, which=which, sig=sig, verbose=verbose, centered=centered,log=log,x2=x2, annot=NULL, double=TRUE,...)
-    trackChrInfo <- paste("chr",unlist(x$xAnnot)[1],sep="")
-    trackXlim <- c(as.numeric(unlist(x$xAnnot)[2]),as.numeric(unlist(x$xAnnot)[3]))/10^6
-    trackXlim <- round(trackXlim + c(-x$windowSize,x$windowSize))
-    par(oma=c(4,1,1,0),
-	mar=c(4,1,1,0), new=TRUE)
-    plotGeneLocation(bed=track, chrInfo=trackChrInfo, xlim=trackXlim, order=trackOrder, mc.cores=mc.cores, annot=trackAnnot)
+    plotSingle.eqtl(x=x, file=file, which=which, sig=sig, verbose=verbose, centered=centered,log=log,...)
   }
 }
 
@@ -92,7 +84,7 @@ plotIt <- function(x,sig,windowSize,centered,log,x2,annot, double){
 	  }
 
 	  if(double==FALSE){
-	    plot(c(-10,-10),ylim=plotY,xlim=c(0,20),xlab="Chromosomal Position in MB",ylab=plotYlab,main=paste(names(x)[gene],"- NO SNPs found"),sub=paste("Chr",temp$GeneInfo[1,1],":",minX,"-",maxX),yaxt="n",xaxt="n")
+	    plot(c(-10,-10),ylim=plotY,xlim=c(0,20),xlab="Chromosomal Position in MB",ylab=plotYlab,main=paste(names(x)[gene],"- NO SNPs found"),sub=paste("Chr",temp$GeneInfo[1,1],":",prettyNum(minX,big.mark = ","),"-",prettyNum(maxX,big.mark = ",")),yaxt="n",xaxt="n")
 	    axis(1,at=seq(0,20,4),labels=seq(round(minX/10^6,1),round(maxX/10^6,1),length.out=6))
 	  } else {
 	    plot(c(-10,-10),ylim=plotY,xlim=c(0,20),ylab=plotYlab,main=paste(names(x)[gene],"- NO SNPs found"),yaxt="n",xaxt="n")
@@ -160,7 +152,7 @@ plotIt <- function(x,sig,windowSize,centered,log,x2,annot, double){
 
 	  if(is.null(annot)){
 	      if(double==FALSE){
-	         plot(c(-10,-10),ylim=plotY,xlim=c(0,20),xlab="Chromosomal Position in MB",ylab=plotYlab,main=paste(names(x)[gene],"-",sub),sub=paste("Chr",temp$GeneInfo[sub,1],":",minX,"-",maxX),yaxt="n",xaxt="n")
+	         plot(c(-10,-10),ylim=plotY,xlim=c(0,20),xlab="Chromosomal Position in MB",ylab=plotYlab,main=paste(names(x)[gene],"-",sub),sub=paste("Chr",temp$GeneInfo[sub,1],":",prettyNum(minX, big.mark = ","),"-",prettyNum(maxX, big.mark = ",") ),yaxt="n",xaxt="n")
                  axis(1,at=seq(0,20,4),labels=seq(round(minX/10^6,1),round(maxX/10^6,1),length.out=6))
               } else {
                  plot(c(-10,-10),ylim=plotY,xlim=c(0,20),ylab=plotYlab,main=paste(names(x)[gene],"-",sub),yaxt="n",xaxt="n")
@@ -228,4 +220,9 @@ plotIt <- function(x,sig,windowSize,centered,log,x2,annot, double){
 	}
       }
   }
+}
+
+
+plotTrans.eqtl <- function(x){
+  
 }

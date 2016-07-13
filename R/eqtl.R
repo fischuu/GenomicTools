@@ -1,156 +1,179 @@
-eQTL <- function(gex, geno, xAnnot=NULL, gAnnot=NULL, xSamples=NULL, genoSamples=NULL, windowSize=0.5, method="LM", mc=1, sig=NULL, which=NULL,nper=2000 , usehoardeR=FALSE, verbose=TRUE){
+eQTL <- function(gex=NULL, xAnnot=NULL, xSamples=NULL, geno=NULL, genoSamples=NULL, windowSize=0.5, method="LM", mc=1, sig=NULL, which=NULL, testType="permutation", nper=2000, verbose=TRUE, IHaveSpace=FALSE){
 
-    if(usehoardeR) stop("Currently not support, please keep the default setting!")
+  # Initial values
+    noNames <- FALSE
+    
+  # In case of a trans-eQTL set automatically a sig-value
+    if(is.null(windowSize) & is.null(sig)){
+      if(!IHaveSpace){
+        sig <- 0.001
+        warning("You choose trans-eQTL without specifying a 'sig'-value. This can lead to a large output, hence we set sig automatically to 0.001. If you want really
+                 all results, please set the 'IHaveSpace'-Option to TRUE.")
+      } else {
+        if(verbose) cat("You set the IHaveSpace=TRUE option to get all results for the trans-eQTL run!\n")
+      }
+    } 
   
+  # If only a vector of expression values is provided, transform it to a single row matrix
+    if(is.null(gex)) stop("No gene expression provided in gex!")
+    if(is.null(geno)) stop("No genotypes provided in geno!")
+    if(is.vector(gex)){
+      tmp <- names(gex) 
+      if(is.null(tmp)) noNames <- TRUE
+      gex <- as.matrix(gex)
+      if(verbose) cat("A vector of gene expression was provided. These expression values will be used for EACH gene in xAnnot. Please filter xAnnot accordingly!\n")
+      if(nrow(xAnnot)>1) gex <- gex[,rep(1,nrow(xAnnot))]
+      colnames(gex) <- xAnnot[,4]
+      rownames(gex) <- tmp
+    } else {
+      if(is.null(rownames(gex))) noNames <- TRUE
+    }
+
+  # Input checks
+    method <- match.arg(method,c("LM","directional"))  
+    testType <- match.arg(testType,c("permutation","asymptotic"))
+      
   # If the annotations are given as data frame, we will transform them into a list
     if(is.data.frame(xAnnot)){
       if(is.factor(xAnnot[,1])) xAnnot[,1] <- as.character(xAnnot[,1])
       if(is.factor(xAnnot[,4])) xAnnot[,4] <- as.character(xAnnot[,4])
-      if(verbose==TRUE) cat("We will transform the gene annotations into a list (",date(),")!\n", sep="")
+      if(verbose==TRUE) cat("We will transform the gene annotations into a list ... ", sep="")
       xAnnot <- makeAnnotList(xAnnot)
-      if(verbose==TRUE) cat("We transformed the gene annotations (",date(),")!\n", sep="")
+      if(verbose==TRUE) cat("done (",date(),")!\n", sep="")
     }
 
   # Read in the genotype data if name is given, otherwise assume already imported SNPS are given as input
     if(is.character(geno)==TRUE)
     {
       # Check if there is a ped/map pair or vcf given as input
+        fileEnding <- tolower(substr(geno, nchar(geno)-2,nchar(geno)))
+        if(fileEnding=="ped"){
+          case <- "ped"
+          pedFile <- geno
+          mapFile <- paste(substr(geno,1, nchar(pedfile)-3),"map",sep="")
+        } else if(fileEnding=="vcf"){
+          case <- "vcf"
+        } else {
+          if(verbose) cat("No .ped or .vcf file ending detected in geno. Assume geno to be a ped/map filepair!\n")
+          case <- "ped"
+          pedFile <- paste(geno,".ped",sep="")
+          mapFile <- paste(geno,".map",sep="")
+        }
       # CASE: VCF
-        if(toupper(substr(geno,nchar(geno)-2, nchar(geno)))=="VCF"){
+        if(case=="vcf"){
           stop("The vcf format is not yet supported. Please use the ped/map format.")
       # CASE: PED/MAP
-        } else {
-          if(verbose==TRUE) cat("Start reading the genotype information at",date(),"(ped/map format assumed)\n")
-            if(usehoardeR){
-              genotData <- importPedMap(ped=geno)            
-            } else {
-              genotData <- read.pedfile(file=paste(geno,".ped",sep=""), snps=paste(geno,".map",sep=""))
-            }
-        }
+        } else if(case=="ped"){
+          if(verbose==TRUE) cat("Start reading the genotype information at",date(),"\n")
+          if(verbose==TRUE) cat("ped-file:",pedFile,"\n")
+          if(verbose==TRUE) cat("map-file:",mapFile,"\n")
+          genoData <- importPED(file=pedFile, snps=mapFile, verbose=FALSE)
+        } 
     # Case: No string provided, assume that genotype data was read in properly
       } else {
-      # XXX: Include here still a input check!!!
-        genotData <- geno
+        if(class(gtst)=="PedMap"){
+          genoData <- geno
+        } else if(class(gtst)=="VCF"){
+          genoData <- geno
+        } else {
+          stop("Please provide either a PedMap (importPED) of a VCF (importVCF) object, or the corresponding file path to either file.")
+        }
       }
 
   # Input checks
-    if(is.vector(gex) & is.null(xAnnot))
+    if((ncol(gex)==1) & is.null(xAnnot))
     {
       warning("No annotations given, we will test all given SNPs against all given expressions!\n")
-      xAnnot <- data.frame(Gene=as.character(genotData$map[,2]),Chr=as.character(genotData$map[,1]),Start=genotData$map[,4],End=genotData$map[,4])
+      xAnnot <- data.frame(Chr=as.character(genoData$map[,1]),Start=genoData$map[,4],End=genoData$map[,4],Gene=as.character(genoData$map[,2]))
       xAnnot <- makeAnnotList(xAnnot)
       windowSize=NULL
     }
-    if(is.matrix(gex) & is.null(xAnnot))
+    if((ncol(gex)>1) & is.null(xAnnot))
     {
       warning("No annotations given, we will test all given SNPs against all given expressions!\n gex is a matrix, hence this might take a while...\n")
-      xAnnot <- data.frame(gene="",Chr=as.character(genotData$map[1,1]),Start=genotData$map[1,4],End=genotData$map[1,4])
+      xAnnot <- data.frame(Chr=as.character(genoData$map[1,1]),Start=genoData$map[1,4],End=genoData$map[1,4], Gene="")
   #    xAnnot <- makeAnnotList(xAnnot)
       windowSize=NULL
-      
     }
 
-  # If no separate genoSamples object is given, we take those from the snpStats object:
-    if(is.null(genoSamples)) genoSamples <-  as.character(genotData$fam$member)
+  # If no separate genoSamples object is given, we take those from the PedMap/VCF object:
+    if(is.null(genoSamples)) genoSamples <-  rownames(genoData$genotypes)
   
   # Take only those genes from the annotation list that were requested
     if(!is.null(which)) {
-      xAnnot <- xAnnot[is.element(names(xAnnot),which)]
-      gex <- gex[is.element(names(gex),which)]
-    }
-  
-  # Input checks
-    single <- FALSE
-    th <- windowSize
-    method <- match.arg(method,c("LM","directional"))
-
-  # If only one gene is given it could be a vector, transform it here to a column matrix
-    if(is.vector(gex)){
-      tempNames <- names(gex)
-      if(length(xAnnot)>1){
-        warning("Vector of gene expression is provided together with several annotations. Gene expressions will be repeated for every annotation!")
-        cat("Vector of gene expression is provided together with several annotations. Gene expressions will be repeated for every annotation!\n")
-        gex <- matrix(rep(temp,length(xAnnot)),ncol=length(xAnnot), byrow=FALSE)
-      } else {
-        gex <- matrix(gex,ncol=1)
-        single <- TRUE
+      if(is.character(which)){
+        xAnnot <- xAnnot[is.element(names(xAnnot),which)]
+        gex <- gex[,is.element(names(gex),which)]
+      } else if(is.numeric(which)){
+        xAnnot <- xAnnot[which]
+        gex <- gex[,which]
       }
-        if(!is.null(xSamples)) tempNames <- xSamples
-        if(is.null(tempNames)){
-          cat("Vector of expression values in unnamed. We assume same order in expression and genotype objects and match samples based on that.\n")
-          tempNames <- as.character((genoData$fam)[,1])
-        }
-        rownames(gex) <- tempNames
-        colnames(gex) <- names(xAnnot)
-        gexColNames <- colnames(gex)
-        
-    } else {
-      if(!is.null(xSamples)){
-        if(nrow(gex)!=length(xSamples)){
-          stop("nrow(gex)!=length(xSamples): The number of names given in xSample has to be the same as needed for the expression matrix!")
-        } else {
-          rownames(gex) <- xSamples  
-        }
-      } 
     }
- 
+
+    if(noNames){
+     if(is.null(xSamples)){
+       if(verbose) cat("Expression values are unnamed. We assume same order in expression and genotype objects and match samples based on that.\n")
+       tempNames <- rownames(genoData$genotypes)
+       rownames(gex) <- tempNames
+       xSamples <- tempNames
+     } else {
+       rownames(gex) <- xSamples
+     }
+    }
+
   # In case that the row names have been changed, bring them into an order
-    rownames(genotData$map) <- 1:nrow(genotData$map)
+    rownames(genoData$map) <- 1:nrow(genoData$map)
 
   # Sample statistics
     overlap <- is.element(rownames(gex),genoSamples)
     olPerc <- round(sum(overlap)/nrow(gex)*100,1)
+    olPerc2 <- round(sum(overlap)/nrow(genoData$genotypes)*100,1)
     if(sum(overlap)==0) stop("No matching expression / genotype sample names!\n")
     if(verbose==TRUE) cat("We have for",olPerc,"% of the samples in the expression data the genotype information available. \n")
+    if(verbose==TRUE) cat("We have for",olPerc2,"% of the samples in the genotype data the expression values available. \n")
 
   # Location statistics
     overlap <- is.element(colnames(gex),names(xAnnot))
     olPerc <- round(sum(overlap)/ncol(gex)*100,1)
-    if(sum(overlap)==0) stop("No matching expression probe names / probe name annotations!\n")
+    if(sum(overlap)==0) stop("No matching expression names / gene annotations!\n")
     if(verbose==TRUE) cat("We have for",olPerc,"% of the expression data the annotations. \n")
 
-  # Probe statistics
-    matchingProbes <- colnames(gex)[is.element(colnames(gex),names(xAnnot))]
-    if(verbose==TRUE) cat("We will investigate for",length(matchingProbes),"genes possible eQTLs! \n")
+  # Gene statistics
+    matchingGenes <- colnames(gex)[is.element(colnames(gex),names(xAnnot))]
+    if(verbose==TRUE) cat("We will test for",length(matchingGenes),"genes possible eQTLs! \n")
+    if(verbose==TRUE) cat("---------------------------------------------- \n")
     result <- list()
 
   # Reducing the expression data to those rows, where we have also genotype information available
-    gex <- gex[is.element(rownames(gex),genoSamples),]
-    if(single==TRUE){
-      gex <- t(t(gex))
-      colnames(gex) <- gexColNames
-    }
+    gex <- gex[is.element(rownames(gex),genoSamples), ,drop=FALSE]
 
-  # Now go through all possible probes
+  # Now go through all possible genes
     eqtl <- list()
  
-    for(probeRun in 1:length(matchingProbes)){
-    # Do that for each possible location of the probe (might not be unique...)
-      tempAnnot <- xAnnot[[which((names(xAnnot)==matchingProbes[probeRun])==TRUE)]]
+    for(geneRun in 1:length(matchingGenes)){
+    # Do that for each possible location of the gene (might not be unique...)
+      tempAnnot <- xAnnot[[which((names(xAnnot)==matchingGenes[geneRun])==TRUE)]]
       eqtlTemp <- list()
    
       for(tempRun in 1:nrow(tempAnnot)){
       # SNP locations of variants inside the provided window
-        SNPloc <- getSNPlocations(genotInfo=genotData$map,annot=tempAnnot[tempRun,],th=th)
+        SNPloc <- getSNPlocations(genotInfo=genoData$map, annot=tempAnnot[tempRun,], th=windowSize)
   
       # Run eQTL only if there are SNPs inside the window
         if(dim(SNPloc$SNPloc)[1]>0){
-          if(usehoardeR){
-            SNPmatrix <- genotData$geno[,SNPloc$SNPcol]
-            genoGroups <- rearrange(SNPmatrix,rownames(gex),genoSamples)
-          } else {
-            SNPmatrix <- genotData$genotypes[,SNPloc$SNPcol]
-            genoGroups <- as(SNPmatrix,"numeric")
+            SNPmatrix <- as.matrix(genoData$genotypes[,SNPloc$SNPloc$snp.names, with=FALSE])
+            genoGroups <- matrix(as.numeric(SNPmatrix),nrow=nrow(SNPmatrix))
+            colnames(genoGroups) <- colnames(SNPmatrix)
+            rownames(genoGroups) <- rownames(genoData)
             genoGroups <- rearrange(genoGroups,rownames(gex),genoSamples)
-          }
 
         # eQTL case : LM
           if(method=="LM"){
           # if sig is set to Null all results will be reported - This might be very memory consuming!!!
   	        if(is.null(sig)){
-  	            eqtlTemp[[tempRun]] <- list(ProbeLoc=rep(tempRun,ncol(genoGroups)),TestedSNP=SNPloc[[1]],p.values=eqtlLM(genoGroups,gex[,probeRun], mc=mc))
+  	            eqtlTemp[[tempRun]] <- list(GeneLoc=rep(tempRun,ncol(genoGroups)),TestedSNP=SNPloc[[1]],p.values=eqtlLM(genoGroups,gex[,geneRun], mc=mc))
   	        } else {
-  	            p.values <- eqtlLM(genoGroups,gex[,probeRun], mc=mc)
+  	            p.values <- eqtlLM(genoGroups,gex[,geneRun], mc=mc)
             	  pPos <- p.values<=sig
   	            eqtlTemp[[tempRun]] <- cbind(SNPloc[[1]][pPos,c(1,2,4)],p.values[pPos])
   	        }
@@ -158,47 +181,50 @@ eQTL <- function(gex, geno, xAnnot=NULL, gAnnot=NULL, xSamples=NULL, genoSamples
           } else if(method=="directional"){
           # if sig is set to Null all results will be reported - This might be very memory consuming!!!
             if(is.null(sig)){ 
-  	           eqtlTemp[[tempRun]] <- list(ProbeLoc=rep(tempRun,ncol(genoGroups)),TestedSNP=SNPloc[[1]],p.values=eqtlDir.P(genoGroups,gex[,probeRun],mc=mc,nper=nper))
+  	           eqtlTemp[[tempRun]] <- list(GeneLoc=rep(tempRun, ncol(genoGroups)),
+  	                                       TestedSNP=SNPloc[[1]],
+  	                                       p.values=eqtlDir(genoGroups,gex[,geneRun], mc=mc,nper=nper, testType=testType))
   	        } else {
-  	           p.values <- eqtlDir.P(genoGroups,gex[,probeRun],mc=mc,nper=nper)
+  	           p.values <- eqtlDir(genoGroups,gex[,geneRun],mc=mc,nper=nper, testType=testType)
   	           pPos <- p.values<=sig
   	           eqtlTemp[[tempRun]] <- cbind(SNPloc[[1]][pPos,c(1,2,4)],p.values[pPos])
           	}
           } 
        } else {
-          warning("There were no variants within the window of gene ", matchingProbes[probeRun])
+          warning("There were no variants within the window of gene ", matchingGenes[geneRun])
           p.values <- 2  # Take a p-value of 2 as internal indicator that there wasn't anything to test!
-          eqtlTemp[[tempRun]] <- data.frame(ProbeLoc=-1,TestedSNP=-1,p.values=-1, Assoc.Gene="-1")
+          eqtlTemp[[tempRun]] <- data.frame(GeneLoc=-1,TestedSNP=-1,p.values=-1, Assoc.Gene="-1")
        }
       }
       
       # Join the output
       if(is.null(sig))
       {
-        eqtl[[probeRun]] <- joinEQTL(eqtlTemp)
-        eqtl[[probeRun]]$GeneInfo <- tempAnnot
+        eqtl[[geneRun]] <- joinEQTL(eqtlTemp)
+        eqtl[[geneRun]]$GeneInfo <- tempAnnot
       } else {
         if(sum(p.values<=sig)==0){
-          eqtl[[probeRun]] <-  data.frame(chr="-1", SNP="-1", Location="-1", p.value="-1", Assoc.Gene=matchingProbes[probeRun], stringsAsFactors=FALSE)
+          eqtl[[geneRun]] <-  data.frame(chr="-1", SNP="-1", Location="-1", p.value="-1", Assoc.Gene=matchingGenes[geneRun], stringsAsFactors=FALSE)
         } else {
           #bedTemp <- joinEQTLsig(eqtlTemp)
           bedTemp <- do.call("rbind", eqtlTemp)
-          bedTemp <- cbind(bedTemp,rep(matchingProbes[probeRun],max(1,nrow(bedTemp))))
+          bedTemp <- cbind(bedTemp,rep(matchingGenes[geneRun],max(1,nrow(bedTemp))))
           colnames(bedTemp) <- c("chr", "SNP", "Location", "p.value", "Assoc.Gene")
-          eqtl[[probeRun]] <- bedTemp          
+          eqtl[[geneRun]] <- bedTemp          
         }
       }
-      if(verbose==TRUE) cat ("We calculated eQTLs for gene ",matchingProbes[probeRun]," for ",length(eqtl[[probeRun]]$p.values)," SNPs (",date(),")\n", sep="")
+    if(verbose==TRUE) cat ("We calculated eQTLs for ",matchingGenes[geneRun]," for ",prettyNum(nrow(SNPloc$SNPloc), big.mark = ",")," SNPs (",date(),")\n", sep="")
     }
 
   # Return the result
   if(is.null(sig))
   {
-    names(eqtl) <- matchingProbes
+    names(eqtl) <- matchingGenes
     result <- list(bed=NULL,eqtl=eqtl,gex=gex, geno=geno, xAnnot=xAnnot, xSamples=xSamples, genoSamples=genoSamples, windowSize=windowSize, method=method, mc=mc, which=which, type="full")
   } else {
     resBed <- do.call("rbind", eqtl)
-    resBed <- resBed[-which(resBed[,1]== -1),]
+    remThese <- which(as.character(resBed[,1])== "-1")
+    if(length(remThese)>0) resBed <- resBed[-remThese,]
     result <- list(bed= resBed,gex=gex, geno=geno, xAnnot=xAnnot, xSamples=xSamples, genoSamples=genoSamples, windowSize=windowSize, method=method, mc=mc, which=which, type="sig")
   }
   class(result) <- "eqtl"

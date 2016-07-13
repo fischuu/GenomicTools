@@ -5,7 +5,7 @@ Version: 0.1
 Date: 2016-06-10
 Author: Daniel Fischer
 Maintainer: Daniel Fischer <daniel.fischer@luke.fi>
-Depends: R (>= 3.2), gMWT (>= 1.0), Rcpp (>= 0.9.13), data.table (>= 1.9.6), plotrix, hoardeR, snpStats
+Depends: R (>= 3.2), gMWT (>= 1.0), Rcpp (>= 0.9.13), data.table (>= 1.9.6), plotrix, hoardeR, snpStats, circlize
 LinkingTo: Rcpp, RcppArmadillo
 Description: A loose collection of tools for the analysis of expression and genotype data, currently with the main focus on (e)QTL and MDR analysis.
 License: GPL (>= 2)

@@ -1,4 +1,4 @@
-eqtlDir.P <- function(genoGroups,gex,mc=mc,nper){
+eqtlDir <- function(genoGroups,gex,mc=mc,nper, testType){
 
   output <- c()
     innerFunction <- function(i)
@@ -13,12 +13,12 @@ eqtlDir.P <- function(genoGroups,gex,mc=mc,nper){
 	
 	# Then the 2 groups comparison
 	} else if (PI==2){
-	  output[i] <- gmw(gex[genoGroups[,i]!=3],genoGroups[genoGroups[,i]!=3,i],test="mw",type="permut",alternative="two.sided",nper=nper)$p.values
+	  output[i] <- gmw(gex[genoGroups[,i]!=3],genoGroups[genoGroups[,i]!=3,i],test="mw",type=testType,alternative="two.sided",nper=nper)$p.values
 
 	# And the three group comparison
 	} else if (PI==3){
-	  p1 <- gmw(gex[genoGroups[,i]!=3],genoGroups[genoGroups[,i]!=3,i],test="triple",type="permutation",alternative="greater",nper=nper)$p.values
-	  p2 <- gmw(gex[genoGroups[,i]!=3],createGroups(genoGroups[genoGroups[,i]!=3,i],c(2,1,0)),test="triple",type="permutation",alternative="greater",nper=nper)$p.values
+	  p1 <- gmw(gex[genoGroups[,i]!=3],genoGroups[genoGroups[,i]!=3,i],test="triple",type=testType,alternative="greater",nper=nper)$p.values
+	  p2 <- gmw(gex[genoGroups[,i]!=3],createGroups(genoGroups[genoGroups[,i]!=3,i],c(2,1,0)),test="triple",type=testType,alternative="greater",nper=nper)$p.values
 	  output[i] <- min(2*min(p1,p2),1)
 	  
 	}

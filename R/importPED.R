@@ -1,58 +1,153 @@
-importPED <- function(file, verbose=TRUE){
-  woEnding <- strsplit(file,".ped")[[1]][1]
-  pedFile <- paste(woEnding,".ped", sep="")
-  
-  mapFile <- paste(woEnding,".map", sep="")
-  
-  if(verbose) cat("Read in the map file\n")
-  map <- fread(mapFile, header=FALSE, colClasses = c("character",
-                                                     "character",
-                                                     "numeric",
-                                                     "numeric"),
-               col.names = c("Chromosome",
-                             "MarkerID",
-                             "GeneticDistance",
-                             "Physical position")
-               )
+importPED <-   function (file, n, snps, which, split = "\t| +", sep = ".", na.strings = "0", 
+                         lex.order = FALSE, verbose=TRUE) {
 
-  if(verbose) cat("Read in the ped file\n")
-  ped <- fread(pedFile, header=FALSE, 
-               colClasses = c("numeric",
-                              "character",
-                              rep("numeric",4),
-                              rep("character",2*nrow(map))),
-               col.names = c("FamilyID",
-                             "SampleID",
-                             "PaternalID",
-                             "MaternalID",
-                             "Sex",               # (1=male; 2=female; other=unknown)
-                             "Affection",          # (0=unknown; 1=unaffected; 2=affected)
-                             # Genotypes (space or tab separated, 2 for each marker. 0=missing)
-                             c(rbind(map$MarkerID, paste(map$MarkerID,".2",sep=""))))
-                   )
-  
-  genotypes <- data.table(MarkerID = map$MarkerID,
-                          Allele1 = rep("NA",nrow(map)),
-                          Allele2 = rep("NA",nrow(map)))
+  # This file is taken to a large extend from the snpStat package
+  # The difference, however, is the use of fread that drastically speeds up the function.
 
-  if(verbose) cat("Extract the genotype information\n")
-  if(verbose) pb   <- txtProgressBar(1, nrow(map), style=3)
-  for(i in 1:nrow(map)){
-    all1 <- ped[[map$MarkerID[i]]]
-    all2 <- ped[[paste(map$MarkerID[i],".2",sep="")]]
-    alleles <- unique(c(all1,all2))
-    alleles <- alleles[alleles!="0"]
-    genotypes$Allele1[i] <- alleles[1]
-    genotypes$Allele2[i] <- alleles[2]
-    tmp <- factor(paste(all1,all2,sep=""))
-    levels(tmp) <- list('0'=paste(alleles[1],alleles[1],sep=""),
-                        '1'=c(paste(alleles[1],alleles[2],sep=""),
-                              paste(alleles[2],alleles[1],sep="")),
-                        '2'=paste(alleles[2],alleles[2],sep=""),
-                        '-1'=c("00"))
-   # ped[[map$MarkerID[i]]] <- as.character(tmp)
-  #  ped[,paste(map$MarkerID[i],".2",sep=""):=NULL]
-    if(verbose) setTxtProgressBar(pb, i)
+    r0 <- as.raw(0)
+    r1 <- as.raw(1)
+    r2 <- as.raw(2)
+    r3 <- as.raw(3)
+    con <- gzfile(file)
+    open(con)
+    if (missing(n)) {
+      n <- 0
+      repeat {
+        line <- readLines(con, n = 1)
+        if (length(line) == 0) 
+          break
+        n <- n + 1
+      }
+      if (n == 0) 
+        stop("Nothing read")
+      seek(con, 0)
+    }
+    gen <- missing(snps)
+    map <- NULL
+    if (!gen) {
+      m <- length(snps)
+      if (m == 1) {
+        map <- read.table(snps, comment.char = "")
+        m <- nrow(map)
+        if (missing(which)) {
+          which <- 1
+          repeat {
+            snps <- map[, which]
+            if (!any(duplicated(snps))) 
+              break
+            if (which == ncol(map)) 
+              stop("No unambiguous snp names found on file")
+            which <- which + 1
+          }
+        }
+        else {
+          snps <- map[, which]
+        }
+      }
+    }
+    else {
+      line <- readLines(con, n = 1)
+      fields <- strsplit(line, split)[[1]]
+      m <- (length(fields) - 6)/2
+      if (m%%2 != 0) 
+        stop("Odd number of fields")
+
+      seek(con, 0)
+    }
+    nf <- 6 + 2 * m
+    result <- matrix(raw(n * m), nrow = n)
+    ped <- character(n)
+    mem <- character(n)
+    pa <- character(n)
+    ma <- character(n)
+    sex <- numeric(n)
+    aff <- numeric(n)
+    rownms <- character(n)
+    a1 <- a2 <- rep(NA, m)
+    a1m <- a2m <- rep(TRUE, m)
+    mallelic <- rep(FALSE, m)
+    lines <- fread(file, sep= "?", header = FALSE)[[1L]]
+    for (i in 1:n) {
+      #line <- readLines(con, n = 1)
+      line <- lines[i]
+      fields <- strsplit(line, "\t| +")[[1]]
+      to.na <- fields %in% na.strings
+      fields[to.na] <- NA
+      ped[i] <- fields[1]
+      mem[i] <- fields[2]
+      pa[i] <- fields[3]
+      ma[i] <- fields[4]
+      sex[i] <- as.numeric(fields[5])
+      aff[i] <- as.numeric(fields[6])
+      alleles <- matrix(fields[7:nf], byrow = TRUE, ncol = 2)
+      one <- two <- rep(FALSE, m)
+      for (k in 1:2) {
+        ak <- alleles[, k]
+        akm <- is.na(ak)
+        br1 <- !akm & a1m
+        a1[br1] <- ak[br1]
+        a1m[br1] <- FALSE
+        br2 <- !akm & (a1 == ak)
+        one[br2] <- TRUE
+        br3 <- !akm & !a1m & (a1 != ak)
+        br4 <- br3 & a2m
+        a2[br4] <- ak[br4]
+        a2m[br4] <- FALSE
+        br5 <- br3 & (a2 == ak)
+        two[br5] <- TRUE
+        mallelic <- mallelic | !(akm | one | two)
+      }
+      gt <- rep(r0, m)
+      gt[one & !two] <- r1
+      gt[one & two] <- r2
+      gt[two & !one] <- r3
+      result[i, ] <- gt
+    }
+    close(con)
+    if (any(a1m)) 
+      if(verbose) warning("no data for ", sum(a1m), " loci")
+    mono <- (a2m & !a1m)
+    if (any(mono)) 
+      if(verbose) warning(sum(mono), " loci were monomorphic")
+    if (any(mallelic)) {
+      result[, mallelic] <- r0
+      if(verbose) warning(sum(mallelic), " loci were multi-allelic --- set to NA")
+    }
+    if (gen) 
+      snps <- paste("locus", 1:m, sep = sep)
+    if (any(duplicated(ped))) {
+      if (any(duplicated(mem))) {
+        rnames <- paste(ped, mem, sep = sep)
+        if (any(duplicated(rnames))) 
+          stop("could not create unique subject identifiers")
+      }
+      else rnames <- mem
+    }
+    else rnames <- ped
+    dimnames(result) <- list(rnames, snps)
+  #  result <- new("SnpMatrix", result)
+    result <- data.table(result)
+    if (lex.order) {
+      swa <- (!(is.na(a1) | is.na(a2)) & (a1 > a2))
+      switch.alleles(result, swa)
+      a1n <- a1
+      a1n[swa] <- a2[swa]
+      a2[swa] <- a1[swa]
+      a1 <- a1n
+    }
+    fam <- data.frame(row.names = rnames, pedigree = ped, member = mem, 
+                      father = pa, mother = ma, sex = sex, affected = aff)
+    if (is.null(map)) 
+      map <- data.frame(row.names = snps, snp.name = snps, 
+                        allele.1 = a1, allele.2 = a2)
+    else {
+      map$allele.1 <- a1
+      map$allele.2 <- a2
+      names(map)[which] <- "snp.names"
+    }
+    rownames(result) <- fam$member
+    meta <- list(monomorph=sum(mono), multiallelic=sum(mallelic), missing=sum(a1m), pedFile=file, mapFile=snps)
+    result <- list(genotypes = result, fam = fam, map = map, meta=meta)
+    class(result) <- "PedMap"
+    result
   }
-  list(ped=ped, map=map, genotypes=genotypes)
-}

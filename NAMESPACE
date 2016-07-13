@@ -1,4 +1,4 @@
-import(gMWT, parallel, plotrix, Rcpp, hoardeR, snpStats, data.table)
+import(gMWT, parallel, plotrix, Rcpp, hoardeR, snpStats, data.table, circlize)
 
 importFrom("grDevices", "dev.off", "pdf", "rainbow")
 importFrom("graphics", "axis", "boxplot", "layout", "lines", "par", "points", "rect", "text")
@@ -15,6 +15,13 @@ S3method(summary,mdr)
 
 S3method(print,mdrPredict)
 
-export(calcDistances, eQTL, QTL, genotypePlot, getRegionsOI, gtfToBed, mdr, mdrEnsemble, recodeData, visTrans, importSTARLog)
+S3method(print,PedMap)
+S3method(summary,PedMap)
+
+S3method(plot,qtl)
+S3method(print,qtl)
+S3method(summary,qtl)
+
+export(calcDistances, eQTL, QTL, genotypePlot, getRegionsOI, gtfToBed, mdr, mdrEnsemble, recodeData, visTrans, importSTARLog, importPED)
 
 useDynLib(GenomicTools)
