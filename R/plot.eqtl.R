@@ -221,8 +221,3 @@ plotIt <- function(x,sig,windowSize,centered,log,x2,annot, double){
       }
   }
 }
-
-
-plotTrans.eqtl <- function(x){
-  
-}

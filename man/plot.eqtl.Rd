@@ -9,9 +9,9 @@
  The function offers informative plots for an \code{eqtl} object.
 }
 \usage{
- \method{plot}{eqtl}(x, file = NULL, which = NULL, sig = 0.01, verbose = TRUE, centered = TRUE,
-                     log = FALSE, x2 = NULL, annot = NULL, track = NULL,
-                     trackAnnot = FALSE, trackOrder = NULL, mc.cores = 1, ...)
+ \method{plot}{eqtl}(x, file = NULL, which = NULL, sig = 0.01,
+                     verbose = TRUE, centered = TRUE, log = FALSE,
+                     mc.cores = 1, genome = NULL, ...)
 }
 
 \arguments{
@@ -22,12 +22,8 @@
   \item{verbose}{Logical, extended feedback of the function.}
   \item{centered}{Logical, plot should be centered around center gene.}
   \item{log}{Logical, y-axis scale is log(base=10)-scaled.}
-  \item{x2}{Comparison values of a second \code{eqtl} object, see details.}
-  \item{annot}{Logical, plot annotation track.}
-  \item{track}{Gene annotations in bed format.}
-  \item{trackAnnot}{Gene annotations in bed format.}
-  \item{trackOrder}{Logical, shall the annotation track be ordered.}
   \item{mc.cores}{Amount of cores for parallel computing.}
+  \item{genome}{The name of an existing genome.}
   \item{...}{Additional plotting parameters.}
 }
 

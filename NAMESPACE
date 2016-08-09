@@ -1,8 +1,10 @@
-import(gMWT, parallel, plotrix, Rcpp, hoardeR, snpStats, data.table, circlize)
+import(gMWT, Rcpp, hoardeR, snpStats, data.table)
 
 importFrom("grDevices", "dev.off", "pdf", "rainbow")
+importFrom("circlize", "circos.clear", "circos.par", "circos.initialize", "circos.trackPlotRegion", "circos.text", "circos.rect", "circos.link","get.cell.meta.data")
 importFrom("graphics", "axis", "boxplot", "layout", "lines", "par", "points", "rect", "text")
 importFrom("stats", "density", "lm", "predict", "smooth.spline")
+importFrom("parallel", "mclapply")
 
 S3method(print,eqtl)
 S3method(plot,eqtl)
@@ -22,6 +24,6 @@ S3method(plot,qtl)
 S3method(print,qtl)
 S3method(summary,qtl)
 
-export(calcDistances, eQTL, QTL, genotypePlot, getRegionsOI, gtfToBed, mdr, mdrEnsemble, recodeData, visTrans, importSTARLog, importPED)
+export(calcDistances, eQTL, QTL, genotypePlot, getRegionsOI, gtfToBed, mdr, mdrEnsemble, recodeData, importSTARLog, importPED)
 
 useDynLib(GenomicTools)

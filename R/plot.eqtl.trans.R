@@ -57,11 +57,11 @@ plot.trans <- function(x, genome){
     for(geneRun in 1:length(geneAnnot)){
       tmpAssoc <- x$bed[as.character(x$bed$Assoc.Gene)==names(geneAnnot)[geneRun],]
       tmpGene <- geneAnnot[[geneRun]]
-      geneChr <- factor(tmpGene$Chr, level=gOrder)
+      geneChr <- factor(tmpGene$Chr, levels=gOrder)
       
       for(assocRun in 1:nrow(tmpAssoc)){
         if(is.element(tmpAssoc$chr[assocRun],genome$chr)){
-          snpChr <- factor(tmpAssoc$chr[assocRun], level=gOrder)
+          snpChr <- factor(tmpAssoc$chr[assocRun], levels=gOrder)
           circos.link(sector.index1=geneChr, point1=c(tmpGene$Start/10^6,tmpGene$End/10^6),
                       sector.index2=snpChr, point2=c(tmpAssoc$Location[assocRun]/10^6),
                       col = lcols[geneChr])          

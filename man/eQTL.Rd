@@ -9,9 +9,9 @@
   This function performs an eQTL analysis.
 }
 \usage{
-  eQTL(gex, geno, xAnnot = NULL, xSamples = NULL, genoSamples = NULL,
+  eQTL(gex, xAnnot = NULL, xSamples = NULL, geno, genoSamples = NULL,
        windowSize = 0.5, method = "LM", mc = 1, sig = NULL, which = NULL,
-       nper = 2000, verbose = TRUE)
+       testType="permutation", nper = 2000, verbose = TRUE, IHaveSpace = FALSE)
 }
 
 \arguments{
@@ -25,8 +25,10 @@
   \item{mc}{Amount of cores for parallel computing.}
   \item{sig}{Significance level for the eQTL testing, see details.}
   \item{which}{Names of genes for that the eQTL should be performed.}
+  \item{testType}{Type of test, either \code{permutation} or \code{asymptotical}.}
   \item{nper}{Sets the amount of permutations, if permuation tests are used.}
   \item{verbose}{Logical, if the method should report intermediate results.}
+  \item{IHaveSpace}{Logical, security switch for operations that require lots of memory.}
 }
 
 \details{

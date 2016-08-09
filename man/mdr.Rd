@@ -9,7 +9,8 @@
   This function performs a Multifactor Dimension Reduction (MDR).
 }
 \usage{
-  mdr(X,status,fold=2,t=NULL,cv=0,cvp=0.75,top=20,NAasValues=TRUE,fix=NULL, verbose=FALSE)
+  mdr(X, status, fold=2, t=NULL, cv=0, cvr=0.75, top=3,
+      NAasValues=TRUE, fix=NULL, verbose=FALSE)
 }
 
 \arguments{
@@ -18,7 +19,7 @@
   \item{fold}{Maximum dimension of used contingency tables, see details.}
   \item{t}{Threshold for high/low risk.}
   \item{cv}{Amount of cross validation runs.}
-  \item{cvp}{Ratio of cross-validation sample.}
+  \item{cvr}{Ratio of cross-validation sample.}
   \item{top}{Length of each top list.}
   \item{NAasValues}{How shall NAs be treated.}
   \item{fix}{Column number of the SNP to be fixed.}

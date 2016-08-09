@@ -9,7 +9,8 @@
   Expression values are grouped according to genotype groups and then visualized with boxplots.
 }
 \usage{
-  genotypePlot(snp,gene,eqtl,geneAnnot=NULL, ylab=NULL, xlab=NULL, mainlab=FALSE)
+  genotypePlot(snp, gene = NULL, eqtl = NULL, gex = NULL, 
+               geno = NULL, ylab=NULL, xlab=NULL, mainlab=TRUE)
 }
 
 \arguments{

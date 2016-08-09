@@ -5,7 +5,6 @@ QTL <- function(pheno, phenoSamples=NULL, geno=NULL, genoSamples=NULL, method="L
     # Initial values
       noNames <- FALSE
     
-
     # If only a vector of expression values is provided, transform it to a single row matrix
       if(is.null(pheno)) stop("No phenotype information provided in pheno!")
       if(is.null(geno)) stop("No genotypes provided in geno!")
@@ -30,7 +29,7 @@ QTL <- function(pheno, phenoSamples=NULL, geno=NULL, genoSamples=NULL, method="L
           if(fileEnding=="ped"){
             case <- "ped"
             pedFile <- geno
-            mapFile <- paste(substr(geno,1, nchar(pedfile)-3),"map",sep="")
+            mapFile <- paste(substr(geno,1, nchar(pedFile)-3),"map",sep="")
           } else if(fileEnding=="vcf"){
             case <- "vcf"
           } else {
@@ -51,9 +50,9 @@ QTL <- function(pheno, phenoSamples=NULL, geno=NULL, genoSamples=NULL, method="L
         } 
       # CASE: No string provided, assume that genotype data was read in properly
        } else {
-          if(class(gtst)=="PedMap"){
+          if(class(geno)=="PedMap"){
              genoData <- geno
-          } else if(class(gtst)=="VCF"){
+          } else if(class(geno)=="VCF"){
             genoData <- geno
           } else {
              stop("Please provide either a PedMap (importPED) of a VCF (importVCF) object, or the corresponding file path to either file.")
