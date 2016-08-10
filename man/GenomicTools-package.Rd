@@ -9,7 +9,8 @@
 \description{
   GenomicTools is a loose collection of analysis tools for gene expression and genotype data. Currently
   it provides methods for eQTL, QTL and MDR analysis. It also contains an MDR ensemble classifier. This
-  package is the continuation of the genomic data analysis parts of the GeneticTools package.
+  package is the continuation of the genomic data analysis parts of the GeneticTools package, that is also
+  available on Cran.
 }
 
 \details{
@@ -17,7 +18,7 @@
     Package: \tab GenomicTools\cr
     Type: \tab Package\cr
     Version: \tab 0.1\cr
-    Date: \tab 2016-05-10\cr
+    Date: \tab 2016-08-14\cr
     License: \tab GPL\cr
     LazyLoad: \tab yes\cr
   }

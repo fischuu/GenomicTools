@@ -1,4 +1,4 @@
-import(gMWT, Rcpp, hoardeR, snpStats, data.table)
+import(gMWT, Rcpp, hoardeR, data.table)
 
 importFrom("grDevices", "dev.off", "pdf", "rainbow")
 importFrom("circlize", "circos.clear", "circos.par", "circos.initialize", "circos.trackPlotRegion", "circos.text", "circos.rect", "circos.link","get.cell.meta.data")
@@ -24,6 +24,6 @@ S3method(plot,qtl)
 S3method(print,qtl)
 S3method(summary,qtl)
 
-export(calcDistances, eQTL, QTL, genotypePlot, getRegionsOI, gtfToBed, mdr, mdrEnsemble, recodeData, importSTARLog, importPED)
+export(eQTL, QTL, genotypePlot, getRegionsOI, gtfToBed, mdr, mdrEnsemble, recodeData, importSTARLog, importPED)
 
 useDynLib(GenomicTools)

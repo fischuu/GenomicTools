@@ -3,7 +3,7 @@
 \docType{data}
 \title{Example Annotation Track}
 \description{
-  Example annotation track.
+  An example for a typical annotation track.
 }
 \usage{data(annotTrack)}
 

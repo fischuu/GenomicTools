@@ -18,16 +18,16 @@
   \item{gex}{Matrix or Vector with expression values.}
   \item{geno}{Genotype data.}
   \item{xAnnot}{Location annotations for the expression values.}
-  \item{xSamples}{Sample names for the expression values, see details (optional).}
-  \item{genoSamples}{Sample names for the genotype values, see details (optional).}
-  \item{windowSize}{Size of the window around the center gene, see details.}
-  \item{method}{Method of choice for the eQTL, see details.}
+  \item{xSamples}{Sample names for the expression values (optional).}
+  \item{genoSamples}{Sample names for the genotype values (optional).}
+  \item{windowSize}{Size of the window around the center gene (in Mb).}
+  \item{method}{Method of choice for the eQTL.}
   \item{mc}{Amount of cores for parallel computing.}
-  \item{sig}{Significance level for the eQTL testing, see details.}
+  \item{sig}{Significance level for the eQTL testing.}
   \item{which}{Names of genes for that the eQTL should be performed.}
   \item{testType}{Type of test, either \code{permutation} or \code{asymptotical}.}
   \item{nper}{Sets the amount of permutations, if permuation tests are used.}
-  \item{verbose}{Logical, if the method should report intermediate results.}
+  \item{verbose}{Logical, shall the method give extensive feedback.}
   \item{IHaveSpace}{Logical, security switch for operations that require lots of memory.}
 }
 
@@ -38,13 +38,13 @@ The option \code{"LM"} fits for each SNP within a predefined window of size \cod
 a linear model for the genotype information and the corresponding gene expression. The null hypothesis
 for each test is then that the slope is equal to zero and the alternative is that it is not zero.
 
-The \code{"directional"} option applies a new directional test based on probabilistic indices for triples as described 
+The option \code{"directional"} applies a new directional test based on probabilistic indices for triples as described 
 in Fischer, Oja, et al. (2014). Being \eqn{\mathbf{x}_0=(x_{01},x_{02},\dots,x_{0N_0})', \mathbf{x}_1=(x_{11},x_{12},\dots,x_{1N_1})'}
 and \eqn{\mathbf{x}_2=(x_{21},x_{22},\dots,x_{2N_2})'} the expression values that are linked to the three genotype
 groups \eqn{0,1} and \eqn{2} with underlying distributions \eqn{F_0, F_1} and \eqn{F_2}.  We first calculate the probabilistic
 indices \eqn{P_{0,1,2} = \frac{1}{N_0 N_1 N_2} \sum_i \sum_j \sum_k I(x_{0i} < x_{1j} < x_{2k})}
 and \eqn{P_{2,1,0} = \frac{1}{N_0 N_1 N_2} \sum_i \sum_j \sum_k I(x_{2i} < x_{1j} < x_{0k})}. These are the probabilities that the expression
-values of the three groups follow a certain order what we would expect for possible eQTLs. The null hypothesis that we have then
+values of the three groups follow a certain order, that is what we would expect for possible eQTLs. The null hypothesis that we have then
 in mind is that the expression values from these three groups have the same distribution \eqn{H_0: F_0 = F_1 = F_2} and the
 two alternatives are that the distributions have a certain stochastical order \eqn{H_1: F_0 < F_1 < F_2} and \eqn{H_2: F_2 < F_1 < F_0}.
 
