@@ -9,6 +9,7 @@ bibliography: GenomicTools-Vignette.bib
 ---
 
 ```{r setup, include=FALSE}
+library(GenomicTools)
 library(knitr)
 knitr::opts_chunk$set(echo = TRUE)
 opts_chunk$set(root.dir = getwd())
@@ -83,7 +84,7 @@ Ensembl build 85 can be found here:
 After downloading this file, it can be imported to R with
 
 ```{r eval=FALSE}
-ensGTF <- importGTF(file="/home/ejo138/ownCloud/R-Packages-Pages/genomicTools/Datasets/Homo_sapiens.GRCh38.85.gtf.gz")
+ensGTF <- importGTF(file="/home/ejo138/ownCloud/R-Packages-Pages/GenomicTools/Datasets/Homo_sapiens.GRCh38.85.gtf.gz")
 ```
 
 
