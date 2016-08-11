@@ -1,0 +1,95 @@
+---
+title: "GenomicTools - Vignette"
+author: "Daniel Fischer"
+date: "August 11, 2016"
+output:
+  pdf_document: default
+  html_document: default
+bibliography: GenomicTools-Vignette.bib
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+knitr::opts_chunk$set(echo = TRUE)
+opts_chunk$set(root.dir = getwd())
+```
+
+# Introduction
+
+The R-package GenomicTools is designed for the anlysis of so-called omics data, and here especially on gene expression and SNP data. The 
+focus is on performing an eQTL, a QTL or a Multifactor dimensionality reduction (MDR). Although MDR is not limited to genomic field and
+all other kinds of categorical data can be used with it, the implementation is here tailored for genomic data and currently the generalization
+to other variables proofs to be difficult. The package comes with a couple of example dataset, further datasets can be downloaded from the 
+project page, links are given for that below. The following chapters explain in detail, how the package can be applied in different scenarios
+and how the output is to be interpreted.
+
+# Installation of GenomicTools
+The latest stable version of GenomicTools is located on Cran and can be installed via
+
+```{r eval=FALSE}
+install.packages("GemnomicTools")
+```
+
+No special dependices are required and the dependencies should also be automatically installed by R. 
+
+The latest developed version, including the latest bugfixes is located in GitHub and can be installed like this:
+
+```{r eval=FALSE}
+library(devtools)
+install_github("fischuu/GenomicTools")
+```
+
+The GitHub page is located here
+
+[https://github.com/fischuu/GenomicTools](https://github.com/fischuu/GenomicTools)
+
+
+and bugfixes and comments can easily be handed in via that platform. The package has also an own webpage where additional information may be posted 
+and is located here:
+
+[http://genomictools.danielfischer.name/](https://genomictools.danielfischer.name/)
+
+
+Once the package is installed, it can be loaded into the workspace by typing 
+
+```{r, warning=FALSE, error=FALSE,message=FALSE}
+library("GenomicTools")
+```
+
+
+# Included datasets
+An overview of the example datasets. Currently many of them are simulated, but they will be moved to real datasets gradually.
+
+## An annotation track
+An example annotation track is the `annotTrack` object. It can be loaded to the workspace via
+
+```{r}
+data("annotTrack")
+```
+
+and the first rows and columns of it look like this
+
+```{r, comment=NA}
+annotTrack[1:6,1:9]
+```
+
+A raw annotation file in gtf ASCII format will be available for download from 
+
+[http://genomictools.danielfischer.name/datasets/annotTrack.gtf](http://genomictools.danielfischer.name/datasets/annotTrack.gtf)
+
+# General background for eQTL/QTL analyses
+There are two methods implemented to perform an (e)QTL that be be picked with the `method=` option in the `eQTL`/`QTL` function. The two options 
+are `LM` and `directional`. In case of `LM` a classical linear model is fitted to the data and it is tested if the slope is zero or not. This
+is the same method that is practically implemented in all (e)QTL software tools. The second option `directional`, however, uses a directional
+test based on probabilistic indices as it was presented in [@Fischer2014]. For the directional test, there are still another tuning option. The
+p-values can be either determined using a permutation type test, or using asymptotic results. The options to set this are
+either `testType="permutation"` or `testType="asymptotic"`. Currently the required asymptotic test is not implemented in the used R-package
+`gMWT`, but this will happen during August 2016 and is then also available in `GenomicTools`.
+
+# Perform an eQTL analysis
+
+To run an eQTL first a couple of data objects has to be prepared. In the most simpliest case there is only a single gene that should be tested 
+against 
+
+
+# References
