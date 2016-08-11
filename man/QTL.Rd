@@ -53,9 +53,9 @@ The phenotype values used in the QTL are specified in \code{pheno}. If several p
 column refers to a phenotype and each row to an individuum. Sample names can either be given as row names in the matrix or as separate
 vector in \code{phenoSamples}. If only values of one phenotype should be tested then \code{pheno} can be a vector.
 
-The genotype information is provided in the \code{geno} object. Here one can i.a. specify the file name of a ped/map file pair. The function
-then imports the genotype information using the \code{SnpStats} package. In case the genotype information has been imported already earlier
-using \code{SnpStats::read.pedfile()} the resulting \code{SnpMatrix} can also be given as a parameter for \code{geno}.
+The genotype information is provided in the \code{geno} object. Here one can i.a. specify the file name of a ped/map file pair.
+The function then imports the genotype information using the function \code{importPED}. In case the genotype information has been imported
+already earlier using \code{importPED} the resulting \code{PedMap} object can also be given as a parameter for \code{geno}.
 
 The option \code{genoSamples} is used in case that the sample names in the ped/map file (or SnpMatrix)
 do not match with \code{rownames(pheno)} given in the expression matrix. The vector \code{genoSamples} is as

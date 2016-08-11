@@ -1,7 +1,6 @@
 \name{plot.qtl}
 \docType{methods}
 \alias{plot.qtl}
-\alias{plot-method}
 \alias{plot,qtl-method}
 
 \title{Plot an qtl Object}
@@ -20,6 +19,7 @@
   \item{verbose}{Logical, extended feedback of the function.}
   \item{log}{Logical, y-axis scale is log(base=10)-scaled.}
   \item{genome}{Data frame with Chromosome names and lengths.}
+  \item{pch}{Plot symbol to by used.}
   \item{...}{Additional plotting parameters.}
 }
 

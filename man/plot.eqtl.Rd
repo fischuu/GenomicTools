@@ -1,7 +1,6 @@
 \name{plot.eqtl}
 \docType{methods}
 \alias{plot.eqtl}
-\alias{plot-method}
 \alias{plot,eqtl-method}
 
 \title{Plot an eqtl Object}

@@ -60,8 +60,8 @@ vector in \code{xSamples}. If only gene expressions of one gene should be tested
 
 The genotype information is provided in the \code{geno} object. Here one can i.a. specify the file
 name of a ped/map file pair. The function then imports the genotype information using the
-\code{SnpStats} package. In case the genotype information has been imported already earlier using
-\code{SnpStats::read.pedfile()} the resulting \code{SnpMatrix} can also be given as a parameter for \code{geno}.
+function \code{importPED}. In case the genotype information has been imported already earlier using
+\code{importPED} the resulting \code{PedMap} object can also be given as a parameter for \code{geno}.
 
 The \code{xAnnot} object carries the annotation information for the gene expressions. In case of multiple locations per gene 
 it is of type list and each list item stores the information for one gene in form of a \code{data.frame} in bed format. This \code{data.frame}

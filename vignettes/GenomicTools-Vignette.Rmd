@@ -57,10 +57,11 @@ library("GenomicTools")
 ```
 
 
-# Included datasets
+# Included datasets and import functions
 An overview of the example datasets. Currently many of them are simulated, but they will be moved to real datasets gradually.
 
-## An annotation track
+## Annotation files
+### Simulated Example File
 An example annotation track is the `annotTrack` object. It can be loaded to the workspace via
 
 ```{r}
@@ -73,9 +74,18 @@ and the first rows and columns of it look like this
 annotTrack[1:6,1:9]
 ```
 
-A raw annotation file in gtf ASCII format will be available for download from 
+### A gtf file
+GTF files are provided e.g. from Ensembl and can be downloaded from the corresponding webpage. For example the human annotation for
+Ensembl build 85 can be found here:
 
-[http://genomictools.danielfischer.name/datasets/annotTrack.gtf](http://genomictools.danielfischer.name/datasets/annotTrack.gtf)
+[ftp://ftp.ensembl.org/pub/release-85/gtf/homo_sapiens/Homo_sapiens.GRCh38.85.gtf.gz](ftp://ftp.ensembl.org/pub/release-85/gtf/homo_sapiens/Homo_sapiens.GRCh38.85.gtf.gz)
+
+After downloading this file, it can be imported to R with
+
+```{r eval=FALSE}
+ensGTF <- importGTF(file="/home/ejo138/ownCloud/R-Packages-Pages/genomicTools/Datasets/Homo_sapiens.GRCh38.85.gtf.gz")
+```
+
 
 # General background for eQTL/QTL analyses
 There are two methods implemented to perform an (e)QTL that be be picked with the `method=` option in the `eQTL`/`QTL` function. The two options 
