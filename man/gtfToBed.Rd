@@ -9,20 +9,18 @@
   This function creates a matrix of gene annotations in bed format, based on the information given in an importet gtf table.
 }
 \usage{
-  gtfToBed(gtf, output="min")
+  gtfToBed(gtf)
 }
 
 \arguments{
   \item{gtf}{An imported gtf table.}
-  \item{output}{Option to format the output, see details.}
 }
 
 \details{
-  Currently the function supports only gtf files for human organisms. If applied to other organisms the code has to be changed in such a way that the Chromosome names are adjusted.
-  The output can be formated with the output option, where \code{output="min"} results in one row per gene and \code{output="full"} keeps the original format in the gtf file.
+ After a gtf file was imported with \code{importGTF} this function transforms it into a data.frame with bed formatting.
 }
 \value{
- A data.frame in bed format having the four columns \code{Chr}, \code{Start}, \code{Stop} and \code{Name}
+ A data.frame in bed format having the four columns \code{Chr}, \code{Start}, \code{Stop} and \code{Gene}
 }
 
 

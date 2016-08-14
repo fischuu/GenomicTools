@@ -8,7 +8,7 @@
 \usage{data(genotData)}
 
 \format{
-  A \code{list} as provided from \code{snpStats::read.pedfile()} 
+  A \code{PedMap} object as provided from \code{importPED} 
 }
 
 \details{

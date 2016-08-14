@@ -5,6 +5,11 @@ QTL <- function(pheno, phenoSamples=NULL, geno=NULL, genoSamples=NULL, method="L
     # Initial values
       noNames <- FALSE
     
+    # Test the case that the data is given in a one-row matrix (not casted as vector)
+      if(is.matrix(pheno)){
+        if(nrow(pheno)==1) pheno <- as.vector(pheno)
+      }    
+      
     # If only a vector of expression values is provided, transform it to a single row matrix
       if(is.null(pheno)) stop("No phenotype information provided in pheno!")
       if(is.null(geno)) stop("No genotypes provided in geno!")
@@ -66,9 +71,16 @@ QTL <- function(pheno, phenoSamples=NULL, geno=NULL, genoSamples=NULL, method="L
     # Take only those genes from the annotation list that were requested
     if(!is.null(which)) {
       if(is.character(which)){
-        pheno <- pheno[,is.element(names(pheno),which)]
+        pheno <- pheno[,is.element(colnames(pheno),which)]
       } else if(is.numeric(which)){
+        oldSampleNames <- rownames(pheno)
+        oldPhenoNames <- colnames(pheno)
         pheno <- pheno[,which]
+      }
+      if(length(which)==1){
+        pheno <- matrix(pheno, ncol=1)
+        colnames(pheno) <- oldPhenoNames[which]
+        rownames(pheno) <- oldSampleNames
       }
     }
     
@@ -171,6 +183,6 @@ QTL <- function(pheno, phenoSamples=NULL, geno=NULL, genoSamples=NULL, method="L
       if(length(remThese)>0) resBed <- resBed[-remThese,]
       result <- list(bed= resBed, pheno=pheno, geno=geno, phenoSamples=phenoSamples, genoSamples=genoSamples, method=method, mc=mc, which=which, type="sig")
     }
-    class(result) <- "qtl"
+    class(result) <- "qtlRes"
     result
 }

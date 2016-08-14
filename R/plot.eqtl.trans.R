@@ -1,5 +1,7 @@
 plot.trans <- function(x, genome){
   
+
+    
     par(mar=rep(0,4))
     circos.clear()
   

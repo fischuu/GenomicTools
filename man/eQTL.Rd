@@ -16,9 +16,9 @@
 
 \arguments{
   \item{gex}{Matrix or Vector with expression values.}
-  \item{geno}{Genotype data.}
   \item{xAnnot}{Location annotations for the expression values.}
   \item{xSamples}{Sample names for the expression values (optional).}
+  \item{geno}{Genotype data.}
   \item{genoSamples}{Sample names for the genotype values (optional).}
   \item{windowSize}{Size of the window around the center gene (in Mb).}
   \item{method}{Method of choice for the eQTL.}
@@ -58,10 +58,11 @@ column refers to a gene and each row to an individuum. The column names of this 
 names used in the annotation object \code{xAnnot}. Sample names can either be given as row names in the matrix or as separate
 vector in \code{xSamples}. If only gene expressions of one gene should be tested then \code{gex} can be a vector.
 
-The genotype information is provided in the \code{geno} object. Here one can i.a. specify the file
+The genotype information is provided in the \code{geno} object. Here one can i.a. specify the ped-file
 name of a ped/map file pair. The function then imports the genotype information using the
-function \code{importPED}. In case the genotype information has been imported already earlier using
-\code{importPED} the resulting \code{PedMap} object can also be given as a parameter for \code{geno}.
+function \code{importPED}. In that case, the map file has to have the same filename as the ped file (despite the file extension...).
+In case the genotype information has been imported already earlier using \code{importPED} the resulting \code{PedMap} object can
+also be given as a parameter for \code{geno}.
 
 The \code{xAnnot} object carries the annotation information for the gene expressions. In case of multiple locations per gene 
 it is of type list and each list item stores the information for one gene in form of a \code{data.frame} in bed format. This \code{data.frame}
@@ -125,22 +126,67 @@ will be soon available also.
 
 \examples{
 
-# Please, see also the package vignette for a more descriptive example section on this.
-
-# Make the example data available
-  data(Xgene) 
-  data(genotData)
-  data(annotTrack)
-
-# We need to have the gene annotation in bed format (Please notice the change to the
-# official convention, this is on high priority of the ToDo list of the package to change
-# this.)
-
 \dontrun{
-  annotBed <- gtfToBed(annotTrack)
+# Make the example data available
+data("annotTrack")   # Standard gtf file, imported with importGTF
+data("geneEXP")      # Matrix with gene expression
+data("genotData")    # A imported Ped/Map filepair, using importPED
 
-# Perform a basic cis-eQTL with the minimum required input linear model:
-  lm.myEQTL <- eQTL(gex=Xgene,geno=genotData, xAnnot=annotBed,method="LM",windowSize=1)
+# Transform gtf to bed format (not necessarily required)
+annot.bed <- gtfToBed(annotTrack)
+
+# cis-eQTL
+###############################################
+
+# Most basic cis-eQTL runs:
+EQTL1 <- eQTL(gex=geneEXP[,1:10] , xAnnot = annotTrack, geno= genotData)
+
+# Same run, if gtf has been transformed to bed previously
+EQTL1.1   <- eQTL(gex=geneEXP[,1:10] , xAnnot = annot.bed, geno= genotData)
+
+# Same run, when the genotype data wasn't loaded and should be loaded
+# here instead
+EQTL1.2 <- eQTL(gex=geneEXP[,1:10] , xAnnot = annotTrack, 
++               geno= file.path("Datasets","genotypes.ped"))
+
+# Full set of genes, this time filtered with column names
+EQTL2   <- eQTL(gex=geneEXP, xAnnot = annot.bed, geno= genotData, 
++               which = colnames(geneEXP)[1:20])
+
+# Single vector of gene expression values, underlying gene is specified
+# in the which option
+EQTL3   <- eQTL(gex=as.vector(geneEXP[,1]) , xAnnot = annot.bed, 
++               geno= genotData, which="ENSG00000223972")
+
+# Same call, but this time is the corresponding column not casted
+EQTL3.1 <- eQTL(gex=geneEXP[,1] , xAnnot = annot.bed, geno= genotData, 
++               which="ENSG00000223972")
+
+# Same call, but instead of the name the row number in the gtf/bed
+# file is provided
+EQTL3.2 <- eQTL(gex=geneEXP[,1] , xAnnot = annot.bed, geno= genotData,
++               which=1)
+
+# The same expression values are now assigned to three different genes
+EQTL4   <- eQTL(gex=as.vector(geneEXP[,1]) , xAnnot = annot.bed,
++               geno= genotData, which=1:3)
+
+# Trans-eQTL
+######################################
+
+# Trans eQTL for the first and the last gene in our expression matrix
+EQTL5   <- eQTL(gex=geneEXP[,c(1,1000)] , xAnnot = annot.bed, 
++               geno= genotData, windowSize = NULL)
+
+# Same call, this time distributed to 8 cores (ony available on 
+# Linux computers)
+EQTL5   <- eQTL(gex=geneEXP[,c(1,1000)] , xAnnot = annot.bed, 
++               geno= genotData, windowSize = NULL, mc=8)
+
+# Expression values from the first gene are used to test the 100st 
+# gene for trans-eQTL
+EQTL6   <- eQTL(gex=as.vector(geneEXP[,1]) , xAnnot = annot.bed, 
++               geno= genotData, windowSize = NULL, which=100)
 }
 }
 

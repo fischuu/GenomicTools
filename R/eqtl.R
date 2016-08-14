@@ -3,6 +3,17 @@ eQTL <- function(gex=NULL, xAnnot=NULL, xSamples=NULL, geno=NULL, genoSamples=NU
   # Initial values
     noNames <- FALSE
     
+  # Test the case that the data is given in a one-row matrix (not casted as vector)
+    if(is.matrix(gex)){
+      if(nrow(gex)==1) gex <- as.vector(gex)
+    }  
+  
+  # Check if the xAnnot is in bed or in gtf format
+    if(sum(class(xAnnot)=="gtf")>0){
+      if(verbose) cat("xAnnot is given in gtf format (from importGTF). We transform it with gtfToBed() into required bed-format.\n")
+      xAnnot <- gtfToBed(xAnnot)
+    }
+    
   # In case of a trans-eQTL set automatically a sig-value
     if(is.null(windowSize) & is.null(sig)){
       if(!IHaveSpace){
@@ -19,9 +30,10 @@ eQTL <- function(gex=NULL, xAnnot=NULL, xSamples=NULL, geno=NULL, genoSamples=NU
     if(is.null(geno)) stop("No genotypes provided in geno!")
     if(is.vector(gex)){
       tmp <- names(gex) 
+      oldNames <- names(gex)
       if(is.null(tmp)) noNames <- TRUE
       gex <- as.matrix(gex)
-      if(verbose) cat("A vector of gene expression was provided. These expression values will be used for EACH gene in xAnnot. Please filter xAnnot accordingly!\n")
+      if(verbose) cat("A vector of gene expression was provided. These expression values will be used for EACH gene in xAnnot. Please filter xAnnot accordingly, e.g. by using the 'which' option!\n")
       if(nrow(xAnnot)>1) gex <- gex[,rep(1,nrow(xAnnot))]
       colnames(gex) <- xAnnot[,4]
       rownames(gex) <- tmp
@@ -103,10 +115,17 @@ eQTL <- function(gex=NULL, xAnnot=NULL, xSamples=NULL, geno=NULL, genoSamples=NU
     if(!is.null(which)) {
       if(is.character(which)){
         xAnnot <- xAnnot[is.element(names(xAnnot),which)]
-        gex <- gex[,is.element(names(gex),which)]
+        gex <- gex[,is.element(colnames(gex),which)]          
+
       } else if(is.numeric(which)){
         xAnnot <- xAnnot[which]
         gex <- gex[,which]
+      }
+      
+      if(length(which)==1){
+        gex <- matrix(gex, ncol=1)
+        colnames(gex) <- names(xAnnot)[1]
+        rownames(gex) <- oldNames
       }
     }
 

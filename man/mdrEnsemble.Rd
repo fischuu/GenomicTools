@@ -32,6 +32,16 @@
   Daniel Fischer
 }
 
+\examples{
+data(mdrExample)
+mdrSNP <- mdrExample[,1:20]
+fit.mdr <- mdr(mdrSNP, mdrExample$Class, fold=4, top=5)
+fit.mdr
+fit.mdr <- mdr(mdrSNP, mdrExample$Class)
+fit.mdr
+}
+
+
 \keyword{
   multivariate
 }

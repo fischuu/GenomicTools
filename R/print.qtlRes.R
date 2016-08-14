@@ -1,4 +1,4 @@
-`print.qtl` <- function(x, which=NULL, sig=0.001, ...){
+`print.qtlRes` <- function(x, which=NULL, sig=0.001, ...){
    
   if(is.null(which)) which <- 1:length(x$qtl)
   

@@ -1,4 +1,4 @@
-summary.qtl <- function(object, ...){
+summary.qtlRes <- function(object, ...){
   
   cat("QTL Summary\n")
   cat("---------------\n")

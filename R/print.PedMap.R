@@ -2,7 +2,7 @@
   
   cat("First",n,"rows and",m,"columns of $genotypes:\n")
   print(x$genotypes[1:n,x$map$snp.names[1:m], with=FALSE])
-  cat("...",nrow(x$genotypes)-n,"rows and",ncol(x$genotypes)-m," columns omited \n")
+  cat("...",nrow(x$genotypes)-n,"rows and",ncol(x$genotypes)-m," columns omited \n\n")
   cat("First",n,"rows of $fam:\n\n")  
   print(x$fam[1:n,])
   cat("...",nrow(x$fam)-n,"rows omited \n\n")

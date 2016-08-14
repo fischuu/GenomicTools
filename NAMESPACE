@@ -1,4 +1,4 @@
-import(gMWT, Rcpp, hoardeR, data.table)
+import(gMWT, Rcpp, data.table)
 
 importFrom("grDevices", "dev.off", "pdf", "rainbow")
 importFrom("circlize", "circos.clear", "circos.par", "circos.initialize", "circos.trackPlotRegion", "circos.text", "circos.rect", "circos.link","get.cell.meta.data")
@@ -22,9 +22,9 @@ S3method(print,mdrPredict)
 S3method(print,PedMap)
 S3method(summary,PedMap)
 
-S3method(plot,qtl)
-S3method(print,qtl)
-S3method(summary,qtl)
+S3method(plot,qtlRes)
+S3method(print,qtlRes)
+S3method(summary,qtlRes)
 
 export(eQTL, QTL, genotypePlot, getRegionsOI, gtfToBed, mdr, mdrEnsemble, recodeData, importSTARLog, importPED, importVCF, importGTF, importGFF3)
 

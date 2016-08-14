@@ -21,22 +21,22 @@ importGTF <- function(file, skip=0, nrow=-1, use.data.table=TRUE, level="gene"){
     V9 <- strsplit(V9,"; ")
       
   # Now get the required information from V9
-    V9.gene_id <- sapply(V9, function(x) x[grepl("gene_id",x)])
-    V9.gene_name <- sapply(V9, function(x) x[grepl("gene_name",x)])
-    V9.gene_biotype <- sapply(V9, function(x) x[grepl("gene_biotype",x)])
+    gene_id <- sapply(V9, function(x) x[grepl("gene_id",x)])
+    gene_name <- sapply(V9, function(x) x[grepl("gene_name",x)])
+    gene_biotype <- sapply(V9, function(x) x[grepl("gene_biotype",x)])
  
   # Remove the non-informative aprts from that vectors
-    V9.gene_id <- gsub("gene_id ","",V9.gene_id)
-    V9.gene_name <- gsub("gene_name ","",V9.gene_name)
-    V9.gene_biotype <- gsub("gene_biotype ","",V9.gene_biotype)
-    V9.gene_id <- gsub('\"',"",V9.gene_id)
-    V9.gene_name <- gsub('\"',"",V9.gene_name)
-    V9.gene_biotype <- gsub('\"',"",V9.gene_biotype)
+    gene_id <- gsub("gene_id ","",gene_id)
+    gene_name <- gsub("gene_name ","",gene_name)
+    gene_biotype <- gsub("gene_biotype ","",gene_biotype)
+    gene_id <- gsub('\"',"",gene_id)
+    gene_name <- gsub('\"',"",gene_name)
+    gene_biotype <- gsub('\"',"",gene_biotype)
     
     cuffLoaded[,V9:=NULL]
-    cuffLoaded[,gene_id:=V9.gene_id]
-    cuffLoaded[,gene_name:=V9.gene_name]
-    cuffLoaded[,gene_biotype:=V9.gene_biotype]
+    cuffLoaded[,gene_id:=gene_id]
+    cuffLoaded[,gene_name:=gene_name]
+    cuffLoaded[,gene_biotype:=gene_biotype]
      
     class(cuffLoaded) <- append(class(cuffLoaded), "gtf")
     cuffLoaded

@@ -9,8 +9,8 @@
   This function performs a Multifactor Dimension Reduction (MDR).
 }
 \usage{
-  mdr(X, status, fold=2, t=NULL, cv=0, cvr=0.75, top=3,
-      NAasValues=TRUE, fix=NULL, verbose=FALSE)
+  mdr(X, status, fold=2, t=NULL, top=3, NAasValues=TRUE, 
+      fix=NULL, verbose=FALSE)
 }
 
 \arguments{
@@ -18,8 +18,6 @@
   \item{status}{Vector with group information of individuals in \code{X}.}
   \item{fold}{Maximum dimension of used contingency tables, see details.}
   \item{t}{Threshold for high/low risk.}
-  \item{cv}{Amount of cross validation runs.}
-  \item{cvr}{Ratio of cross-validation sample.}
   \item{top}{Length of each top list.}
   \item{NAasValues}{How shall NAs be treated.}
   \item{fix}{Column number of the SNP to be fixed.}
@@ -37,9 +35,6 @@
 
  The \code{t} option gives the threshold for the classification between high and low risk classes. The default
  is the ratio of the groups sizes.
- 
- The \code{cv} option sets the number of cross-validation runs and should be consequently a natural number larger than 0. If \code{cv=0} (default), no cross-validation 
- runs are used. The \code{cvp} sets the ratio between test and training data for the cross-validation runs. The cross-validation option is currently under development.
  
  With the \code{top} option the amount of results are set. 
  

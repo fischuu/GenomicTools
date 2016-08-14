@@ -1,12 +1,46 @@
-`plot.qtl` <- function(x, which=NULL, sig=0.01, verbose=TRUE, log=FALSE, genome=NULL, pch=1, ...){
+`plot.qtlRes` <- function(x, which=NULL, sig=0.01, verbose=TRUE, log=FALSE, genome=NULL, pch=1, ...){
   
+  humanGenome68 <- data.frame(chr=c(1:22,"X","Y"),
+                              length=c(249250621, 
+                                       243199373, 
+                                       198022430, 
+                                       191154276, 
+                                       180915260, 
+                                       171115067, 
+                                       159138663, 
+                                       146364022, 
+                                       141213431, 
+                                       135534747, 
+                                       135006516, 
+                                       133851895, 
+                                       115169878, 
+                                       107349540, 
+                                       102531392, 
+                                       90354753, 
+                                       81195210, 
+                                       78077248, 
+                                       59128983, 
+                                       63025520, 
+                                       48129895, 
+                                       51304566, 
+                                       155270560, 
+                                       59373566)) 
+  
+   if(is.character(genome)){
+     if(genome=="Human68") genome <- humanGenome68
+   }
+
   if(is.null(genome)){
     warning("No genome information provided, we will visualize only the SNPs without further chromosomal length information!")  
     guessedChr <- unique(x$qtl[1][[1]]$TestedSNP$V1)
     gOrder <- as.character(guessedChr)
     nonNumeric <- which(is.element(tolower(gOrder),letters))
-    chr <- gOrder[-nonNumeric]
-    chr <- c(chr[order(nchar(chr), chr)],gOrder[nonNumeric])
+    if(length(nonNumeric)>0){
+      chr <- gOrder[-nonNumeric]
+      chr <- c(chr[order(nchar(chr), chr)],gOrder[nonNumeric])      
+    } else {
+      chr <- gOrder
+    }
     length <- numeric(length(chr))
     tmp <- x$qtl[1][[1]]$TestedSNP
     for(i in 1:length(chr)){
@@ -17,7 +51,7 @@
     
   } else {
     # Adjust the input  
-    genome$length <- genome$length/10^6
+    genome$length <- genome$length
     gOrder <- as.character(genome$chr)
     genome$chr <- factor(genome$chr, levels=gOrder) 
   }
