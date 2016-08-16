@@ -11,7 +11,8 @@
 \usage{
   eQTL(gex, xAnnot = NULL, xSamples = NULL, geno, genoSamples = NULL,
        windowSize = 0.5, method = "LM", mc = 1, sig = NULL, which = NULL,
-       testType="permutation", nper = 2000, verbose = TRUE, IHaveSpace = FALSE)
+       testType = "permutation", nper = 2000, verbose = TRUE,
+       IHaveSpace = FALSE)
 }
 
 \arguments{
@@ -64,17 +65,11 @@ function \code{importPED}. In that case, the map file has to have the same filen
 In case the genotype information has been imported already earlier using \code{importPED} the resulting \code{PedMap} object can
 also be given as a parameter for \code{geno}.
 
-The \code{xAnnot} object carries the annotation information for the gene expressions. In case of multiple locations per gene 
-it is of type list and each list item stores the information for one gene in form of a \code{data.frame} in bed format. This \code{data.frame}
-has then the three columns \code{Chr}, \code{Start}, \code{End} and each row refers to one matching chromosomal postion of the underlying gene.
-Especially when probes of ssRNAs are considered the chromosomal positions of a probe are not necessarily unique. The names
-of the list \code{xAnnot} are the names of the genes and they have to match with the column names of \code{gex}. However, the order
-does not have to be the same, and \code{xAnnot} can include more annotations of genes than given in \code{gex}. The function finds
-and uses then the union between the column names of \code{gex} and the list entries of \code{xAnnot}.
-Alternative \code{xAnnot} can also be a data frame if unique locations are considered. In that case \code{xAnnot} has
-to be a data frame with the four columns \code{Gene}, \code{Chr}, \code{Start}, \code{End}.
+The \code{xAnnot} object carries the annotation information for the gene expressions. Usually, the annotations are downloaded e.g. from the 
+Ensembl page and then imported to R with the \code{importGTF} function. The resulting object can then be used as input for \code{xAnnot}.
+Casting options to feed in also other formats/objects are currently under development.
 
-The option \code{genoSamples} is used in case that the sample names in the ped/map file (or SnpMatrix)
+The option \code{genoSamples} is used in case that the sample names in the ped/map file (or \code{geno} object)
 do not match with \code{rownames(gex)} given in the expression matrix. The vector \code{genoSamples} is as
 long as the \code{geno} object has samples, but gives then for each row in \code{geno} the corresponding
 name in the \code{gex} object. The function finds then also the smallest union between the two data objects.
@@ -89,8 +84,11 @@ calculation.
 If the \code{sig} option is set to a certain significance level, then the method only reports those SNPs that are tested to be
 significant. This can reduce the required memory drastically, especially in the case of trans-eQTL. 
 
-The method tests for trans-eQTLs (all combinations of SNPs and genes) if the \code{windowSize} is set to \code{0} or \code{NULL}.
-Be aware that this might lead to long lasting calculations. 
+The method tests for trans-eQTLs (all combinations of SNPs and genes) if the \code{windowSize} is set to \code{NULL}.
+Be aware that this might lead to long lasting calculations. For trans-eQTL calculations it is advisable to define a significance level in
+\code{sig} so that only significant results are stored. If all results are required, the option \code{sig=NULL} has to be set and in 
+addition \code{IHaveSpace=TRUE}. This additional parameter is necessary as a trans-eQTL with full output creates a huge output that often
+exceeds the system properties of a normal desktop PC.
 
 Note: The directional test currently supports only exact p-values based on permutation tests, but asymptotic implementations are developed and 
 will be soon available also.

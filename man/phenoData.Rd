@@ -5,7 +5,7 @@
 \description{
   Simulated phenotype data.
 }
-\usage{data(geneEXP)}
+\usage{data(phenoData)}
 
 \format{
   A matrix with 50 rows representing individuals and 10 phenotypes arranged in the columns.
@@ -21,7 +21,7 @@
 }
 
 \examples{
-data(Xgene)
+data(phenoData)
 }
 \keyword{datasets}
  

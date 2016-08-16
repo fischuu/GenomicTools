@@ -6,7 +6,7 @@
 }
 
 \description{
-  This function performs a Multifactor Dimension Reduction (MDR).
+  This function performs a Multifactor Dimensionality Reduction (MDR).
 }
 \usage{
   mdr(X, status, fold=2, t=NULL, top=3, NAasValues=TRUE, 

@@ -1,0 +1,62 @@
+
+*** These modified files were found in JOE when it aborted on Tue Aug 16 15:27:50 2016
+*** JOE was aborted by UNIX signal 1
+
+*** File '/home/ejo138/GitHub/GenomicTools/.git/COMMIT_EDITMSG'
+q!
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Your branch is up-to-date with 'origin/master'.
+#
+# Changes to be committed:
+#	new file:   .directory
+#	modified:   DESCRIPTION
+#	modified:   NAMESPACE
+#	new file:   data/phenoData.rda
+#	deleted:    data/realSNPs.rda
+#	modified:   inst/ChangeLog
+#	modified:   man/GenomicTools-package.Rd
+#	modified:   man/eQTL.Rd
+#	modified:   man/geneEXP.Rd
+#	deleted:    man/genotypePlot.Rd
+#	deleted:    man/getRegionsOI.Rd
+#	deleted:    man/importGFF3.Rd
+#	deleted:    man/importVCF.Rd
+#	modified:   man/mdr.Rd
+#	modified:   man/mdrEnsemble.Rd
+#	modified:   man/phenoData.Rd
+#	modified:   man/plot.eqtl.Rd
+#	deleted:    man/predict.mdr.Rd
+#	deleted:    man/realSNPs.Rd
+#	modified:   src/GenomicTools.so
+#	modified:   src/mdr.cpp
+#	modified:   src/mdr.o
+#	deleted:    vignettes/GeneticTools-FunctionTests.Rmd
+#	deleted:    vignettes/GeneticTools.pdf
+#	deleted:    vignettes/GeneticTools.tex
+#	modified:   vignettes/GenomicTools-Vignette.Rmd
+#
+# Untracked files:
+#	man/genotypePlot.Rd_out
+#	man/getRegionsOI.Rd_out
+#	man/importGFF3.Rd_out
+#	man/importVCF.Rd_out
+#	man/predict.mdr.Rd_out
+#	vignettes/GenomicTools-Vignette.pdf
+#
+
+*** File '(Unnamed)'
+q
+
+*** File '(Unnamed)'
+test
+* Build Log *
+* Build Log *
+test
+* Build Log *
+test
+test
+test
+/home/ejo138/GitHub/GenomicTools/.git/COMMIT_EDITMSG

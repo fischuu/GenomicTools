@@ -2,7 +2,7 @@ Package: GenomicTools
 Type: Package
 Title: Collection of Tools for Genomic Data Analysis
 Version: 0.1
-Date: 2016-08-14
+Date: 2016-08-15
 Author: Daniel Fischer
 Maintainer: Daniel Fischer <daniel.fischer@luke.fi>
 Depends: R (>= 3.2), gMWT (>= 1.0), Rcpp (>= 0.9.13), data.table (>= 1.9.6)

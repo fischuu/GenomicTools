@@ -13,7 +13,6 @@ S3method(plot,eqtl)
 S3method(summary,eqtl)
 
 S3method(print,mdr)
-S3method(predict,mdr)
 S3method(plot,mdr)
 S3method(summary,mdr)
 
@@ -26,6 +25,6 @@ S3method(plot,qtlRes)
 S3method(print,qtlRes)
 S3method(summary,qtlRes)
 
-export(eQTL, QTL, genotypePlot, getRegionsOI, gtfToBed, mdr, mdrEnsemble, recodeData, importSTARLog, importPED, importVCF, importGTF, importGFF3)
+export(eQTL, QTL, gtfToBed, mdr, mdrEnsemble, recodeData, importSTARLog, importPED, importGTF)
 
 useDynLib(GenomicTools)

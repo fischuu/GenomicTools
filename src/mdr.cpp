@@ -466,7 +466,7 @@ RcppExport SEXP mdrEnsemble(SEXP X, SEXP fold, SEXP status, SEXP t, SEXP top, SE
  
      
      for(int i=0;i<pTop;i++){
-       
+
        if(FOLD==1){
 	tempCOne = classOne(OLDX.col(TOP(i,0)),OldStatus, T);
 	classLableOne.col(i) = classifyOne(XXX.col(TOP(i,0)),tempCOne);
@@ -474,7 +474,7 @@ RcppExport SEXP mdrEnsemble(SEXP X, SEXP fold, SEXP status, SEXP t, SEXP top, SE
 	for(int j=0;j<7;j++){
 	    evalClassifierOne(i,j) = tempEvalOne(j);
 	}
-	
+
        } else if(FOLD==2){
 	 tempMatTwo.col(0)=OLDX.col(TOP(i,0));
 	 tempMatTwo.col(1)=OLDX.col(TOP(i,1));
@@ -486,7 +486,7 @@ RcppExport SEXP mdrEnsemble(SEXP X, SEXP fold, SEXP status, SEXP t, SEXP top, SE
 	 for(int j=0;j<7;j++){
 	    evalClassifierTwo(i,j) = tempEvalTwo(j);
 	 }
-	 
+
        } else if(FOLD==3){
 	 tempMatThree.col(0)=OLDX.col(TOP(i,0));
 	 tempMatThree.col(1)=OLDX.col(TOP(i,1));
@@ -500,7 +500,7 @@ RcppExport SEXP mdrEnsemble(SEXP X, SEXP fold, SEXP status, SEXP t, SEXP top, SE
 	 for(int j=0;j<7;j++){
 	    evalClassifierThree(i,j) = tempEvalThree(j);
 	 }
-	 
+
        } else if(FOLD==4){
 	 tempMatFour.col(0)=OLDX.col(TOP(i,0));
 	 tempMatFour.col(1)=OLDX.col(TOP(i,1));

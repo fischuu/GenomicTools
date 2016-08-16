@@ -8,9 +8,8 @@
  The function offers informative plots for an \code{eqtl} object.
 }
 \usage{
- \method{plot}{eqtl}(x, file = NULL, which = NULL, sig = 0.01,
-                     verbose = TRUE, centered = TRUE, log = FALSE,
-                     mc.cores = 1, genome = NULL, ...)
+ \method{plot}{eqtl}(x, file = NULL, which = NULL, sig = 0.01, verbose = TRUE, 
+                     centered = TRUE, log = FALSE, mc.cores = 1, genome = NULL, ...)
 }
 
 \arguments{
@@ -38,19 +37,24 @@
 \author{Daniel Fischer}
 
 \examples{
-# Perform eQTL (single location, one gene):
-  data(Xgene) 
-  data(genotData)
-  data(annotTrack)
+# Load the data
+  data("annotTrack")   
+  data("geneEXP")      
+  data("genotData") 
 \dontrun{
-  annotBed110 <- gtfToBed(annotTrack[1:10,])
+# A cis eQTL for 10 different genes:
+  EQTL1 <- eQTL(gex=geneEXP[,1:10] , xAnnot = annotTrack,
+                geno= genotData)
 
-  lm.myEQTL <- eQTL(gex=Xgene,geno=genotData, xAnnot=annotBed110,method="LM")
+# A trans-eQTl for two different genes:
+  EQTL2   <- eQTL(gex=geneEXP[,c(1,1000)] , xAnnot = annot.bed, 
+                  geno= genotData, windowSize = NULL)
+
+# Visualize the second cis-eQTL:
+  plot(EQTL1, which=2)
   
-  plot(lm.myEQTL)
-  
-  dir.myEQTL <- eQTL(gex=Xgene,geno=genotData, xAnnot=annotBed110,method="directional")
-  plot(lm.myEQTL, x2=dir.myEQTL, log=TRUE, sig=2)
+# Visualize the trans-eQTL
+  plot(EQTL2)
 }
 }
 
