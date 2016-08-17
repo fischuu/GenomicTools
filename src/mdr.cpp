@@ -428,44 +428,44 @@ RcppExport SEXP mdrEnsemble(SEXP X, SEXP fold, SEXP status, SEXP t, SEXP top, SE
      Rcpp::NumericMatrix OldX(oldX);
      int kOldX = OldX.ncol();
      int pOldX = OldX.nrow();
-     vec indexOldX(pOldX);     
+     vec indexOldX(pOldX);
      for(int i=0;i<pOldX;i++) indexOldX(i)=i;
      mat OLDX(OldX.begin(), pOldX, kOldX, false);
-     
+
      Rcpp::NumericVector Status(status);
      Rcpp::NumericVector OldStatus(oldstatus);
-     int FOLD = Rcpp::as<int>(fold);     
+     int FOLD = Rcpp::as<int>(fold);
      double T = Rcpp::as<int>(t);
       
      vec tempCOne(3);
      mat classLableOne(pX,pTop);
      vec tempEvalOne(7);
      mat evalClassifierOne(pTop,7);
-          
+
      mat tempCTwo(3,3);
      mat tempMatTwo(pOldX,2);
      mat tempMatTwoNew(pX,2);
      mat classLableTwo(pX,pTop);
      vec tempEvalTwo(7);
      mat evalClassifierTwo(pTop,7);
-     
+
      cube tempCThree(3,3,3);
      mat tempMatThree(pOldX,3);
      mat tempMatThreeNew(pX,3);
      mat classLableThree(pX,pTop);
      vec tempEvalThree(7);
      mat evalClassifierThree(pTop,7);
- 
-     
+
+
      cube tempCFour(3,3,9);
      mat tempMatFour(pOldX,4);
      mat tempMatFourNew(pX,4);
      mat classLableFour(pX,pTop);
      vec tempEvalFour(7);
      mat evalClassifierFour(pTop,7);
- 
-     
-     for(int i=0;i<pTop;i++){
+
+
+    for(int i=0;i<pTop;i++){
 
        if(FOLD==1){
 	tempCOne = classOne(OLDX.col(TOP(i,0)),OldStatus, T);
@@ -517,7 +517,7 @@ RcppExport SEXP mdrEnsemble(SEXP X, SEXP fold, SEXP status, SEXP t, SEXP top, SE
 	    evalClassifierFour(i,j) = tempEvalFour(j);
 	 }
        }
-     }
+    }
      
      List res;
      res["t"] = T;

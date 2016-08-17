@@ -1,6 +1,9 @@
 mdrEnsemble <- function(mdr, data=NULL, new.status=NULL, fold=NULL){
 
   if(is.null(data)) data <- mdr$X
+  if(is.data.frame(data)){
+    data <- as.matrix(data)
+  } 
   if(is.null(new.status)) new.status <- mdr$status
 
   if(is.null(fold)) fold <- mdr$fold
@@ -8,7 +11,10 @@ mdrEnsemble <- function(mdr, data=NULL, new.status=NULL, fold=NULL){
   t <- mdr$t
   oldX <- mdr$X
   oldStatus <- mdr$status
-
+  if(is.data.frame(oldStatus)){
+    oldStatus <- as.matrix(oldStatus)
+  } 
+  
   if(fold==1){
     colOI <- matrix(mdr$mdr$topOneIndex[top:1],ncol=1)
   } else if(fold==2){
@@ -47,7 +53,9 @@ mdrEnsemble <- function(mdr, data=NULL, new.status=NULL, fold=NULL){
     result[i] <- as.numeric(vote>1)
     #result[i] <- vote
   }
-  output <- list(result=result,cv=list(evalOne=res$evalOne,evalTwo=res$evalTwo,evalThree=res$evalThree,evalFour=res$evalFour))
+  #output <- list(result=result,cv=list(evalOne=res$evalOne,evalTwo=res$evalTwo,evalThree=res$evalThree,evalFour=res$evalFour))
+  #class(output) <- "mdrEnsemble"
+  output <- result
   output
 }
 

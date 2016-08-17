@@ -12,7 +12,9 @@ bibliography: GenomicTools-Vignette.bib
 library(GenomicTools)
 library(knitr)
 knitr::opts_chunk$set(echo = TRUE)
-opts_chunk$set(root.dir = getwd())
+knitr::opts_knit$set(base.dir=getwd())
+knitr::opts_chunk$set(echo = TRUE,
+                      dev=c("png"))
 ```
 
 # Introduction
@@ -236,13 +238,13 @@ EQTL6   <- eQTL(gex=as.vector(geneEXP[,1]) , xAnnot = annot.bed, geno= genotData
 The easiest way to visualize the results is with the associated S3 method `plot`. For that, just the `eQTL` result has to be fed into the 
 function
 
-```{r}
+```{r fig.width=10, fig.height=10, fig.dev='png'}
 plot(EQTL3.1)
 ```
 
 and the same for the trans-eQTL
 
-```{r}
+```{r fig.width=10, fig.height=10, fig.dev='png'}
 plot(EQTL6)
 ```
 
@@ -287,7 +289,7 @@ qtl1 <- QTL(pheno=phenoData[,2:3], geno=genotData)
 
 ## Visualize QTLs
 
-```{r}
+```{r fig.width=10, fig.height=10, fig.dev='png'}
 # Visualize e.g. the 1st phenotype from previous runs
   plot(qtl1, which=1)
 ```
@@ -296,7 +298,7 @@ If no genome information is provided, the function visualizes only the existing 
 genome information as a data.frame with the two columns `Chr` and `length`, giving the lengths of each chromosome or use the default
 genome that comes with the packge (Human Ensembl build 68). This can be made available with the genome = "Human68" option
 
-```{r}
+```{r fig.width=10, fig.height=10, fig.dev='png'}
 # Visualize e.g. the 1st phenotype from previous runs
   plot(qtl1, which=1, genome = "Human68")
 ```
@@ -320,17 +322,18 @@ fit.mdr
 ## Use the Ensemble classifier
 To use this MDR run to start a MDR ensembl classification from it, just run
 
-```{r eval=FALSE}
+```{r eval=TRUE}
 data(mdrExample)
 mdrSNP.train <- mdrExample[1:350,1:20]
 mdrSNP.test <- mdrExample[351:400,1:20]
 fit.mdr <- mdr(mdrSNP.train, mdrExample$Class[1:350], fold=2, top=20)
 ensResult <- mdrEnsemble(fit.mdr, data = mdrSNP.test)
+table(ensResult, mdrExample[351:400,21])
 ```
 
 ## Visualize the results
 A density plot over all calculated accuracies can be plotted using again the S3method `plot`:
-```{r}
+```{r fig.width=10, fig.height=10, fig.dev='png'}
 plot(fit.mdr)
 ```
 

@@ -24,7 +24,7 @@
  in the previous MDR run.  
 }
 \value{
- A classification of the new observations
+ A classification of the new observations.
 }
 
 

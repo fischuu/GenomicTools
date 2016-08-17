@@ -1,4 +1,7 @@
 LOG of the CHANGES in the package GenomicTools
 
+Version 0.1.1:
+* Changed the asymptotical directional test to be the default for eQTL() and QTL()
+
 Version 0.1:
 * First build and initial submission to Cran

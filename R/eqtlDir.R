@@ -13,6 +13,7 @@ eqtlDir <- function(genoGroups,gex,mc=mc,nper, testType){
 	
 	# Then the 2 groups comparison
 	} else if (PI==2){
+	  if(testType=="asymptotic") testType <- "external"
 	  output[i] <- gmw(gex[genoGroups[,i]!=3],genoGroups[genoGroups[,i]!=3,i],test="mw",type=testType,alternative="two.sided",nper=nper)$p.values
 
 	# And the three group comparison
