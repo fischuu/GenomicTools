@@ -27,6 +27,8 @@ S3method(plot,qtlRes)
 S3method(print,qtlRes)
 S3method(summary,qtlRes)
 
-export(eQTL, QTL, gtfToBed, mdr, mdrEnsemble, recodeData, importSTARLog, importPED, importGTF)
+S3method(print,vcf)
+
+export(eQTL, QTL, gtfToBed, mdr, mdrEnsemble, recodeData, importSTARLog, importPED, importGTF, importVCF)
 
 useDynLib(GenomicTools)

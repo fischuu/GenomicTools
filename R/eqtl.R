@@ -1,4 +1,4 @@
-eQTL <- function(gex=NULL, xAnnot=NULL, xSamples=NULL, geno=NULL, genoSamples=NULL, windowSize=0.5, method="LM", mc=1, sig=NULL, which=NULL, testType="permutation", nper=2000, verbose=TRUE, IHaveSpace=FALSE){
+eQTL <- function(gex=NULL, xAnnot=NULL, xSamples=NULL, geno=NULL, genoSamples=NULL, windowSize=0.5, method="directional", mc=1, sig=NULL, which=NULL, testType="asymptotic", nper=2000, verbose=TRUE, IHaveSpace=FALSE){
 
   # Initial values
     noNames <- FALSE
@@ -65,6 +65,7 @@ eQTL <- function(gex=NULL, xAnnot=NULL, xSamples=NULL, geno=NULL, genoSamples=NU
           mapFile <- paste(substr(geno,1, nchar(pedFile)-3),"map",sep="")
         } else if(fileEnding=="vcf"){
           case <- "vcf"
+          vcfFile <- geno
         } else {
           if(verbose) cat("No .ped or .vcf file ending detected in geno. Assume geno to be a ped/map filepair!\n")
           case <- "ped"
@@ -73,7 +74,9 @@ eQTL <- function(gex=NULL, xAnnot=NULL, xSamples=NULL, geno=NULL, genoSamples=NU
         }
       # CASE: VCF
         if(case=="vcf"){
-          stop("The vcf format is not yet supported. Please use the ped/map format.")
+          if(verbose==TRUE) cat("Start reading the genotype information at",date(),"\n")
+          if(verbose==TRUE) cat("vcf-file:",vcfFile,"\n")
+          genoData <- importVCF(file=vcfFile)
       # CASE: PED/MAP
         } else if(case=="ped"){
           if(verbose==TRUE) cat("Start reading the genotype information at",date(),"\n")
@@ -85,7 +88,7 @@ eQTL <- function(gex=NULL, xAnnot=NULL, xSamples=NULL, geno=NULL, genoSamples=NU
       } else {
         if(class(geno)=="PedMap"){
           genoData <- geno
-        } else if(class(geno)=="VCF"){
+        } else if(class(geno)=="vcf"){
           genoData <- geno
         } else {
           stop("Please provide either a PedMap (importPED) of a VCF (importVCF) object, or the corresponding file path to either file.")
@@ -190,7 +193,9 @@ eQTL <- function(gex=NULL, xAnnot=NULL, xSamples=NULL, geno=NULL, genoSamples=NU
           if(method=="LM"){
           # if sig is set to Null all results will be reported - This might be very memory consuming!!!
   	        if(is.null(sig)){
-  	            eqtlTemp[[tempRun]] <- list(GeneLoc=rep(tempRun,ncol(genoGroups)),TestedSNP=SNPloc[[1]],p.values=eqtlLM(genoGroups,gex[,geneRun], mc=mc))
+  	            eqtlTemp[[tempRun]] <- list(GeneLoc=rep(tempRun,ncol(genoGroups)),
+  	                                        TestedSNP=SNPloc[[1]],
+  	                                        p.values=eqtlLM(genoGroups,gex[,geneRun], mc=mc))
   	        } else {
   	            p.values <- eqtlLM(genoGroups,gex[,geneRun], mc=mc)
             	  pPos <- p.values<=sig
@@ -202,7 +207,7 @@ eQTL <- function(gex=NULL, xAnnot=NULL, xSamples=NULL, geno=NULL, genoSamples=NU
             if(is.null(sig)){ 
   	           eqtlTemp[[tempRun]] <- list(GeneLoc=rep(tempRun, ncol(genoGroups)),
   	                                       TestedSNP=SNPloc[[1]],
-  	                                       p.values=eqtlDir(genoGroups,gex[,geneRun], mc=mc,nper=nper, testType=testType))
+  	                                       p.values=eqtlDir(genoGroups,gex[,geneRun], mc=mc, nper=nper, testType=testType))
   	        } else {
   	           p.values <- eqtlDir(genoGroups,gex[,geneRun],mc=mc,nper=nper, testType=testType)
   	           pPos <- p.values<=sig

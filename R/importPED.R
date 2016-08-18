@@ -2,7 +2,7 @@ importPED <-   function (file, n, snps, which, split = "\t| +", sep = ".", na.st
                          lex.order = FALSE, verbose=TRUE) {
 
   # This file is taken to a large extend from the snpStat package
-  # The difference, however, is the use of fread that drastically speeds up the function.
+  # The difference, however, is the use of fread that speeds up the function.
 
     r0 <- as.raw(0)
     r1 <- as.raw(1)

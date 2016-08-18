@@ -37,6 +37,7 @@ QTL <- function(pheno, phenoSamples=NULL, geno=NULL, genoSamples=NULL, method="L
             mapFile <- paste(substr(geno,1, nchar(pedFile)-3),"map",sep="")
           } else if(fileEnding=="vcf"){
             case <- "vcf"
+            vcfFile <- paste(geno,".vcf",sep="")
           } else {
             if(verbose) cat("No .ped or .vcf file ending detected in geno. Assume geno to be a ped/map filepair!\n")
             case <- "ped"
@@ -45,7 +46,9 @@ QTL <- function(pheno, phenoSamples=NULL, geno=NULL, genoSamples=NULL, method="L
          }
       # CASE: VCF
         if(case=="vcf"){
-          stop("The vcf format is not yet supported. Please use the ped/map format.")
+          if(verbose==TRUE) cat("Start reading the genotype information at",date(),"\n")
+          if(verbose==TRUE) cat("vcf-file:",vcfFile,"\n")
+          genoData <- importVCF(file=vcfFile)
       # CASE: PED/MAP
         } else if(case=="ped"){
           if(verbose==TRUE) cat("Start reading the genotype information at",date(),"\n")
