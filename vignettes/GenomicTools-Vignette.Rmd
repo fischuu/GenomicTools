@@ -1,10 +1,12 @@
 ---
-title: "GenomicTools - Vignette"
+title: "An Introduction to GenomicTools"
 author: "Daniel Fischer"
-date: "August 11, 2016"
-output:
-  pdf_document: default
-  html_document: default
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{An Introduction to GenomicTools}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\usepackage[utf8]{inputenc}
 bibliography: GenomicTools-Vignette.bib
 ---
 
