@@ -11,7 +11,7 @@
 \usage{
   eQTL(gex=NULL, xAnnot = NULL, xSamples = NULL, geno=NULL, genoSamples = NULL,
        windowSize = 0.5, method = "directional", mc = 1, sig = NULL, which = NULL,
-       testType = "permutation", nper = 2000, verbose = TRUE,
+       testType = "asymptotic", nper = 2000, verbose = TRUE,
        IHaveSpace = FALSE)
 }
 
@@ -26,7 +26,7 @@
   \item{mc}{Amount of cores for parallel computing.}
   \item{sig}{Significance level for the eQTL testing.}
   \item{which}{Names of genes for that the eQTL should be performed.}
-  \item{testType}{Type of test, either \code{permutation} or \code{asymptotical}.}
+  \item{testType}{Type of test, either \code{permutation} or \code{asymptotic}.}
   \item{nper}{Sets the amount of permutations, if permuation tests are used.}
   \item{verbose}{Logical, shall the method give extensive feedback.}
   \item{IHaveSpace}{Logical, security switch for operations that require lots of memory.}

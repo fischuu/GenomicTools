@@ -10,8 +10,10 @@ output:
     fig_caption: yes
     toc: yes
 bibliography: GenomicTools-Vignette.bib
-vignette: |
-  %\VignetteIndexEntry{An Introduction to GenomicTools} %\VignetteEngine{knitr::rmarkdown} %\usepackage[utf8]{inputenc}
+vignette: >
+  %\VignetteIndexEntry{An Introduction to GenomicTools} 
+  %\VignetteEngine{knitr::rmarkdown} 
+  %\usepackage[utf8]{inputenc}
 ---
 
 ```{r setup, include=FALSE}
