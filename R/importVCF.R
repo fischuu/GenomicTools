@@ -1,4 +1,4 @@
-importVCF <- function(file){
+importVCF <- function(file, na.seq="./."){
  # First read in the header lines and determine the skip variable for the body
   con <- file(file) 
   open(con);
@@ -53,24 +53,19 @@ importVCF <- function(file){
 # Extract the genotype information
   genotypes <- vcfBody[, .SD, .SDcols = -c(1:9)]
 # Change them to raw format look alike, it is NOT raw!!
-  genoToRaw <- function(x){
-    x[grepl("0/0",x)] <- "00"
-    x[grepl("0/1",x)] <- "01"
-    x[grepl("1/1",x)] <- "02"
-    x[!is.element(x,c("00","01","02"))] <- "03"
-    x
-  }
-  
   for(genoRun in colnames(genotypes)){
-    genotypes[, genoRun:= genoToRaw(get(genoRun)), with=FALSE]
+   genotypes[get(genoRun) == na.seq, eval(genoRun) := "00"]
+   genotypes[get(genoRun) == "0/0", eval(genoRun) := "01"]
+   genotypes[get(genoRun) == "0/1", eval(genoRun) := "02"]
+   genotypes[get(genoRun) == "1/1", eval(genoRun) := "03"]
   }
   
-  genotypes[,SNP:=map[[2]]]
-#  genotypes <- genotypes[, data.table(t(.SD), keep.rownames=TRUE)]  # Takes long, IMPROVE IT!!!
-  genotypes <- dcast.data.table(melt(genotypes, id.vars = "SNP"), variable ~ SNP)
+#  genotypes[,SNP:=map[[2]]]
+  genotypes <- genotypes[, data.table(t(.SD), keep.rownames=TRUE)]  # Takes long, IMPROVE IT!!!
+#  genotypes <- dcast.data.table(melt(genotypes, id.vars = "SNP"), variable ~ SNP) # This solution to above problem leads to wrong results!!!
   genotypesRN <- as.character(genotypes[[1]])
 # genotypes <- genotypes[, .SD, .SDcols = -1] # TAKES LONG, IMPROVE IT!!!
-  genotypes[,variable:=NULL]
+  genotypes[,rn:=NULL]
   setnames(genotypes, map[[2]])
   rownames(genotypes) <- genotypesRN
   
@@ -86,8 +81,11 @@ importVCF <- function(file){
 ##
 ####################################
 
-#tmp <- importVCF(file="/home/ejo138/bin/toy_con.vcf")
+#tmp <- importPED(file="/home/ejo138/ownCloud/Luke/Projects/Consulting/Dog-Liver/Data/NWT_151110.ped",
+#                 snps="/home/ejo138/ownCloud/Luke/Projects/Consulting/Dog-Liver/Data/NWT_151110.map")
 #tmp
-# tmp <- importVCF(file="/home/ejo138/ownCloud/R-Packages-Pages/GenomicTools/Datasets/genotypes_converted.vcf")
-# tmp
-#tmp <- importVCF(file="/home/ejo138/temp/forTerhi/Chr1-Raw-Run4.vcf.gz.candLocsFiltered.recode.vcf")
+#tmp2 <- importVCF(file="/home/ejo138/ownCloud/Luke/Projects/Consulting/Dog-Liver/Data/NWT_151110.vcf")
+#tmp2
+
+#genotDataVCF <- importVCF(file="/home/ejo138/ownCloud/R-Packages-Pages/GenomicTools/Datasets/genotypes.vcf")
+#save(genoDataVCF, file="/home/ejo138/GitHub/GenomicTools/data/genotDataVCF.rda")

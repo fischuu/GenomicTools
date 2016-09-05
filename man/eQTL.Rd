@@ -9,8 +9,8 @@
   This function performs an eQTL analysis.
 }
 \usage{
-  eQTL(gex, xAnnot = NULL, xSamples = NULL, geno, genoSamples = NULL,
-       windowSize = 0.5, method = "LM", mc = 1, sig = NULL, which = NULL,
+  eQTL(gex=NULL, xAnnot = NULL, xSamples = NULL, geno=NULL, genoSamples = NULL,
+       windowSize = 0.5, method = "directional", mc = 1, sig = NULL, which = NULL,
        testType = "permutation", nper = 2000, verbose = TRUE,
        IHaveSpace = FALSE)
 }
