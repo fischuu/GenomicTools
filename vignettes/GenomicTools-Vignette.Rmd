@@ -112,17 +112,11 @@ and the first rows of it look like this
 genotData
 ```
 
-The same file is also as vcf available. Here, the preloaded file can be made available with
+On 
 
-```{r}
-data("genotDataVCF")
-```
+http://genomictools.danielfischer.name
 
-and the first rows of it look like this
-
-```{r, comment=NA}
-genotDataVCF
-```
+are also example vcf files available, that were too large to include into the package.
 
 ### An own ped/map filepair
 An own filepair of ped/map files can be loaded, using the `importPED()` command:

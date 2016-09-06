@@ -14,7 +14,7 @@
 # Print the header
   cat("First",n,"rows of $header:\n\n")  
   if(fullHeader){
-    for(i in 1:length(header)){
+    for(i in 1:nHeader){
       cat(x$header[i],"\n")
     }
   } else {

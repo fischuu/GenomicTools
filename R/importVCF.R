@@ -1,4 +1,8 @@
 importVCF <- function(file, na.seq="./."){
+# Necessary variable declaration for Cran checks
+  V3 <- NULL
+  rn <- NULL
+  
  # First read in the header lines and determine the skip variable for the body
   con <- file(file) 
   open(con);
@@ -87,5 +91,5 @@ importVCF <- function(file, na.seq="./."){
 #tmp2 <- importVCF(file="/home/ejo138/ownCloud/Luke/Projects/Consulting/Dog-Liver/Data/NWT_151110.vcf")
 #tmp2
 
-genotDataVCF <- importVCF(file="/home/ejo138/ownCloud/R-Packages-Pages/GenomicTools/Datasets/genotypes.vcf")
-save(genotDataVCF, file="/home/ejo138/GitHub/GenomicTools/data/genotDataVCF.rda")
+#genotDataVCF <- importVCF(file="/home/ejo138/ownCloud/R-Packages-Pages/GenomicTools/Datasets/genotypes.vcf")
+#save(genotDataVCF, file="/home/ejo138/GitHub/GenomicTools/data/genotDataVCF.rda")
