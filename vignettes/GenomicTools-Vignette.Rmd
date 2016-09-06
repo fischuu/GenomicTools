@@ -178,7 +178,7 @@ with the commands `importGTF` (annotation data), `importPED` (genotype data) and
   data("annotTrack")   # Standard gtf file, imported with importGTF
   data("geneEXP")      # Matrix with gene expression
   data("genotData")    # An imported Ped/Map filepair, using importPED
-  data("genotDataVCF") # An imported vcf file, using importVCF
+  # data("genotDataVCF") # An imported vcf file, using importVCF (too large for Cran)
 ```
 
 The annotation is usually imported in gtf format. However, the function expects  the data to be in bed format (With the first four columns 
@@ -229,7 +229,7 @@ EQTL4   <- eQTL(gex=as.vector(geneEXP[,1]), xAnnot = annot.bed,
 
 ```
 
-In case the vcf file is used instead of a ped/map file, the commands are similar:
+<!-- In case the vcf file is used instead of a ped/map file, the commands are similar:
 
 ```{r, eval=FALSE}
 EQTL1.vcf <- eQTL(gex=geneEXP[,1:10], xAnnot = annotTrack, geno= genotDataVCF)
@@ -260,6 +260,14 @@ EQTL3.2.vcf <- eQTL(gex=geneEXP[,1], xAnnot = annot.bed, geno= genotDataVCF,
 EQTL4.vcf   <- eQTL(gex=as.vector(geneEXP[,1]), xAnnot = annot.bed,
 +                 geno= genotData.vcf, which=1:3)
 ```
+
+-->
+
+
+Instead of the ped/map file also a vcf can be used in a similar way. The vcf created from the available ped/map file pair is available for
+download at
+
+http://genomictools.danielfischer.name
 
 The typical (verbose) output of the eQTL run looks then like this
 
@@ -397,6 +405,11 @@ We calculated QTLs for Pheno3 for 50,000 SNPs (Mon Sep  5 12:57:21 2016)
 # The genotype data can be loaded in runtime, without previous step
   qtl4 <- QTL(pheno=phenoData[,5], geno=file.path("Datasets","genotypes.ped"))
 ```
+
+Instead of the ped/map file also a vcf can be used in a similar way. The vcf created from the available ped/map file pair is available for
+download at
+
+http://genomictools.danielfischer.name
 
 ## Visualize QTLs
 
