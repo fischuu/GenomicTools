@@ -41,13 +41,16 @@ importGFF3.old <- function(gff){
   out
 }
 
-importGFF3 <- function(gff){
+importGFF3 <- function(gff, chromosomes){
   tmpDT <- fread(paste("zcat ",gff, sep=""), sep="\n", header=FALSE)
-  commentRows <- which(substring(tmpDT[[1]], 1, 1)=="#")
-  scaffoldRows <- which(substring(tmpDT[[1]], 1, 2)=="NW")
-  keepThose <- 1:nrow(tmpDT)
-  keepThose <- keepThose[!is.element(keepThose,c(commentRows, scaffoldRows))]
-  tmpDT2 <- tmpDT[keepThose,]
+  #commentRows <- which(substring(tmpDT[[1]], 1, 1)=="#")
+  #keepThose <- 1:nrow(tmpDT)
+  #keepThose <- keepThose[!is.element(keepThose,commentRows)]
+  
+  rowStarts <- substring(tmpDT[[1]], 1, max(nchar(chromosomes)))
+  chromosomeRows <- grep(paste(chromosomes,collapse="|"), rowStarts, value=FALSE)
+  
+  tmpDT2 <- tmpDT[chromosomeRows,]
   tmpDT2[, c(paste("V",1:9, sep="") ) := tstrsplit(V1, "\t", fixed=TRUE)]
   tmpDT2
 }
