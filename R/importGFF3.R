@@ -1,4 +1,4 @@
-importGFF3 <- function(gff){
+importGFF3.old <- function(gff){
   # Determine the header lines:
   con  <- file(gff, open = "r")
   gff3Header <- c()
@@ -39,4 +39,15 @@ importGFF3 <- function(gff){
   names(out) <- tags
   out <- cbind(gff3Loaded[,-9],out)
   out
+}
+
+importGFF3 <- function(gff){
+  tmpDT <- fread(paste("zcat ",gff, sep=""), sep="\n", header=FALSE)
+  commentRows <- which(substring(tmpDT[[1]], 1, 1)=="#")
+  scaffoldRows <- which(substring(tmpDT[[1]], 1, 2)=="NW")
+  keepThose <- 1:nrow(tmpDT)
+  keepThose <- keepThose[!is.element(keepThose,c(commentRows, scaffoldRows))]
+  tmpDT2 <- tmpDT[keepThose,]
+  tmpDT2[, c(paste("V",1:9, sep="") ) := tstrsplit(V1, "\t", fixed=TRUE)]
+  tmpDT2
 }
