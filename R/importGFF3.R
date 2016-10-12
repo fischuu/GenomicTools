@@ -62,6 +62,7 @@ importGFF3 <- function(gff, chromosomes){
   chromosomeRows <- grep(paste(chromosomes,collapse="|"), rowStarts, value=FALSE)
   
   tmpDT2 <- tmpDT[chromosomeRows,]
+  V1 <- NULL # For the Cran check...
   tmpDT2[, c(paste("V",1:9, sep="") ) := tstrsplit(V1, "\t", fixed=TRUE)]
   tmpDT2
 }

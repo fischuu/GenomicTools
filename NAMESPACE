@@ -1,7 +1,7 @@
 import(gMWT, Rcpp, data.table)
 
 importFrom("graphics", "abline", "plot")
-importFrom("utils", "read.csv", "read.table")
+importFrom("utils", "read.csv", "read.table", "sessionInfo")
 importFrom("grDevices", "dev.off", "pdf", "rainbow")
 importFrom("circlize", "circos.clear", "circos.par", "circos.initialize", "circos.trackPlotRegion", "circos.text", "circos.rect", "circos.link","get.cell.meta.data")
 importFrom("graphics", "axis", "boxplot", "layout", "lines", "par", "points", "rect", "text")
