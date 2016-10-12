@@ -42,7 +42,18 @@ importGFF3.old <- function(gff){
 }
 
 importGFF3 <- function(gff, chromosomes){
-  tmpDT <- fread(paste("zcat ",gff, sep=""), sep="\n", header=FALSE)
+# fread zip support is OS dependend
+  os <- "linux"
+  if(grepl("Windows", sessionInfo()$running)) os <- "windows"
+
+  # Now create the input string, depending on the os
+  if(os=="linux"){
+    inputString <-  paste('zcat',gff)
+  } else if(os=="windows"){
+    inputString <- paste("gzip -dc",gff)
+  }
+    
+  tmpDT <- fread(inputString, sep="\n", header=FALSE)
   #commentRows <- which(substring(tmpDT[[1]], 1, 1)=="#")
   #keepThose <- 1:nrow(tmpDT)
   #keepThose <- keepThose[!is.element(keepThose,commentRows)]
