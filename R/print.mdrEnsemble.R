@@ -1,3 +1,3 @@
-`print.mdr` <- function(x,...){
+`print.mdrEnsemble` <- function(x,...){
   print(x$result,...)
 } 

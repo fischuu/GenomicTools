@@ -1,5 +1,11 @@
 LOG of the CHANGES in the package GenomicTools
 
+Version 0.2.3:
+* Type in 'print.mdrEnsemble' fixed
+
+Version 0.2.2:
+* Typos fixed
+
 Version 0.2.1:
 * Improvements in 'importGFF3':
      - The function uses now fread and handles comment lines in between
