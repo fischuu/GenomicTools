@@ -1,11 +1,11 @@
 Package: GenomicTools
 Type: Package
 Title: Collection of Tools for Genomic Data Analysis
-Version: 0.2.3
-Date: 2016-12-31
+Version: 0.2.4
+Date: 2017-03-30
 Author: Daniel Fischer
 Maintainer: Daniel Fischer <daniel.fischer@luke.fi>
-Depends: R (>= 3.2), gMWT (>= 1.1), Rcpp (>= 0.9.13), data.table (>= 1.9.6)
+Depends: R (>= 3.3), gMWT (>= 1.1), Rcpp (>= 0.9.13), data.table (>= 1.9.6)
 Imports: circlize, stringr, snpStats
 Suggests: knitr, rmarkdown
 LinkingTo: Rcpp, RcppArmadillo

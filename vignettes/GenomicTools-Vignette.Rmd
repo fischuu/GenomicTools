@@ -41,7 +41,13 @@ The latest stable version of GenomicTools is located on Cran and can be installe
 install.packages("GenomicTools")
 ```
 
-No special dependices are required and the dependencies should also be automatically installed by R. 
+The package depends also on the `snpStats` package from Bioconductor that is not installed automatically from the installation routine in R and needs to
+be installed by hand. This can be done in a Bioconductor typical way by typing
+
+```{r eval=FALSE}
+source("https://bioconductor.org/biocLite.R")
+biocLite("snpStats")
+```
 
 The latest developeder version, including the latest bugfixes is located at GitHub and can be installed like this:
 
