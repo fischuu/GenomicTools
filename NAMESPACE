@@ -31,4 +31,4 @@ S3method(print,vcf)
 
 export(eQTL, QTL, gtfToBed, mdr, mdrEnsemble, recodeData, importSTARLog, importPED, importGFF3, importGTF, importVCF)
 
-useDynLib(GenomicTools)
+useDynLib(GenomicTools, .registration = TRUE)
