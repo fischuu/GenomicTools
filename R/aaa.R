@@ -4,3 +4,5 @@ pairwiseDiffs <- function(x){
   x2 <- x[2:length(x)]
   (x1+x2)/2
 }
+
+trim.leading <- function (x)  sub("^\\s+", "", x)

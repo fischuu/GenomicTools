@@ -1,7 +1,7 @@
-importGTF <- function(file, skip=0, nrow=-1, use.data.table=TRUE, level="gene"){
+importGTF <- function(file, skip=5, nrow=-1, use.data.table=TRUE, level="gene"){
   gtf <- file
   if(use.data.table){
-    cuffLoaded <- fread(input = paste('zcat',gtf), skip=5, colClasses = c("character",
+    cuffLoaded <- fread(input = paste('zcat',gtf), skip=skip, colClasses = c("character",
                                                                           "character",
                                                                           "character",
                                                                           "integer",

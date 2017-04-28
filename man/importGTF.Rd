@@ -9,12 +9,12 @@
   This function imports a gtf file.
 }
 \usage{
-  importGTF(file, skip = 0, nrow = -1, use.data.table = TRUE, level = "gene")
+  importGTF(file, skip = 5, nrow = -1, use.data.table = TRUE, level = "gene")
 }
 
 \arguments{
   \item{file}{File name of the gtf file.}
-  \item{skip}{Rows to skip from the top.}
+  \item{skip}{Rows to skip from the top (usualy the number of header rows.}
   \item{nrow}{Total amount of rows read.}
   \item{use.data.table}{Logical, shall the data.table package be used for importing the GTF file.}
   \item{level}{Filter for the GTF Entry.}
