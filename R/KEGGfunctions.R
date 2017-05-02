@@ -31,30 +31,39 @@ getKEGGPathway <- function(pathway){
   COMPOUND <- which(grepl("COMPOUND",tmp)==TRUE)
   leadingChr <- substr(tmp,0,1)
   # Now get the gene rows
-    geneStart <- GENE
-    checkThis <- GENE + 1
-    while(leadingChr[checkThis]==" "){
-      checkThis <- checkThis + 1
-    }
-    geneEnd <- checkThis - 1
-    GENE <- tmp[geneStart:geneEnd]
- # Now bring the data into some better form
-    GENE[1] <- gsub("GENE", "    ",GENE[1])
-    GENE <- strsplit(GENE,";")
-    GENEtmp1 <- strsplit(trim.leading(sapply(GENE,"[",1)),"  ")
-    GENEtmp2 <- trim.leading(sapply(GENE,"[",2))
-    GENE <- data.frame(GeneID = sapply(GENEtmp1,"[",1),
-                       GeneName = sapply(GENEtmp1,"[",2),
-                       GeneDesc = GENEtmp2)
-      
+   if(length(GENE)>0){
+      geneStart <- GENE
+      checkThis <- GENE + 1
+      while(leadingChr[checkThis]==" "){
+        checkThis <- checkThis + 1
+      }
+      geneEnd <- checkThis - 1
+      GENE <- tmp[geneStart:geneEnd]
+   # Now bring the data into some better form
+      GENE[1] <- gsub("GENE", "    ",GENE[1])
+      GENE <- strsplit(GENE,";")
+      GENEtmp1 <- strsplit(trim.leading(sapply(GENE,"[",1)),"  ")
+      GENEtmp2 <- trim.leading(sapply(GENE,"[",2))
+      GENE <- data.frame(GeneID = sapply(GENEtmp1,"[",1),
+                         GeneName = sapply(GENEtmp1,"[",2),
+                         GeneDesc = GENEtmp2)
+   } else {
+      GENE <- data.frame(GeneID = "Not available",
+                         GeneName = "Not available",
+                         GeneDesc = "Not available")
+   }     
   # Now get the compound rows
-    compoundStart <- COMPOUND
-    checkThis <- COMPOUND + 1
-    while(leadingChr[checkThis]==" "){
-      checkThis <- checkThis + 1
+    if(length(COMPOUND)>0){
+      compoundStart <- COMPOUND
+      checkThis <- COMPOUND + 1
+      while(leadingChr[checkThis]==" "){
+        checkThis <- checkThis + 1
+      }
+      compoundEnd <- checkThis - 1
+      COMPOUND <- tmp[compoundStart:compoundEnd]
+    } else {
+      COMPOUND <- "Not available"
     }
-    compoundEnd <- checkThis - 1
-    COMPOUND <- tmp[compoundStart:compoundEnd]
   out <- list(Entry = ENTRY,
               Name = NAME,
               Description = DESCRIPTION,
@@ -64,4 +73,12 @@ getKEGGPathway <- function(pathway){
               Gene = GENE,
               Compound = COMPOUND)
   out
+}
+
+getKEGGPathwayImage <- function(pathway, folder=NULL){
+  pathway <- gsub("path:","", pathway)
+  if(is.null(folder)) folder <- getwd()
+  filename <- paste(pathway,".png",sep="")
+  dlURL <- paste("http://rest.kegg.jp/get/",pathway,"/image",sep="")
+  download.file(url=dlURL, destfile= file.path(folder,filename), mode="wb")
 }
