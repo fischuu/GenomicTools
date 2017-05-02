@@ -1,6 +1,10 @@
 LOG of the CHANGES in the package GenomicTools
+-----------------------------------------------------
+Version with odd last numbers are development versions.
+Stable releases have even version numbers:
+-----------------------------------------------------
 
-Version 0.2.4.1:
+Version 0.2.5:
 * KEGG pathways functions added
 
 Version 0.2.4:
