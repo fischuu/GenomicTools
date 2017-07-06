@@ -6,6 +6,7 @@ Stable releases have even version numbers:
 
 Version 0.2.5:
 * KEGG pathways functions added
+* Function to getRSLocation added
 
 Version 0.2.4:
 * Dependency versions updated
