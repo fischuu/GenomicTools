@@ -9,6 +9,7 @@ importFrom("stats", "density", "lm", "predict", "smooth.spline")
 importFrom("parallel", "mclapply")
 importFrom("stringr", "str_replace_all")
 importFrom("snpStats", "switch.alleles")
+importFrom("utils", "download.file")
 
 S3method(print,eqtl)
 S3method(plot,eqtl)

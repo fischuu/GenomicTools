@@ -9,7 +9,8 @@
   This function imports a gtf file.
 }
 \usage{
-  importGTF(file, skip = 5, nrow = -1, use.data.table = TRUE, level = "gene")
+  importGTF(file, skip = 5, nrow = -1, use.data.table = TRUE, level = "gene",
+            features = NULL, print.features=FALSE)
 }
 
 \arguments{
@@ -18,6 +19,8 @@
   \item{nrow}{Total amount of rows read.}
   \item{use.data.table}{Logical, shall the data.table package be used for importing the GTF file.}
   \item{level}{Filter for the GTF Entry.}
+  \item{features}{Features to extract from column #9.}
+  \item{print.features}{logical, shall a list of availbe features be printed.}
 }
 
 \details{
