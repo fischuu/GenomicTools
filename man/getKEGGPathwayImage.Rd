@@ -25,7 +25,9 @@
 }
 
 \examples{
+ \dontrun{
   getKEGGPathwayImage(pathway = "bta00620")
+  }
 }
 
 \author{

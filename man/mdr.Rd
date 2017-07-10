@@ -9,7 +9,7 @@
   This function performs a Multifactor Dimensionality Reduction (MDR).
 }
 \usage{
-  mdr(X, status, fold=2, t=NULL, top=3, NAasValues=TRUE, 
+  mdr(X, status, fold=2, t=NULL, top=3, NAvalues=3, cvc=0,
       fix=NULL, verbose=FALSE)
 }
 
@@ -19,7 +19,8 @@
   \item{fold}{Maximum dimension of used contingency tables, see details.}
   \item{t}{Threshold for high/low risk.}
   \item{top}{Length of each top list.}
-  \item{NAasValues}{How shall NAs be treated.}
+  \item{NAvalues}{Label of missing data.}
+  \item{cvc}{Number of cross-validation splits.}
   \item{fix}{Column number of the SNP to be fixed.}
   \item{verbose}{Logical, if detailed status messages shall be given.}
 }
@@ -39,6 +40,14 @@
  With the \code{top} option the amount of results are set. 
  
  Setting the \code{fix} option to a column number, forces the mdr function to include that particular SNP into the result.
+ 
+ Missing data is labeled in different ways. The definition of missing data is given to the \code{NAvalues} option. By default missing data is encoded as NA, another
+ possible option is e.g. 3. The downstream analysis ignors then missing data. Missing data is interally coded as 9999, so do not use this value to encode other genotypes.
+ 
+ The number of cross-validation splits can be set with the \code{cvc} option. If \code{cvc} is larger than 0, then the origianl data is split into \code{cvc}-many equally large
+ subsets and the mdr function is called for each of them. Then, for each results from the top results of the full data is checked, in how many splits they also appear in the 
+ top result list.
+ 
 }
 \value{
  An object of class \code{mdr}.

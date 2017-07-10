@@ -24,7 +24,9 @@
 }
 
 \examples{
+  \dontrun{
   getKEGGPathwayOverview(code = "bta")
+  }
 }
 
 \author{
