@@ -14,7 +14,7 @@
  temp <- x[["mdr"]][[plotThis]][,7]
  temp <- temp[temp!=0]
 
- plot(density(temp,na.rm=T),main="Precision Density Plot")
+ plot(density(temp,na.rm=T),main="Precision Density Plot", xlab="Accuracy")
 
  invisible()
 } 

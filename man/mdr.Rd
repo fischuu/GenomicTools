@@ -9,7 +9,7 @@
   This function performs a Multifactor Dimensionality Reduction (MDR).
 }
 \usage{
-  mdr(X, status, fold=2, t=NULL, top=3, NAvalues=3, cvc=0,
+  mdr(X, status, fold=2, t=NULL, top=3, NAvalues=NA, cvc=0,
       fix=NULL, verbose=FALSE)
 }
 

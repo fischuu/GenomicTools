@@ -64,7 +64,7 @@ The GitHub page is located here
 and bugfixes and comments can easily be handed in via that platform. The package has also an own webpage where additional information may be posted 
 and is located here:
 
-[http://genomictools.danielfischer.name/](https://genomictools.danielfischer.name/)
+[http://genomictools.danielfischer.name/](http://genomictools.danielfischer.name/)
 
 After this webpage is established, it will beside other things also provide a couple of other example datasets.
 

@@ -29,7 +29,7 @@ mdr <- function(X, status, fold=2, t=NULL, top=3, NAvalues=NA, cvc=0, fix=NULL, 
 
     res.sampled <- list()
     if(cvc>0){
-      cvcBorders <- floor(seq(0,nrow(mdrSNP),length.out = cvc +1))
+      cvcBorders <- floor(seq(0,nrow(X),length.out = cvc +1))
       for(i in 1:cvc){
         X.sampled <- X[(cvcBorders[i]+1):cvcBorders[i+1],]
         status.sampled <- status[(cvcBorders[i]+1):cvcBorders[i+1]]

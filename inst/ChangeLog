@@ -4,15 +4,20 @@ Version with odd last numbers are development versions.
 Stable releases have even version numbers:
 -----------------------------------------------------
 
+Version 0.2.6:
+* Stable Cran release version
+
 Version 0.2.5:
 * KEGG pathways functions added
-* Function to getRSLocation added
+* Function to 'getRSLocation' added
+* Added the cvc option to 'mdr'
+* Clarified the NA handling in 'mdr'
 
 Version 0.2.4:
 * Dependency versions updated
 
 Version 0.2.3:
-* Type in 'print.mdrEnsemble' fixed
+* Typo in 'print.mdrEnsemble' fixed
 
 Version 0.2.2:
 * Typos fixed
