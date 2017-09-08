@@ -40,6 +40,8 @@ importGTF <- function(file, skip=5, nrow=-1, use.data.table=TRUE, level="gene", 
       cat(gsub(" ","",paste(sapply(strsplit(V9[[1]]," "),"[",1),"\n")))
     }
     
+  # TODO: ADD AN OPTION FOR CAREFUL PRINTING, IN CASE THERE ARE DIFFERENT NAMES IN DIFFERENT ROWS!!!  
+    
   # Remove the non-informative aprts from that vectors
     if(is.null(features)){
     # Now get the required information from V9
