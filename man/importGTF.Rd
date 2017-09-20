@@ -19,13 +19,13 @@
   \item{nrow}{Total amount of rows read.}
   \item{use.data.table}{Logical, shall the data.table package be used for importing the GTF file.}
   \item{level}{Filter for the GTF Entry.}
-  \item{features}{Features to extract from column #9.}
+  \item{features}{Feature names to extract from column #9.}
   \item{print.features}{logical, shall a list of availbe features be printed.}
 }
 
 \details{
-  This function imports a standard gtf file as provided by Ensembl. The current settings shouldn't be changed and the only the filename \code{file}
-  should be provided. Hence, this function works currently only on the gene level.
+  This function imports a gtf file. The features names to be imported are defined in \code{features}, several features are then
+  provided as vector. A list of available feature can beprinted, by setting \code{print.features=TRUE}.
 }
 \value{
   A data table of class \code{gtf} containing the columns of the gtf file, including the splitted last column.
