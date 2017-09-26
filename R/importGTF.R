@@ -4,8 +4,7 @@ importGTF.internal <- function(file, skip=auto, nrow=-1, use.data.table=TRUE, le
    if(skip=="auto"){
      if(last(strsplit(gtf,"\\.")[[1]])=="gz"){
        cat("dfg")
-     }
-   } else {
+     } else {
        con  <- file(gtf, open = "r")
        search <- TRUE
        obsRow <- 0
@@ -19,7 +18,10 @@ importGTF.internal <- function(file, skip=auto, nrow=-1, use.data.table=TRUE, le
          if(obsRow==1000) search <- FALSE
        }
     close(con)
-  }
+     }
+   } else {
+     if(!is.numeric(skip)) stop("ERROR: skip needs to be a numeric value!")
+   }
 
   if(verbose) cat("Automatically detected number of rows to skip: ", skip,"\n")
   
