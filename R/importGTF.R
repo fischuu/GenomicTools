@@ -92,6 +92,7 @@ importGTF.internal <- function(file, skip=auto, nrow=-1, use.data.table=TRUE, le
       for(frun in 1:length(features)){
         tmpFeature <- sapply(V9, function(x) x[grepl(features[frun],x)])
         tmpFeature <- gsub(" ","",tmpFeature)
+        tmpFeature <- gsub(";","",tmpFeature)
         tmpFeature <- gsub(eval(features[frun]),"",tmpFeature)
         tmpFeature <- gsub('\"',"",tmpFeature)
         cuffLoaded[,eval(features[frun]):=tmpFeature]
