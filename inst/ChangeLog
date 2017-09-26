@@ -4,7 +4,8 @@ Version with odd last numbers are development versions.
 Stable releases have even version numbers:
 -----------------------------------------------------
 Version 0.2.7 (Developer Version):
-*
+* prereadGTF() function added
+* importGTF() function can now merge several gtfs into one data table
 
 Version 0.2.6:
 * Stable Cran release version
