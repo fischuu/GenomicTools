@@ -10,8 +10,8 @@
 }
 \usage{
   importGTF(file, skip = auto, nrow = -1, use.data.table = TRUE, level = "gene",
-            features = NULL, print.features=FALSE, merge.feature=NULL,
-            verbose=FALSE)
+            features = NULL, num.features=c("FPKM", "TPM"), print.features=FALSE,
+            merge.feature=NULL, verbose=TRUE)
 }
 
 \arguments{
@@ -21,6 +21,7 @@
   \item{use.data.table}{Logical, shall the data.table package be used for importing the GTF file.}
   \item{level}{Filter for the GTF Entry.}
   \item{features}{Feature names to extract from column #9.}
+  \item{num.features}{Feature names that contain numeric values.}
   \item{print.features}{logical, shall a list of availbe features be printed.}
   \item{merge.feature}{The name of the feature to merge the data.}
   \item{class.names}{Vecotr with labels for the merged features.}
@@ -39,6 +40,10 @@
   in \code{file} and it will import all gtfs located in that folder and merges them according to the \code{merge.feature} option.
   With the option \code{class.names} a vector of prefixes for the merged features can be provided. If this is kept empty, then the 
   filenames of the gtf will be used instead (without gtf extension).
+  
+  By default the function imprts all features in column 9 as string character. However, for common labels (FPKM and TPM) the class
+  type is set automatically to numeric. Additional numerical feature names can be defined with the \code{num.feature} option.
+  
 }
 \value{
   A data table of class \code{gtf} containing the columns of the gtf file, including the splitted last column.

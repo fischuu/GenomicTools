@@ -1,4 +1,4 @@
-importGTF.internal <- function(file, skip=auto, nrow=-1, use.data.table=TRUE, level="gene", features=NULL, print.features=FALSE, merge.feature=NULL, verbose=FALSE){
+importGTF.internal <- function(file, skip=auto, nrow=-1, use.data.table=TRUE, level="gene", features=NULL, num.features=num.features, print.features=FALSE, merge.feature=NULL, verbose=FALSE){
   gtf <- file
 
    if(skip=="auto"){
@@ -97,6 +97,7 @@ importGTF.internal <- function(file, skip=auto, nrow=-1, use.data.table=TRUE, le
         tmpFeature <- gsub(";","",tmpFeature)
         tmpFeature <- gsub(eval(features[frun]),"",tmpFeature)
         tmpFeature <- gsub('\"',"",tmpFeature)
+        if(sum(is.element(features[frun],num.features))>0) tmpFeature <- as.numeric(tmpFeature)
         cuffLoaded[,eval(features[frun]):=tmpFeature]
       }
       cuffLoaded[,V9:=NULL]
@@ -106,11 +107,11 @@ importGTF.internal <- function(file, skip=auto, nrow=-1, use.data.table=TRUE, le
     cuffLoaded
 }
 
-importGTF <- function(file, skip=5, nrow=-1, use.data.table=TRUE, level="gene", features=NULL, print.features=FALSE, merge.feature=NULL, class.names=NULL, verbose=FALSE){
+importGTF <- function(file, skip="auto", nrow=-1, use.data.table=TRUE, level="gene", features=NULL, num.features=c("FPKM", "TPM"), print.features=FALSE, merge.feature=NULL, class.names=NULL, verbose=TRUE){
 
 # If no merge feature is given, we assume that only a single gtf is to be imported
    if(is.null(merge.feature)){
-   out <- importGTF.internal(file=file, skip=skip, nrow=nrow, use.data.table=use.data.table, level=level, features=features, print.features=print.features, verbose=verbose)
+   out <- importGTF.internal(file=file, skip=skip, nrow=nrow, use.data.table=use.data.table, level=level, features=features, num.features=num.features, print.features=print.features, verbose=verbose)
  } else {
 # In case we have a merge feature, we assume that file gives a folder location to gtfs that should be merged and merge feature gives the feature to use to merge.
    if(verbose) cat ("Start to import several gtfs and merge them using the feature",merge.feature,"\n")
@@ -127,7 +128,7 @@ importGTF <- function(file, skip=5, nrow=-1, use.data.table=TRUE, level="gene", 
    allGTFs <- list()
    for(i in 1:length(gtfFiles)){
      if(verbose) cat("Start to import: ", gtfFiles[i],"\n")
-     allGTFs[[i]] <- importGTF.internal(file=file.path(file,gtfFiles[i]), skip=skip, nrow=nrow, use.data.table=use.data.table, level=level, features=features, print.features=print.features, verbose=verbose)
+     allGTFs[[i]] <- importGTF.internal(file=file.path(file,gtfFiles[i]), skip=skip, nrow=nrow, use.data.table=use.data.table, level=level, features=features, num.features=num.features, print.features=print.features, verbose=verbose)
      setkeyv(allGTFs[[i]], merge.feature)
      
      takeThose <- which(is.element(colnames(allGTFs[[i]]),features.small))
