@@ -6,6 +6,7 @@ Stable releases have even version numbers:
 Version 0.2.7 (Developer Version):
 * prereadGTF() function added
 * importGTF() function can now merge several gtfs into one data table
+* importFeatureCounts() function added
 
 Version 0.2.6:
 * Stable Cran release version
