@@ -2,7 +2,8 @@ importFeatureCounts <- function(file){
   tmp <- read.table(file, header=TRUE)
   expValues <- tmp[,c(1,7)]
   geneInfo <- tmp[,1:6]
-  result <- list(expValues=expValues, geneInfo=geneInfo)
+  tmp <- read.table(paste(file,".summary",sep=""), header=TRUE)
+  result <- list(expValues=expValues, geneInfo=geneInfo, summary=tmp)
   class(result) <- "featureCounts"
   result
 }
