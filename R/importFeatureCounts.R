@@ -13,9 +13,16 @@ print.featureCounts <- function(x, ...){
   print(head(x$expValues))
   cat("...\n",nrow(x$expValues)-6,"more rows!\n")
   cat("\n")
-  cat("$geneInfo")
+  cat("$geneInfo \n")
   print(head(x$geneInfo))
-  cat("...\n",nrow(x$geneInfo)-6,"morerows!\n")
+  cat("...\n",nrow(x$geneInfo)-6,"more rows!\n")
+  cat("\n")
+  cat("$summary \n")
+  print(x$summary)
+}
+
+summary.featureCounts <- function(x, ...){
+  x$summary
 }
 
 test <- importFeatureCounts(file="/home/ejo138/ownCloud/Luke/Projects/CharacterizationOfTheRumenPapillae/counts/cow/cow_annot/UMD3.1.90/1PIntomieli2AAligned.sortedByCoord.out.bam.txt.txt")
