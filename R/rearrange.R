@@ -6,8 +6,8 @@ rearrange <- function(genoGroups,rows.gex,genoSamples){
     newOrder[i] <- which((rows.gex[i]==genoSamples)==TRUE)[1]
   }
 
-  ifelse(is.vector(genoGroups) ,  output <- genoGroups[newOrder] , output <- genoGroups[newOrder,])
-  ifelse(is.vector(genoGroups) , names(output) <- genoSamples[newOrder] , rownames(output) <- genoSamples[newOrder])
+  ifelse(ncol(genoGroups)==1 ,  output <- genoGroups[newOrder] , output <- genoGroups[newOrder,])
+  ifelse(is.vector(output) , names(output) <- genoSamples[newOrder] , rownames(output) <- genoSamples[newOrder])
   
   output
 }

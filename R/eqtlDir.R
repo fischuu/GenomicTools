@@ -26,7 +26,12 @@ eqtlDir <- function(genoGroups,gex,mc=mc,nper, testType){
       } else {
 	output[i] <- 1.5
       }
-   }
-  output <- unlist(mclapply(1:ncol(genoGroups),innerFunction,mc.cores=mc))
+    }
+  if(is.matrix(genoGroups)){
+    output <- unlist(mclapply(1:ncol(genoGroups),innerFunction,mc.cores=mc))    
+  } else {
+    output <- unlist(innerFunction(1))
+  }
+
   output
 }

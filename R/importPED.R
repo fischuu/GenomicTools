@@ -138,7 +138,7 @@ importPED <-   function (file, n, snps, which, split = "\t| +", sep = ".", na.st
     fam <- data.frame(row.names = rnames, pedigree = ped, member = mem, 
                       father = pa, mother = ma, sex = sex, affected = aff)
     if (is.null(map)) 
-      map <- data.frame(row.names = snps, snp.name = snps, 
+      map <- data.frame(row.names = snps, snp.names = snps, 
                         allele.1 = a1, allele.2 = a2)
     else {
       map$allele.1 <- a1
