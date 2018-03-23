@@ -12,12 +12,16 @@
       locNames <<- colnames(tmpLocs)
       tmpP <- tempQTL$p.values[takeThese]
       phenoOut <- cbind(tmpLocs,tmpP, colnames(x$pheno)[phenoRun])
-      if(phenoRun==1) output <- phenoOut
-      if(phenoRun>1) output <- rbind(output,phenoOut)
+      ifelse(exists("output"), output <- rbind(output,phenoOut), output <- phenoOut)
     }
   }
+  if(!exists("output")){
+    output <- c(NA,NA, NA, NA, NA)
+    locname <- c("Chr", "Pos")
+    warning("No significant results with p <",sig)
+  }
   colnames(output) <- c(locNames, "p.value", "assoc. pheno.")
-  output
+  print(output)
 } 
 
 

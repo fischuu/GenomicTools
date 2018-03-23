@@ -1,6 +1,6 @@
 # This script performs a QTL study for QTL studies 
 
-QTL <- function(pheno, phenoSamples=NULL, geno=NULL, genoSamples=NULL, method="LM", mc=1, sig=NULL, testType="permutation", nper=2000, which=NULL, verbose=TRUE){
+QTL <- function(pheno, phenoSamples=NULL, geno=NULL, genoSamples=NULL, method="LM", mc=1, sig=NULL, testType="asymptotic", nper=2000, which=NULL, verbose=TRUE){
 
     # Initial values
       noNames <- FALSE
@@ -144,7 +144,7 @@ QTL <- function(pheno, phenoSamples=NULL, geno=NULL, genoSamples=NULL, method="L
         SNPmatrix <- as.matrix(genoData$genotypes)
       }
 
-      genoGroups <- matrix(as.numeric(SNPmatrix),nrow=nrow(SNPmatrix))
+      genoGroups <- matrix(as.numeric(SNPmatrix)-1,nrow=nrow(SNPmatrix))
       colnames(genoGroups) <- colnames(SNPmatrix)
       rownames(genoGroups) <- rownames(genoData)
       genoGroups <- rearrange(genoGroups,rownames(pheno),genoSamples)

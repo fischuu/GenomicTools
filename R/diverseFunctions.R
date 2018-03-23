@@ -29,6 +29,7 @@ vectorToGenomatrix <- function(x){
 }
 
 matrixToGenomatrix <- function(x){
+  sampleNames <- rownames(x)
   out <- list(genotypes=NA,
               map=NA)
   # The case that the genotypes are given in A/A notation
@@ -63,7 +64,7 @@ matrixToGenomatrix <- function(x){
     rownames(out$map)[i] <- paste("inputSNP",i,sep="")
   }
   
-  rownames(out$genotypes) <- 1:nrow(out$genotypes)
+  rownames(out$genotypes) <- sampleNames
   colnames(out$genotypes) <- paste("inputSNP",1:ncol(out$genotypes),sep="")
       
   return(out)
