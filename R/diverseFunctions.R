@@ -8,10 +8,10 @@ vectorToGenomatrix <- function(x){
   x <- as.character(x)
   # The case that the genotypes are given in A/A notation
   if(grep("/",x[1])==1){
-    alleles <- sort(unique(unlist(strsplit(unique(x),"/"))))
-    x.factor <- factor(x, levels = c(paste(alleles[1],"/",alleles[1],sep=""),
-                                     paste(alleles[1],"/",alleles[2],sep=""),
-                                     paste(alleles[2],"/",alleles[2],sep="")))
+    alleles <- sort(unique(unlist(strsplit(as.character(unique(x)),"/"))))
+    x.factor <- factor(as.character(x), levels = c(paste(alleles[1],"/",alleles[1],sep=""),
+                                                   paste(alleles[1],"/",alleles[2],sep=""),
+                                                   paste(alleles[2],"/",alleles[2],sep="")))
     levels(x.factor)[1] <- "01"
     levels(x.factor)[2] <- "02"
     levels(x.factor)[3] <- "03"
@@ -35,11 +35,11 @@ matrixToGenomatrix <- function(x){
   # The case that the genotypes are given in A/A notation
   for(i in 1:ncol(x)){
     if(grep("/",x[1,i])==1){
-      alleles <- sort(unique(unlist(strsplit(unique(x[,i]),"/"))))
-      x.factor <- factor(x[,i], levels = c(paste(alleles[1],"/",alleles[1],sep=""),
-                                           paste(alleles[1],"/",alleles[2],sep=""),
-                                           paste(alleles[2],"/",alleles[1],sep=""),
-                                           paste(alleles[2],"/",alleles[2],sep="")))
+      alleles <- sort(unique(unlist(strsplit(as.character(unique(x[,i])),"/"))))
+      x.factor <- factor(as.character(x[,i]), levels = c(paste(alleles[1],"/",alleles[1],sep=""),
+                                                         paste(alleles[1],"/",alleles[2],sep=""),
+                                                         paste(alleles[2],"/",alleles[1],sep=""),
+                                                         paste(alleles[2],"/",alleles[2],sep="")))
       
       levels(x.factor)[levels(x.factor)==paste(alleles[1],"/",alleles[1],sep="")] <- "01"
       levels(x.factor)[levels(x.factor)==paste(alleles[1],"/",alleles[2],sep="")] <- "02"
