@@ -53,7 +53,7 @@ matrixToGenomatrix <- function(x){
       }
     }
     
-    tmp <- data.frame(snp.names=paste("inputSNP",i,sep=""),
+    tmp <- data.frame(snp.names=colnames(x)[i],
                           allele.1=alleles[1],
                           allele.2=alleles[2])
     if(i==1){
@@ -61,11 +61,11 @@ matrixToGenomatrix <- function(x){
     } else {
       out$map <- rbind(out$map,tmp)
     }
-    rownames(out$map)[i] <- paste("inputSNP",i,sep="")
+    rownames(out$map)[i] <- colnames(x)[i]
   }
   
   rownames(out$genotypes) <- sampleNames
-  colnames(out$genotypes) <- paste("inputSNP",1:ncol(out$genotypes),sep="")
+  colnames(out$genotypes) <- colnames(x)
       
   return(out)
 }
