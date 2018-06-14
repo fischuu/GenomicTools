@@ -10,6 +10,8 @@ Version 0.2.7 (Developer Version):
 * typo in 'importPED()' fixed
 * Bug fixed in rearranged()
 * QTL does now accept also plain vectors and matrices as input for genotypes
+* importGTF issue fixed with auto separation detection from fread()
+* improved input checks of importGTF()
 
 Version 0.2.6:
 * Stable Cran release version

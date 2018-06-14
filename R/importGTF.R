@@ -27,25 +27,25 @@ importGTF.internal <- function(file, skip=auto, nrow=-1, use.data.table=TRUE, le
   
   if(use.data.table){
     if(last(strsplit(gtf,"\\.")[[1]])=="gz"){
-      cuffLoaded <- fread(input = paste('zcat',gtf), skip=skip, colClasses = c("character",
-                                                                               "character",
-                                                                               "character",
-                                                                               "integer",
-                                                                               "integer",
-                                                                               "character",
-                                                                               "character",
-                                                                               "character",
-                                                                               "character"))
-    } else {
-      cuffLoaded <- fread(input = gtf, skip=skip, colClasses = c("character",
-                                                                 "character",
-                                                                 "character",
-                                                                 "integer",
-                                                                 "integer",
-                                                                 "character",
-                                                                 "character",
-                                                                 "character",
-                                                                 "character"))      
+      cuffLoaded <- fread(input = paste('zcat',gtf), sep ="\t", skip=skip, colClasses = c("character",
+                                                                                          "character",
+                                                                                          "character",
+                                                                                          "integer",
+                                                                                          "integer",
+                                                                                          "character",
+                                                                                          "character",
+                                                                                          "character",
+                                                                                          "character"))
+              } else {
+      cuffLoaded <- fread(input = gtf, sep="\t", skip=skip, colClasses = c("character",
+                                                                           "character",
+                                                                           "character",
+                                                                           "integer",
+                                                                           "integer",
+                                                                           "character",
+                                                                           "character",
+                                                                           "character",
+                                                                           "character"))      
     }
 
     if(verbose){
@@ -115,6 +115,11 @@ importGTF <- function(file, skip="auto", nrow=-1, use.data.table=TRUE, level="ge
  } else {
 # In case we have a merge feature, we assume that file gives a folder location to gtfs that should be merged and merge feature gives the feature to use to merge.
    if(verbose) cat ("Start to import several gtfs and merge them using the feature",merge.feature,"\n")
+   if(!is.element(merge.feature, features)){
+     features <- c(features, merge.feature)
+     cat("Added",merge.feature,"to features-Option.")
+    }
+   
    gtfFiles <- list.files(file)
    gtfFiles <- gtfFiles[grepl(".gtf",gtfFiles)]
    gtfNames <- gsub(".gtf","",gtfFiles)
