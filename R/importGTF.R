@@ -107,7 +107,7 @@ importGTF.internal <- function(file, skip=auto, nrow=-1, use.data.table=TRUE, le
     cuffLoaded
 }
 
-importGTF <- function(file, skip="auto", nrow=-1, use.data.table=TRUE, level="gene", features=NULL, num.features=c("FPKM", "TPM"), print.features=FALSE, merge.feature=NULL, class.names=NULL, verbose=TRUE){
+importGTF <- function(file, skip="auto", nrow=-1, use.data.table=TRUE, level="gene", features=NULL, num.features=c("FPKM", "TPM"), print.features=FALSE, merge.feature=NULL, merge.all=TRUE, class.names=NULL, verbose=TRUE){
 
 # If no merge feature is given, we assume that only a single gtf is to be imported
    if(is.null(merge.feature)){
@@ -137,10 +137,10 @@ importGTF <- function(file, skip="auto", nrow=-1, use.data.table=TRUE, level="ge
        colnames(allGTFs[[i]])[takeThose[j]] <- mergeThose[length(mergeThose)]          
      }
      # Once the first two samples are read, merge them
-     if(i==2) tmp <- merge(allGTFs[[1]], allGTFs[[2]][,unique(c(merge.feature,mergeThose)),with=FALSE])     
+     if(i==2) tmp <- merge(allGTFs[[1]], allGTFs[[2]][,unique(c(merge.feature,mergeThose)),with=FALSE], all=merge.all)     
      # Then add consecutive every turn the next one
      if(i>2){
-       tmp <- merge(tmp, allGTFs[[i]][,unique(c(merge.feature,mergeThose)),with=FALSE])       
+       tmp <- merge(tmp, allGTFs[[i]][,unique(c(merge.feature,mergeThose)),with=FALSE], all=merge.all)       
      }
    }
 
