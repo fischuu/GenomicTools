@@ -1,11 +1,11 @@
-importGTF.internal <- function(file, skip=auto, nrow=-1, use.data.table=TRUE, level="gene", features=NULL, num.features=num.features, print.features=FALSE, merge.feature=NULL, verbose=FALSE){
-  gtf <- file
+importGFF.internal <- function(file, skip=auto, nrow=-1, use.data.table=TRUE, level="gene", features=NULL, num.features=num.features, print.features=FALSE, merge.feature=NULL, verbose=FALSE){
+  gff <- file
 
    if(skip=="auto"){
-     if(last(strsplit(gtf,"\\.")[[1]])=="gz"){
+     if(last(strsplit(gff,"\\.")[[1]])=="gz"){
        cat("dfg")
      } else {
-       con  <- file(gtf, open = "r")
+       con  <- file(gff, open = "r")
        search <- TRUE
        obsRow <- 0
        while(search){
@@ -26,8 +26,8 @@ importGTF.internal <- function(file, skip=auto, nrow=-1, use.data.table=TRUE, le
   if(verbose) cat("Automatically detected number of rows to skip: ", skip,"\n")
   
   if(use.data.table){
-    if(last(strsplit(gtf,"\\.")[[1]])=="gz"){
-      cuffLoaded <- fread(input = paste('zcat',gtf), sep ="\t", skip=skip, colClasses = c("character",
+    if(last(strsplit(gff,"\\.")[[1]])=="gz"){
+      cuffLoaded <- fread(input = paste('zcat',gff), sep ="\t", skip=skip, colClasses = c("character",
                                                                                           "character",
                                                                                           "character",
                                                                                           "integer",
@@ -37,7 +37,7 @@ importGTF.internal <- function(file, skip=auto, nrow=-1, use.data.table=TRUE, le
                                                                                           "character",
                                                                                           "character"))
               } else {
-      cuffLoaded <- fread(input = gtf, sep="\t", skip=skip, colClasses = c("character",
+      cuffLoaded <- fread(input = gff, sep="\t", skip=skip, colClasses = c("character",
                                                                            "character",
                                                                            "character",
                                                                            "integer",
@@ -51,42 +51,39 @@ importGTF.internal <- function(file, skip=auto, nrow=-1, use.data.table=TRUE, le
     if(verbose){
       if(sum(cuffLoaded$V3==level)==0){
         availLevels <- unique(cuffLoaded$V3)
-        stop("The given import level '",level,"' was not found in the gtf! Available level are: \n", paste(availLevels, collapse=" \n "))
+        stop("The given import level '",level,"' was not found in the gff! Available level are: \n", paste(availLevels, collapse=" \n "))
       }
     }
     
     if(!is.null(level)) cuffLoaded <- cuffLoaded[cuffLoaded$V3==level,]
     if(nrow>0) cuffLoaded <- cuffLoaded[1:nrow,]
   } else {
-    stop("Currently the importGTF function supports only data tables.")
-    cuffLoaded <- read.csv(file=gtf, sep="\t", header=FALSE, stringsAsFactors=FALSE, skip=skip, nrow=nrow)
+    stop("Currently the importGFF function supports only data tables.")
+    cuffLoaded <- read.csv(file=gff, sep="\t", header=FALSE, stringsAsFactors=FALSE, skip=skip, nrow=nrow)
   }
   # Split the variable V9
     V9 <- cuffLoaded$V9
-    V9 <- strsplit(V9,"; ")
+    V9 <- strsplit(V9,";")
 
   # Print the features, if requested
     if(print.features || verbose){
       cat("List of features in column 9:\n")
       cat("-----------------------------\n")
-      cat(paste(paste(sapply(strsplit(V9[[1]]," "),"[",1),"\n"), collapse=""))
+      cat(paste(paste(sapply(strsplit(V9[[1]],"="),"[",1),"\n"), collapse=""))
     }
     
   # Remove the non-informative aprts from that vectors
     if(is.null(features)){
     # Now get the required information from V9
-      gene_id <- sapply(V9, function(x) x[grepl("gene_id",x)])
-      gene_name <- sapply(V9, function(x) x[grepl("gene_name",x)])
+      gene_id <- sapply(sapply(V9, function(x) x[grepl("ID",x)]),"[",1)
+      gene_name <- sapply(V9, function(x) x[grepl("Name",x)])
       gene_biotype <- sapply(V9, function(x) x[grepl("gene_biotype",x)])
-      gene_id <- gsub("gene_id ","",gene_id)
-      gene_name <- gsub("gene_name ","",gene_name)
-      gene_biotype <- gsub("gene_biotype ","",gene_biotype)
+      gene_id <- gsub("ID=","",gene_id)
+      gene_name <- gsub("Name=","",gene_name)
+      gene_biotype <- gsub("gene_biotype=","",gene_biotype)
       gene_id <- gsub('\"',"",gene_id)
       gene_name <- gsub('\"',"",gene_name)
       gene_biotype <- gsub('\"',"",gene_biotype)
-      gene_id <- gsub(';',"",gene_id)
-      gene_name <- gsub(';',"",gene_name)
-      gene_biotype <- gsub(';',"",gene_biotype)
       
       cuffLoaded[,V9:=NULL]
       cuffLoaded[,gene_id:=gene_id]
@@ -106,56 +103,56 @@ importGTF.internal <- function(file, skip=auto, nrow=-1, use.data.table=TRUE, le
       cuffLoaded[,V9:=NULL]
     }
 
-    class(cuffLoaded) <- append(class(cuffLoaded), "gtf")
+    class(cuffLoaded) <- append(class(cuffLoaded), "gff")
     cuffLoaded
 }
 
-importGTF <- function(file, skip="auto", nrow=-1, use.data.table=TRUE, level="gene", features=NULL, num.features=c("FPKM", "TPM"), print.features=FALSE, merge.feature=NULL, merge.all=TRUE, class.names=NULL, verbose=TRUE){
+importGFF <- function(file, skip="auto", nrow=-1, use.data.table=TRUE, level="gene", features=NULL, num.features=c("FPKM", "TPM"), print.features=FALSE, merge.feature=NULL, merge.all=TRUE, class.names=NULL, verbose=TRUE){
 
-# If no merge feature is given, we assume that only a single gtf is to be imported
+# If no merge feature is given, we assume that only a single gff is to be imported
    if(is.null(merge.feature)){
-   out <- importGTF.internal(file=file, skip=skip, nrow=nrow, use.data.table=use.data.table, level=level, features=features, num.features=num.features, print.features=print.features, verbose=verbose)
+   out <- importGFF.internal(file=file, skip=skip, nrow=nrow, use.data.table=use.data.table, level=level, features=features, num.features=num.features, print.features=print.features, verbose=verbose)
  } else {
-# In case we have a merge feature, we assume that file gives a folder location to gtfs that should be merged and merge feature gives the feature to use to merge.
-   if(verbose) cat ("Start to import several gtfs and merge them using the feature",merge.feature,"\n")
+# In case we have a merge feature, we assume that file gives a folder location to gffs that should be merged and merge feature gives the feature to use to merge.
+   if(verbose) cat ("Start to import several gffs and merge them using the feature",merge.feature,"\n")
    if(!is.element(merge.feature, features)){
-     # features <- c(features, merge.feature)
+     features <- c(features, merge.feature)
      cat("Added",merge.feature,"to features-Option.")
     }
    
-   gtfFiles <- list.files(file)
-   gtfFiles <- gtfFiles[grepl(".gtf",gtfFiles)]
-   gtfNames <- gsub(".gtf","",gtfFiles)
-   gtfNames <- gsub(".gz","",gtfNames)
-   if(verbose) cat("Start to import", length(gtfFiles),"files:\n", paste(gtfFiles , collapse=" \n"),"\n")
+   gffFiles <- list.files(file)
+   gffFiles <- gffFiles[grepl(".gff",gffFiles)]
+   gffNames <- gsub(".gff","",gffFiles)
+   gffNames <- gsub(".gz","",gffNames)
+   if(verbose) cat("Start to import", length(gffFiles),"files:\n", paste(gffFiles , collapse=" \n"),"\n")
    
   # Take here the feature list with names that are not used for merging
    features.small <- features[!is.element(features, merge.feature)]
    mergeThose <- c()
    
-   allGTFs <- list()
-   for(i in 1:length(gtfFiles)){
-     if(verbose) cat("Start to import: ", gtfFiles[i],"\n")
-     allGTFs[[i]] <- importGTF.internal(file=file.path(file,gtfFiles[i]), skip=skip, nrow=nrow, use.data.table=use.data.table, level=level, features=features, num.features=num.features, print.features=print.features, verbose=verbose)
-     setkeyv(allGTFs[[i]], merge.feature)
+   allGFFs <- list()
+   for(i in 1:length(gffFiles)){
+     if(verbose) cat("Start to import: ", gffFiles[i],"\n")
+     allGFFs[[i]] <- importGFF.internal(file=file.path(file,gffFiles[i]), skip=skip, nrow=nrow, use.data.table=use.data.table, level=level, features=features, num.features=num.features, print.features=print.features, verbose=verbose)
+     setkeyv(allGFFs[[i]], merge.feature)
      
-     takeThose <- which(is.element(colnames(allGTFs[[i]]),features.small))
+     takeThose <- which(is.element(colnames(allGFFs[[i]]),features.small))
      for(j in 1:length(takeThose)){
-       mergeThose <- c(paste(gtfNames[i],colnames(allGTFs[[i]])[takeThose[j]],sep="."))
-       colnames(allGTFs[[i]])[takeThose[j]] <- mergeThose[length(mergeThose)]          
+       mergeThose <- c(paste(gffNames[i],colnames(allGFFs[[i]])[takeThose[j]],sep="."))
+       colnames(allGFFs[[i]])[takeThose[j]] <- mergeThose[length(mergeThose)]          
      }
      # Once the first two samples are read, merge them
-     if(i==2) tmp <- merge(allGTFs[[1]], allGTFs[[2]][,unique(c(merge.feature,mergeThose)),with=FALSE], all=merge.all)     
+     if(i==2) tmp <- merge(allGFFs[[1]], allGFFs[[2]][,unique(c(merge.feature,mergeThose)),with=FALSE], all=merge.all)     
      # Then add consecutive every turn the next one
      if(i>2){
-       tmp <- merge(tmp, allGTFs[[i]][,unique(c(merge.feature,mergeThose)),with=FALSE], all=merge.all)       
+       tmp <- merge(tmp, allGFFs[[i]][,unique(c(merge.feature,mergeThose)),with=FALSE], all=merge.all)       
      }
    }
 
    # Now set the columns names
    
    out <- tmp
-   class(out) <- append(class(out), "gtf")
+   class(out) <- append(class(out), "gff")
  }
   out
 }
