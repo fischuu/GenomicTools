@@ -42,6 +42,9 @@ importGFF3.old <- function(gff){
 }
 
 importGFF3 <- function(gff, chromosomes){
+  
+  .Deprecated("GenomicTools.fileHandler::importGFF3", package="GenomicTools", msg="I/O Functions will be collected from now on in a new package GenomicTools.fileHandler")
+  
 # fread zip support is OS dependend
   os <- "linux"
   if(grepl("Windows", sessionInfo()$running)) os <- "windows"

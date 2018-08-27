@@ -11,7 +11,7 @@
 \usage{
   importGTF(file, skip = auto, nrow = -1, use.data.table = TRUE, level = "gene",
             features = NULL, num.features=c("FPKM", "TPM"), print.features=FALSE,
-            merge.feature=NULL, verbose=TRUE)
+            merge.feature=NULL, merge.all = TRUE, class.names = NULL, verbose=TRUE)
 }
 
 \arguments{
@@ -24,7 +24,8 @@
   \item{num.features}{Feature names that contain numeric values.}
   \item{print.features}{logical, shall a list of availbe features be printed.}
   \item{merge.feature}{The name of the feature to merge the data.}
-  \item{class.names}{Vecotr with labels for the merged features.}
+  \item{merge.all}{Merge all}
+  \item{class.names}{Vector with labels for the merged features.}
   \item{verbose}{Logical, for 'talk-active' output}
 }
 

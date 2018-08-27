@@ -1,4 +1,4 @@
-import(gMWT, Rcpp, data.table)
+import(gMWT, Rcpp, data.table, GenomicTools.fileHandler)
 
 importFrom("graphics", "abline", "plot")
 importFrom("utils", "read.csv", "read.table", "sessionInfo")
@@ -9,14 +9,11 @@ importFrom("stats", "density", "lm", "predict", "smooth.spline")
 importFrom("parallel", "mclapply")
 importFrom("stringr", "str_replace_all")
 importFrom("snpStats", "switch.alleles")
-importFrom("utils", "download.file")
+importFrom("utils", "download.file", "head")
 
 S3method(print,eqtl)
 S3method(plot,eqtl)
 S3method(summary,eqtl)
-
-S3method(print,featureCounts)
-S3method(summary,featureCounts)
 
 S3method(print,mdr)
 S3method(plot,mdr)
@@ -33,7 +30,7 @@ S3method(summary,qtlRes)
 
 S3method(print,vcf)
 
-export(eQTL, QTL, gtfToBed, mdr, mdrEnsemble, recodeData, importFeatureCounts, importSTARLog, importPED, importGFF, importGFF3, importGTF, importVCF, 
+export(eQTL, QTL, gtfToBed, mdr, mdrEnsemble, recodeData, importSTARLog, importPED, importGFF3, importGTF, importVCF, 
        getKEGGOrganisms, getKEGGPathwayOverview, getKEGGPathway, getKEGGPathwayImage, getRSLocation, prereadGTF)
 
 useDynLib(GenomicTools, .registration = TRUE)

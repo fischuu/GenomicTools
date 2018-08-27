@@ -6,3 +6,4 @@ pairwiseDiffs <- function(x){
 }
 
 trim.leading <- function (x)  sub("^\\s+", "", x)
+

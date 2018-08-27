@@ -1,5 +1,7 @@
 summary.PedMap <- function(object, ...){
-  
+
+  .Deprecated("GenomicTools.fileHandler::summary.PedMap", package="GenomicTools", msg="I/O Functions will be collected from now on in a new package GenomicTools.fileHandler")
+    
   cat("PedMap Summary\n")
   cat("---------------\n")
   cat("# of imported SNPs       :",nrow(object$map),"\n")

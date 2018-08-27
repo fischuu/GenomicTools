@@ -1,5 +1,7 @@
 `print.vcf` <- function(x, n=6, m=6, fullHeader=FALSE,...){
 
+  .Deprecated("GenomicTools.fileHandler::print.vcf", package="GenomicTools", msg="I/O Functions will be collected from now on in a new package GenomicTools.fileHandler")
+  
 # Correct for too large n and m
   nm <- dim(x$genotypes)
   nHeader <- min(n, length(x$header))

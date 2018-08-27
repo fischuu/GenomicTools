@@ -12,6 +12,7 @@ Version 0.2.7 (Developer Version):
 * QTL does now accept also plain vectors and matrices as input for genotypes
 * importGTF issue fixed with auto separation detection from fread()
 * improved input checks of importGTF()
+* import* functions Deprecated and moved to the new package GenomicTools.fileHandler
 
 Version 0.2.6:
 * Stable Cran release version

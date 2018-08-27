@@ -1,6 +1,8 @@
 importPED <-   function (file, n, snps, which, split = "\t| +", sep = ".", na.strings = "0", 
                          lex.order = FALSE, verbose=TRUE) {
 
+   .Deprecated("GenomicTools.fileHandler::importPED", package="GenomicTools", msg="I/O Functions will be collected from now on in a new package GenomicTools.fileHandler")
+  
   # This file is taken to a large extend from the snpStat package
   # The difference, however, is the use of fread that speeds up the function.
 

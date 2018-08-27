@@ -10,7 +10,7 @@
 }
 \usage{
   QTL(pheno, phenoSamples=NULL, geno=NULL, genoSamples=NULL, 
-      method="LM", mc=1, sig=NULL, testType="permutation", 
+      method="LM", mc=1, sig=NULL, testType="asymptotic", 
       nper=2000, which=NULL, verbose=TRUE)
 }
 

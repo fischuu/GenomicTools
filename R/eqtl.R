@@ -94,12 +94,12 @@ eQTL <- function(gex=NULL, xAnnot=NULL, xSamples=NULL, geno=NULL, genoSamples=NU
           # In the other possibility is that the genotypes are just given in a matrix or vector form:    
         } else if(is.vector(geno)){
           # Here is just one vector with genotype information given
-          if(length(geno)!=nrow(pheno)) stop("Amount of entered phenotypes and genotypes do not match!")
+       #   if(length(geno)!=nrow(pheno)) stop("Amount of entered phenotypes and genotypes do not match!")
           genoData <- vectorToGenomatrix(geno)
           
         } else if(is.matrix(geno)||is.data.frame(geno)){ 
           # Here is a matrix with genotype information given
-          if(nrow(geno)!=nrow(pheno)) stop("Amount of entered phenotypes and genotypes do not match!")
+      #    if(nrow(geno)!=nrow(pheno)) stop("Amount of entered phenotypes and genotypes do not match!")
           genoData <- matrixToGenomatrix(geno)
           
         } else {

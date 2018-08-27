@@ -1,4 +1,7 @@
 importVCF <- function(file, na.seq="./."){
+
+ .Deprecated("GenomicTools.fileHandler::importVCF", package="GenomicTools", msg="I/O Functions will be collected from now on in a new package GenomicTools.fileHandler")
+  
 # Necessary variable declaration for Cran checks
   V3 <- NULL
   rn <- NULL

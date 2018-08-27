@@ -1,5 +1,8 @@
 `print.PedMap` <- function(x, n=6, m=6, ...){
-# Correct for too large n and m
+
+  .Deprecated("GenomicTools.fileHandler::printPedMap", package="GenomicTools", msg="I/O Functions will be collected from now on in a new package GenomicTools.fileHandler")
+  
+  # Correct for too large n and m
   nm <- dim(x$genotypes)
   n <- min(n,nm[1])
   m <- min(m,nm[2])

@@ -1,4 +1,4 @@
-importGTF.internal <- function(file, skip=auto, nrow=-1, use.data.table=TRUE, level="gene", features=NULL, num.features=num.features, print.features=FALSE, merge.feature=NULL, verbose=FALSE){
+importGTF.internal <- function(file, skip="auto", nrow=-1, use.data.table=TRUE, level="gene", features=NULL, num.features=num.features, print.features=FALSE, merge.feature=NULL, verbose=FALSE){
   gtf <- file
 
    if(skip=="auto"){
@@ -111,6 +111,8 @@ importGTF.internal <- function(file, skip=auto, nrow=-1, use.data.table=TRUE, le
 }
 
 importGTF <- function(file, skip="auto", nrow=-1, use.data.table=TRUE, level="gene", features=NULL, num.features=c("FPKM", "TPM"), print.features=FALSE, merge.feature=NULL, merge.all=TRUE, class.names=NULL, verbose=TRUE){
+  
+  .Deprecated("GenomicTools.fileHandler::importGTF", package="GenomicTools", msg="I/O Functions will be collected from now on in a new package GenomicTools.fileHandler")
 
 # If no merge feature is given, we assume that only a single gtf is to be imported
    if(is.null(merge.feature)){
