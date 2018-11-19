@@ -13,6 +13,7 @@ Version 0.2.7 (Developer Version):
 * importGTF issue fixed with auto separation detection from fread()
 * improved input checks of importGTF()
 * import* functions Deprecated and moved to the new package GenomicTools.fileHandler
+* print.qtlRes handles now output without significant results
 
 Version 0.2.6:
 * Stable Cran release version

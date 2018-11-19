@@ -2,10 +2,13 @@
    
   if(is.null(which)) which <- 1:length(x$qtl)
   
+  totalReport <- 0
+  
   for(phenoRun in which){
     tempQTL <- x$qtl[phenoRun][[1]]
   
     takeThese <- which(tempQTL$p.values<=sig)
+    totalReport <- totalReport + length(takeThese)
     locNames <- NA
     if(length(takeThese)>0){
       tmpLocs <- tempQTL$TestedSNP[takeThese,]
@@ -15,13 +18,14 @@
       ifelse(exists("output"), output <- rbind(output,phenoOut), output <- phenoOut)
     }
   }
-  if(!exists("output")){
+  if(totalReport==0){
     output <- c(NA,NA, NA, NA, NA)
     locname <- c("Chr", "Pos")
     warning("No significant results with p <",sig)
+  } else {
+    colnames(output) <- c(locNames, "p.value", "assoc. pheno.")
+    print(output)
   }
-  colnames(output) <- c(locNames, "p.value", "assoc. pheno.")
-  print(output)
 } 
 
 
