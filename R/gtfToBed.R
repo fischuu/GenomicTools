@@ -5,6 +5,7 @@ gtfToBed <- function(gtf){
                       End=gtf[,5],
                       Gene=gtf$gene_id,
                       stringsAsFactors=FALSE)
+ colnames(bedOut) <- c('Chr','Start','End', 'Gene')
  class(bedOut) <- append(class(bedOut), "bed")
  bedOut
 }

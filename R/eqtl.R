@@ -39,6 +39,7 @@ eQTL <- function(gex=NULL, xAnnot=NULL, xSamples=NULL, geno=NULL, genoSamples=NU
       rownames(gex) <- tmp
     } else {
       if(is.null(rownames(gex))) noNames <- TRUE
+      oldNames <- rownames(gex)
     }
 
   # Input checks
