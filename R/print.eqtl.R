@@ -1,4 +1,4 @@
-`print.eqtl` <- function(x,which=NULL,sig=0.01,output="bed",...){
+`print.eqtl` <- function(x,which=NULL,sig=0.01,output="bed", ...){
    
   output <- match.arg(output,c("bed","single"))
 

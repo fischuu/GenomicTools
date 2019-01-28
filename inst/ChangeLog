@@ -3,6 +3,11 @@ LOG of the CHANGES in the package GenomicTools
 Version with odd last numbers are development versions.
 Stable releases have even version numbers:
 -----------------------------------------------------
+Planned improvements for later versions:
+* Improve the feedback/verboseness of the functions
+   - 'We will test for xxx genes possible eQTL' - give here the amount of tested SNPs
+* Revisit the print/summary functions, there is also still space for improvements...
+
 Version 0.2.7 (Developer Version):
 * prereadGTF() function added
 * importGTF() function can now merge several gtfs into one data table
@@ -15,6 +20,7 @@ Version 0.2.7 (Developer Version):
 * import* functions Deprecated and moved to the new package GenomicTools.fileHandler
 * print.qtlRes handles now output without significant results
 * bugfix in eqtlDir and eqtlLM (error, if only one SNP is tested)
+* Couple of smaller bugfixes
 Planned features for 0.2.9:
 * eQTL output numbered and estimation of the remaining time
 
