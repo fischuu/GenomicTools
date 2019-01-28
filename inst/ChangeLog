@@ -22,7 +22,8 @@ Version 0.2.7 (Developer Version):
 * bugfix in eqtlDir and eqtlLM (error, if only one SNP is tested)
 * Couple of smaller bugfixes
 Planned features for 0.2.9:
-* eQTL output numbered and estimation of the remaining time
+* output numbered and estimation of the remaining time (eQTL)
+* Progress bar for trans-eQTL (eQTL)
 
 Version 0.2.6:
 * Stable Cran release version
