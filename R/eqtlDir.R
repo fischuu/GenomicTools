@@ -30,6 +30,8 @@ eqtlDir <- function(genoGroups,gex,mc=mc,nper, testType){
   if(is.matrix(genoGroups)){
     output <- unlist(mclapply(1:ncol(genoGroups),innerFunction,mc.cores=mc))    
   } else {
+    genoGroups <- as.matrix(genoGroups)
+    if(ncol(genoGroups)>1) genoGroups <- t(genoGroups)
     output <- unlist(innerFunction(1))
   }
 

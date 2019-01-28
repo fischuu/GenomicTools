@@ -8,16 +8,17 @@ eqtlLM.internal <- function(geno,gex){
 }
 
 eqtlLM <- function(genoGroups, gex, mc=mc){
-  if(mc==1){
-    if(is.matrix(genoGroups)){
-      res <- as.vector(apply(genoGroups,2,eqtlLM.internal, gex=gex))      
+   if(is.matrix(genoGroups)){
+      if(mc==1){
+        res <- as.vector(apply(genoGroups,2,eqtlLM.internal, gex=gex))
+      } else {
+        res <- as.vector(unlist(mclapply(1:dim(genoGroups)[2], function(i) eqtlLM.internal(geno=genoGroups[,i], gex=gex), mc.cores=mc)))   
+      }
     } else {
+      genoGroups <- as.matrix(genoGroups)
+      if(ncol(genoGroups)>1) genoGroups <- t(genoGroups)
       res <- as.vector(eqtlLM.internal(geno=genoGroups, gex=gex))
     }
-
-  } else {
-    res <- as.vector(unlist(mclapply(1:dim(genoGroups)[2], function(i) eqtlLM.internal(geno=genoGroups[,i], gex=gex), mc.cores=mc)))
-  }
   res
 }
 
