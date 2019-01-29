@@ -138,11 +138,18 @@ QTL <- function(pheno, phenoSamples=NULL, geno=NULL, genoSamples=NULL, method="L
       qtlTemp <- list()
       SNPloc <- getSNPlocations(genotInfo=genoData$map, th=NULL)
         
-      if(length(SNPloc$SNPloc$snp.names)>1){
-        SNPmatrix <- as.matrix(genoData$genotypes[,SNPloc$SNPloc$snp.names])        
-      } else {
-        SNPmatrix <- as.matrix(genoData$genotypes)
-      }
+      if(dim(SNPloc$SNPloc)[1]>0){
+        SNPmatrix <- as.matrix(genoData$genotypes[,SNPloc$SNPloc$snp.names, with=FALSE])
+        genoGroups <- matrix(as.numeric(SNPmatrix),nrow=nrow(SNPmatrix))
+        colnames(genoGroups) <- colnames(SNPmatrix)
+        rownames(genoGroups) <- rownames(genoData)
+        genoGroups <- rearrange(genoGroups,rownames(pheno),genoSamples)
+      
+      #if(length(SNPloc$SNPloc$snp.names)>1){
+      #  SNPmatrix <- as.matrix(genoData$genotypes[,SNPloc$SNPloc$snp.names])        
+      #} else {
+      #  SNPmatrix <- as.matrix(genoData$genotypes)
+      #}
 
       genoGroups <- matrix(as.numeric(SNPmatrix)-1,nrow=nrow(SNPmatrix))
       colnames(genoGroups) <- colnames(SNPmatrix)
@@ -182,7 +189,10 @@ QTL <- function(pheno, phenoSamples=NULL, geno=NULL, genoSamples=NULL, method="L
               pPos <- p.values<=sig
               qtlTemp[[phenoRun]] <- cbind(SNPloc[[1]][pPos,c(1,2,4)],p.values[pPos])
             }
-        } 
+        }
+      } else {
+        warning("There were no variants within the window of gene ", matchingGenes[geneRun])
+      }
   
       
     # Join the output
