@@ -1,4 +1,4 @@
-`plot.qtlRes` <- function(x, which=NULL, sig=0.01, verbose=TRUE, log=FALSE, genome=NULL, pch=1, ...){
+`plot.qtlRes` <- function(x, which=NULL, sig=0.01, verbose=TRUE, log=TRUE, genome=NULL, pch=1, ...){
   
   humanGenome68 <- data.frame(chr=c(1:22,"X","Y"),
                               length=c(249250621, 

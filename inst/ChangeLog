@@ -8,7 +8,9 @@ Planned improvements for 0.3:
    - 'We will test for xxx genes possible eQTL' - give here the amount of tested SNPs
 * Revisit the print/summary functions, there is also still space for improvements...
 * output numbered and estimation of the remaining time (eQTL)
-* Progress bar for trans-eQTL (eQTL)
+* Progress bar for trans-eQTL and QTL (eQTL)
+* Automatic detection for need of transposition of pheno and gex input
+* Reduce redundancy between? eQTL and QTL
 
 Version 0.2.7 (Developer Version):
 * prereadGTF() function added
