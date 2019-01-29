@@ -3,10 +3,12 @@ LOG of the CHANGES in the package GenomicTools
 Version with odd last numbers are development versions.
 Stable releases have even version numbers:
 -----------------------------------------------------
-Planned improvements for later versions:
+Planned improvements for 0.3:
 * Improve the feedback/verboseness of the functions
    - 'We will test for xxx genes possible eQTL' - give here the amount of tested SNPs
 * Revisit the print/summary functions, there is also still space for improvements...
+* output numbered and estimation of the remaining time (eQTL)
+* Progress bar for trans-eQTL (eQTL)
 
 Version 0.2.7 (Developer Version):
 * prereadGTF() function added
@@ -21,9 +23,7 @@ Version 0.2.7 (Developer Version):
 * print.qtlRes handles now output without significant results
 * bugfix in eqtlDir and eqtlLM (error, if only one SNP is tested)
 * Couple of smaller bugfixes
-Planned features for 0.2.9:
-* output numbered and estimation of the remaining time (eQTL)
-* Progress bar for trans-eQTL (eQTL)
+* importVCF moved to GenomicTools.fileHandler
 
 Version 0.2.6:
 * Stable Cran release version
