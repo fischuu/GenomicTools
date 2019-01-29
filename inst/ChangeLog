@@ -24,6 +24,7 @@ Version 0.2.7 (Developer Version):
 * bugfix in eqtlDir and eqtlLM (error, if only one SNP is tested)
 * Couple of smaller bugfixes
 * importVCF moved to GenomicTools.fileHandler
+* No empty (=NA or NaN) p.values will be printed anymore in print.eqtl output
 
 Version 0.2.6:
 * Stable Cran release version

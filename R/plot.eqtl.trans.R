@@ -1,7 +1,7 @@
 plot.trans <- function(x, genome){
-  
 
-    
+  # Store the current par settings
+   .pardefault <- par(no.readonly = T)
     par(mar=rep(0,4))
     circos.clear()
   
@@ -74,4 +74,7 @@ plot.trans <- function(x, genome){
       }
     }
   if(wrongCHR) warning("There were sig. SNPs that coulnd't be matched to the genome information! Maybe wrong genome, or mislabeled chromosomes?")
+
+# Restore the old par settings  
+  par(.pardefault)  
 }

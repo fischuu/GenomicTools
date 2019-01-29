@@ -18,6 +18,8 @@
       repSNP <- tempRes[[2]][((tempRes[[3]]>-1)&(tempRes[[3]]<=sig)),]
       if(nrow(repSNP)>0){
         temp <- data.frame(Chr=repSNP[,1],Start=repSNP[,4],End=repSNP[,4],Name=repSNP[,2], Gene=names(xx)[testRun], p.value=tempRes[[3]][tempRes[[3]]<=sig])
+        # Remove NA and NAN values in the p-values
+        temp <- temp[is.finite(temp$p.value),]
         X <- rbind(X,temp)
       }
     }
@@ -41,7 +43,10 @@
       if(is.null(which)) which <- 1:length(x)
       names(X)<- names(x[which])
     }
+    # Remove still the NAN lines!!!!
+    
     print(X,...)
+    
   } else if(x$type=="sig"){
     print(x$bed,...)
   }
