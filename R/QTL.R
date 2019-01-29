@@ -60,7 +60,7 @@ QTL <- function(pheno, phenoSamples=NULL, geno=NULL, genoSamples=NULL, method="L
        } else {
           if(class(geno)=="PedMap"){
              genoData <- geno
-          } else if(class(geno)=="VCF"){
+          } else if(class(geno)=="vcf"){
             genoData <- geno
             
       # In the other possibility is that the genotypes are just given in a matrix or vector form:    
