@@ -10,12 +10,13 @@ joinEQTL <- function(eqtlTemp){
   output[[1]] <- temp
 
   # Join the testedGenome matrices
-  temp <- matrix(NA,ncol=6,nrow=0)
+  #temp <- matrix(NA,ncol=6,nrow=0)
+  temp <- setNames(data.table(matrix(nrow = 0, ncol = 6 )), colnames(eqtlTemp[[1]][2]$TestedSNP))
   for(i in 1:length(eqtlTemp))
   {
       temp <- rbind(temp,eqtlTemp[[i]][2]$TestedSNP)
   }
-  output[[2]] <- temp
+  output[[2]] <- as.data.frame(temp)
 
 
   # Join the p.values vectors

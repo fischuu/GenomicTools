@@ -9,6 +9,7 @@ Planned improvements for 0.3:
 * Revisit the print/summary functions, there is also still space for improvements...
 * output numbered and estimation of the remaining time (eQTL)
 * Progress bar for trans-eQTL (eQTL)
+* Sort QTL plots first numerical, then non-numerical
 
 Version 0.2.7 (Developer Version):
 * prereadGTF() function added

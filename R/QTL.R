@@ -151,10 +151,10 @@ QTL <- function(pheno, phenoSamples=NULL, geno=NULL, genoSamples=NULL, method="L
       #  SNPmatrix <- as.matrix(genoData$genotypes)
       #}
 
-      genoGroups <- matrix(as.numeric(SNPmatrix)-1,nrow=nrow(SNPmatrix))
-      colnames(genoGroups) <- colnames(SNPmatrix)
-      rownames(genoGroups) <- rownames(genoData)
-      genoGroups <- rearrange(genoGroups,rownames(pheno),genoSamples)
+      #genoGroups <- matrix(as.numeric(SNPmatrix)-1,nrow=nrow(SNPmatrix))
+      #colnames(genoGroups) <- colnames(SNPmatrix)
+      #rownames(genoGroups) <- rownames(genoData)
+      #genoGroups <- rearrange(genoGroups,rownames(pheno),genoSamples)
           
     # QTL case : LM
       if(method=="LM"){
