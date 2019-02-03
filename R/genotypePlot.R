@@ -17,15 +17,16 @@ genotypePlot <- function(snp, gene=NULL, eqtl=NULL, gex=NULL, geno=NULL, ylab=NU
    if(is.null(gene)) gene <- ""  
 
    rowGex <- rownames(eqtl$gex)
-   takeThese <- is.element(as.character(eqtl$geno$fam[,1]),rowGex)
+   takeThese <- is.element(as.character(eqtl$genoSamples),rowGex)
    eqtl$geno$genotypes <- eqtl$geno$genotypes[takeThese,]
    eqtl$geno$genotypes <- eqtl$geno$genotypes[order(rowGex),]
    snpCol <- which((eqtl$geno$map[,2]==snp)==TRUE)
-   snpValues <- as.numeric(as.vector(eqtl$geno$genotypes[,snpCol]))
+ snpValues <- as.numeric(as.vector(as.matrix(eqtl$geno$genotypes[, ..snpCol])))
    nGroups <- unique(snpValues)
    grExpr <- list()
    for(i in 1:length(nGroups)){
-     temp <- rownames(eqtl$geno$genotypes)[snpValues==i]
+     #temp <- rownames(eqtl$geno$genotypes)[snpValues==i]
+     temp <- eqtl$genoSamples[snpValues==i]
      if(gene==""){
        grExpr[[i]] <- eqtl$gex[is.element(rowGex,temp)]
      } else {
@@ -34,7 +35,7 @@ genotypePlot <- function(snp, gene=NULL, eqtl=NULL, gex=NULL, geno=NULL, ylab=NU
 
    }
    
-   temp <- eqtl$eqtl[names(eqtl$eqtl)==gene]
+   temp <- eqtl$eqtl[names(eqtl$eqtl)==gene][[1]]
    temp2 <- temp[2]$TestedSNP[,2]==snp
    
    snpP <- temp[3]$p.values[temp2]
