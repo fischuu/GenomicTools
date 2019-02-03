@@ -1,4 +1,5 @@
-`plot.qtlRes` <- function(x, which=NULL, sig=0.01, verbose=TRUE, log=TRUE, genome=NULL, pch=1, ...){
+`plot.qtlRes` <- function(x, which=NULL, sig=0.01, verbose=TRUE, log=FALSE, genome=NULL, pch=1, ...){
+#plotQtlRes <- function(x, which=NULL, sig=0.01, verbose=TRUE, log=FALSE, genome=NULL, pch=1, ...){
   
   humanGenome68 <- data.frame(chr=c(1:22,"X","Y"),
                               length=c(249250621, 
@@ -36,10 +37,10 @@
     gOrder <- as.character(guessedChr)
     nonNumeric <- which(is.element(tolower(gOrder),letters))
     if(length(nonNumeric)>0){
-      chr <- gOrder[-nonNumeric]
-      chr <- c(chr[order(nchar(chr), chr)],gOrder[nonNumeric])      
+      chr <-as.numeric(gOrder[-nonNumeric])[order(as.numeric(gOrder[-nonNumeric]))]
+      chr <- c(chr,sort(gOrder[nonNumeric]))      
     } else {
-      chr <- gOrder
+      chr <- as.numeric(gOrder)[order(as.numeric(gOrder))]
     }
     length <- numeric(length(chr))
     tmp <- x$qtl[1][[1]]$TestedSNP
