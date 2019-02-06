@@ -21,7 +21,8 @@ genotypePlot <- function(snp, gene=NULL, eqtl=NULL, gex=NULL, geno=NULL, ylab=NU
    eqtl$geno$genotypes <- eqtl$geno$genotypes[takeThese,]
    eqtl$geno$genotypes <- eqtl$geno$genotypes[order(rowGex),]
    snpCol <- which((eqtl$geno$map[,2]==snp)==TRUE)
- snpValues <- as.numeric(as.vector(as.matrix(eqtl$geno$genotypes[, ..snpCol])))
+   ..snpCol <- NULL  # This is just for the Cran check, hopefully it does not do any harm...
+   snpValues <- as.numeric(as.vector(as.matrix(eqtl$geno$genotypes[, ..snpCol])))
    nGroups <- unique(snpValues)
    grExpr <- list()
    for(i in 1:length(nGroups)){

@@ -191,7 +191,7 @@ QTL <- function(pheno, phenoSamples=NULL, geno=NULL, genoSamples=NULL, method="L
             }
         }
       } else {
-        warning("There were no variants within the window of gene ", matchingGenes[geneRun])
+        warning("There were no variants within the window of gene ", matchingPheno[phenoRun])
       }
   
       

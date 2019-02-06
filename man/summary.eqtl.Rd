@@ -9,11 +9,12 @@
   Summarizes and prints an \code{eqtl} object in an informative way.
 }
 \usage{
- \method{summary}{eqtl}(object, ...)
+ \method{summary}{eqtl}(object, sig=0.01, ...)
 }
 
 \arguments{
   \item{object}{Object of class \code{eqtl}.}
+  \item{sig}{Significance level to print.}
   \item{...}{Additional parameters.}
 }
 

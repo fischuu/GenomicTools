@@ -19,7 +19,7 @@ summary.eqtl <- function(object, sig=0.01, ...){
 
   testedGenes <- 0
   if(trans){
-    testedGenes <- length(transEQTL$xAnnot)
+    testedGenes <- length(object$xAnnot)
   } else {
     testedGenes <- length(object$eqtl)
   }
