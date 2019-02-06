@@ -1,7 +1,7 @@
 Package: GenomicTools
 Type: Package
 Title: Collection of Tools for Genomic Data Analysis
-Version: 0.2.8
+Version: 0.2.9
 Date: 2019-02-06
 Author: Daniel Fischer
 Maintainer: Daniel Fischer <daniel.fischer@luke.fi>
