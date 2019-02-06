@@ -25,7 +25,13 @@
 }
 
 \examples{
-  getRSLocation("rs16033432", species="Gallus_gallus")
+# Depending on the internet connection the following call
+# can take up 10 seconds and hence does not pass the Cran
+# checks. This is why it is wrapped into \dontrun 
+
+  \dontrun{
+    getRSLocation("rs16033432", species="Gallus_gallus")
+  }
 }
 
 \author{
