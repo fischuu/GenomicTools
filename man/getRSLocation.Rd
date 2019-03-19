@@ -9,13 +9,12 @@
   This function gets the exact location of a SNPs, based on a specific database.
 }
 \usage{
-  getRSLocation(rs, species="Gallus_gallus", url="jul2016.archive.ensembl.org")
+  getRSLocation(rs, species=NULL)
 }
 
 \arguments{
   \item{rs}{SNP rs number}
   \item{species}{Species identifier}
-  \item{url}{Path of the ensembl database to use}
 }
 
 \details{
@@ -26,7 +25,13 @@
 }
 
 \examples{
-  getRSLocation("rs16033432")
+# Depending on the internet connection the following call
+# can take up 10 seconds and hence does not pass the Cran
+# checks. This is why it is wrapped into \dontrun 
+
+  \dontrun{
+    getRSLocation("rs16033432", species="Gallus_gallus")
+  }
 }
 
 \author{

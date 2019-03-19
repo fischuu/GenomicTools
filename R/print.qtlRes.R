@@ -23,7 +23,7 @@
     locname <- c("Chr", "Pos")
     warning("No significant results with p <",sig)
   } else {
-    colnames(output) <- c(locNames, "p.value", "assoc. pheno.")
+    colnames(output) <- c("Chr", "SNP", "POS", "A", "B", "p-value", "Pheno")
     print(output)
   }
 } 
