@@ -118,7 +118,7 @@ plotIt <- function(x,sig,windowSize,centered,log,x2,annot, double){
 	  } else {
 	    plot(c(-10,-10),ylim=plotY,xlim=c(0,20),ylab=plotYlab,main=paste(names(x)[gene],"- NO SNPs found"),yaxt="n",xaxt="n")
 	  }
-	  axis(2,at=c(seq(0,1,0.2),1.25,1.5),labels=c(seq(0,1,0.2),"Mono.","NA"))
+	  axis(2,at=c(seq(0,1,0.2),1.1,1.2, 1.3),labels=c(seq(0,1,0.2),"MAF" ,"Mono.","NA"))
 	  
 
 	  # Plot the gene position
@@ -195,7 +195,7 @@ plotIt <- function(x,sig,windowSize,centered,log,x2,annot, double){
               plot(c(-10,-10),ylim=plotY,xlim=c(0,20),xlab="",ylab=plotYlab,main=paste(names(x)[gene],"-",sub),yaxt="n",xaxt="n")
 	  }
 	  if(log==FALSE){
-	    axis(2,at=c(seq(0,1,0.2),1.25,1.5),labels=c(seq(0,1,0.2),"Mono.","NA"))
+	    axis(2,at=c(seq(0,1,0.2), 1.1, 1.2, 1.3),labels=c(seq(0,1,0.2), "MAF", "Mono.","NA"))
 	  } else {
             axis(2,at=c(seq(0,max(yPos),0.5)),labels=c(seq(0,max(yPos),0.5)))
 	  }

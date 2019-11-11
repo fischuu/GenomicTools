@@ -1,15 +1,19 @@
-eqtlDir <- function(genoGroups,gex,mc=mc,nper, testType){
+eqtlDir <- function(genoGroups,gex,mc=mc,nper, testType, MAF){
 
   output <- c()
     innerFunction <- function(i)
     {
+      # Calculate MAF
+      maf.snp <- sum(genoGroups[genoGroups[,i]<3,i])/(2*(sum(genoGroups[,i]<3) ))
+      maf.snp <- min(1-maf.snp, maf.snp)
+      
       # Genotypes are coded as '3' if there is missing data, only proced if there is valid data
       if(sum(genoGroups[,i]==3)<(nrow(genoGroups))){
         missingData <- which((genoGroups[,i]==3)==TRUE)
 	PI <- length(table(genoGroups[genoGroups[,i]!=3,i]))
 	# All individuals have the same genotype, do nothing
 	if(PI==1){
-	  output[i] <- 1.25
+	  output[i] <- 1.2
 	
 	# Then the 2 groups comparison
 	} else if (PI==2){
@@ -24,9 +28,12 @@ eqtlDir <- function(genoGroups,gex,mc=mc,nper, testType){
 	  
 	}
       } else {
-	output[i] <- 1.5
+	output[i] <- 1.3
       }
+      
+    if(maf.snp<=MAF) output[i] <- 1.1  
     }
+    
   if(is.matrix(genoGroups)){
     output <- unlist(mclapply(1:ncol(genoGroups),innerFunction,mc.cores=mc))    
   } else {

@@ -17,6 +17,7 @@ Version 0.2.9.*:
 * (1) Bugfix in joinEQTL (rbind issue, in case that no SNPs in gene window)
 * (2) Missing detectCores() import added
 * (3) seqlength() function added
+* (4) MAF option added to eQTL and version dependency  for importVCF increased for critical bugfix 
 
 Version 0.2.8:
 * Released on Cran

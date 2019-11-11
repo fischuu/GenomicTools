@@ -11,7 +11,7 @@
 \usage{
   eQTL(gex=NULL, xAnnot = NULL, xSamples = NULL, geno=NULL, genoSamples = NULL,
        windowSize = 0.5, method = "directional", mc = 1, sig = NULL, which = NULL,
-       testType = "asymptotic", nper = 2000, verbose = TRUE,
+       testType = "asymptotic", nper = 2000, verbose = TRUE, MAF=0.05,
        IHaveSpace = FALSE)
 }
 
@@ -29,6 +29,7 @@
   \item{testType}{Type of test, either \code{permutation} or \code{asymptotic}.}
   \item{nper}{Sets the amount of permutations, if permuation tests are used.}
   \item{verbose}{Logical, shall the method give extensive feedback.}
+  \item{MAF}{Filter for Minor Allele Frequency.}
   \item{IHaveSpace}{Logical, security switch for operations that require lots of memory.}
 }
 

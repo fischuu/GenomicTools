@@ -1,4 +1,4 @@
-eQTL <- function(gex=NULL, xAnnot=NULL, xSamples=NULL, geno=NULL, genoSamples=NULL, windowSize=0.5, method="directional", mc=1, sig=NULL, which=NULL, testType="asymptotic", nper=2000, verbose=TRUE, IHaveSpace=FALSE){
+eQTL <- function(gex=NULL, xAnnot=NULL, xSamples=NULL, geno=NULL, genoSamples=NULL, windowSize=0.5, method="directional", mc=1, sig=NULL, which=NULL, testType="asymptotic", nper=2000, verbose=TRUE, MAF=0.05 , IHaveSpace=FALSE){
 
   # Initial values
     noNames <- FALSE
@@ -216,7 +216,7 @@ eQTL <- function(gex=NULL, xAnnot=NULL, xSamples=NULL, geno=NULL, genoSamples=NU
     	                                          p.values=eqtlLM(genoGroups,gex[,geneRun], mc=mc))
     	            }
     	        } else {
-    	            p.values <- eqtlLM(genoGroups,gex[,geneRun], mc=mc)
+    	            p.values <- eqtlLM(genoGroups,gex[,geneRun], MAF=MAF, mc=mc)
               	  pPos <- p.values<=sig
     	            eqtlTemp[[tempRun]] <- cbind(SNPloc[[1]][pPos,c(1,2,4)],p.values[pPos])
     	        }
@@ -227,15 +227,15 @@ eQTL <- function(gex=NULL, xAnnot=NULL, xSamples=NULL, geno=NULL, genoSamples=NU
                  if(is.matrix(genoGroups)){
                    eqtlTemp[[tempRun]] <- list(GeneLoc=rep(tempRun, ncol(genoGroups)),
                                                TestedSNP=SNPloc[[1]],
-                                               p.values=eqtlDir(genoGroups,gex[,geneRun], mc=mc, nper=nper, testType=testType))
+                                               p.values=eqtlDir(genoGroups,gex[,geneRun], mc=mc, nper=nper, testType=testType, MAF=MAF))
                  } else {
                    eqtlTemp[[tempRun]] <- list(GeneLoc=rep(tempRun, 1),
                                                TestedSNP=SNPloc[[1]],
-                                               p.values=eqtlDir(genoGroups,gex[,geneRun], mc=mc, nper=nper, testType=testType))
+                                               p.values=eqtlDir(genoGroups,gex[,geneRun], mc=mc, nper=nper, testType=testType, MAF=MAF))
                    
                  }
   	        } else {
-  	           p.values <- eqtlDir(genoGroups,gex[,geneRun],mc=mc,nper=nper, testType=testType)
+  	           p.values <- eqtlDir(genoGroups,gex[,geneRun],mc=mc,nper=nper, testType=testType, MAF=MAF)
   	           pPos <- p.values<=sig
   	           eqtlTemp[[tempRun]] <- cbind(SNPloc[[1]][pPos,c(1,2,4)],p.values[pPos])
           	}
