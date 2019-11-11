@@ -5,7 +5,7 @@ Version: 0.2.9.3
 Date: 2019-03-19
 Author: Daniel Fischer
 Maintainer: Daniel Fischer <daniel.fischer@luke.fi>
-Depends: R (>= 3.3), gMWT (>= 1.1), Rcpp (>= 0.9.13), data.table (>= 1.9.6), GenomicTools.fileHandler (>= 0.1)
+Depends: R (>= 3.3), gMWT (>= 1.1), Rcpp (>= 0.9.13), data.table (>= 1.9.6), GenomicTools.fileHandler (>= 0.1.5.7)
 Imports: circlize, stringr, snpStats
 Suggests: knitr, rmarkdown
 LinkingTo: Rcpp, RcppArmadillo
