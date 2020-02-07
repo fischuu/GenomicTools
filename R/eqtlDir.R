@@ -33,7 +33,7 @@ eqtlDir <- function(genoGroups,gex,mc=mc,nper, testType, MAF){
       if(maf.snp<=MAF){
         innerOut <- 1.1
       }   
-      cat("InnerOut:", i, innerOut, "\n")     
+#      cat("InnerOut:", i, innerOut, "\n")     
       innerOut
     }
     

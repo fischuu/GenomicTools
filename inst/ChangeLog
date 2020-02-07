@@ -18,6 +18,7 @@ Version 0.2.9.*:
 * (2) Missing detectCores() import added
 * (3) seqlength() function added
 * (4) MAF option added to eQTL and version dependency  for importVCF increased for critical bugfix 
+* (5) Plotting function adjusted to new MAF option
 
 Version 0.2.8:
 * Released on Cran

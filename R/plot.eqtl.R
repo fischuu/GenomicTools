@@ -147,7 +147,7 @@ plotIt <- function(x,sig,windowSize,centered,log,x2,annot, double){
 	     tempPos <- (yPos>1) & (yPos < 1.2)
 	     plotY <- c(0,1.5)
 	     plotYlab <- "p-value"
-	     yPos[tempPos] <- 1
+	     #yPos[tempPos] <- 1
 	     col <- rep("green",length(subPos))
 	     col[temp$p.values[subPos] <= sig] <- "red" 
 	     col[yPos[subPos] > 1] <- "black"
@@ -195,7 +195,7 @@ plotIt <- function(x,sig,windowSize,centered,log,x2,annot, double){
               plot(c(-10,-10),ylim=plotY,xlim=c(0,20),xlab="",ylab=plotYlab,main=paste(names(x)[gene],"-",sub),yaxt="n",xaxt="n")
 	  }
 	  if(log==FALSE){
-	    axis(2,at=c(seq(0,1,0.2), 1.1, 1.2, 1.3),labels=c(seq(0,1,0.2), "MAF", "Mono.","NA"))
+	    axis(2,las=2,at=c(seq(0,1,0.2), 1.1, 1.2, 1.3),labels=c(seq(0,1,0.2), "MAF", "Mono.","NA"))
 	  } else {
             axis(2,at=c(seq(0,max(yPos),0.5)),labels=c(seq(0,max(yPos),0.5)))
 	  }
