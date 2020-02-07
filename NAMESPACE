@@ -28,8 +28,6 @@ S3method(plot,qtlRes)
 S3method(print,qtlRes)
 S3method(summary,qtlRes)
 
-S3method(print,vcf)
-
 export(eQTL, QTL, gtfToBed, mdr, mdrEnsemble, recodeData,
        getKEGGOrganisms, getKEGGPathwayOverview, getKEGGPathway, getKEGGPathwayImage, getRSLocation,
        seqlength)
