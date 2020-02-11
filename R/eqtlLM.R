@@ -1,6 +1,6 @@
 eqtlLM.internal <- function(geno,gex, MAF){
   # Calculate MAF
-    maf.snp <- sum(geno[geno[,i]<3,i])/(2*(sum(geno[,i]<3) ))
+    maf.snp <- sum(geno[geno<3])/(2*(sum(geno<3) ))
     maf.snp <- min(1-maf.snp, maf.snp)    
   
     res <- 1.3
