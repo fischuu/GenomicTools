@@ -19,6 +19,8 @@ Version 0.2.9.*:
 * (3) seqlength() function added
 * (4) MAF option added to eQTL and version dependency  for importVCF increased for critical bugfix 
 * (5) Plotting function adjusted to new MAF option
+* (6) Warning fixed caused by wrong vectorisation in joinEQTL() function
+* (7) gtfToBed() adjusts now the bases to bed-standard by default
 
 Version 0.2.8:
 * Released on Cran

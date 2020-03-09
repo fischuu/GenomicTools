@@ -14,7 +14,7 @@ joinEQTL <- function(eqtlTemp){
   temp <- setNames(data.table(matrix(nrow = 0, ncol = 6 )), colnames(eqtlTemp[[1]][2]$TestedSNP))
   for(i in 1:length(eqtlTemp))
   {
-      if(eqtlTemp[[i]][2]$TestedSNP==-1){
+      if(is.element(-1,eqtlTemp[[i]][2]$TestedSNP)==TRUE){
         temp <- rbind(temp,  data.table(V1=-1,
                                         snp.names=-1,
                                         V3=-1,
