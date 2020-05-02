@@ -185,6 +185,8 @@ eQTL <- function(gex=NULL, xAnnot=NULL, xSamples=NULL, geno=NULL, genoSamples=NU
   # Now go through all possible genes
     eqtl <- list()
  
+    eqtlStart <- Sys.time()
+    
     for(geneRun in 1:length(matchingGenes)){
     # Do that for each possible location of the gene (might not be unique...)
       tempAnnot <- xAnnot[[which((names(xAnnot)==matchingGenes[geneRun])==TRUE)]]
@@ -263,7 +265,14 @@ eQTL <- function(gex=NULL, xAnnot=NULL, xSamples=NULL, geno=NULL, genoSamples=NU
           eqtl[[geneRun]] <- bedTemp          
         }
       }
-    if(verbose==TRUE) cat ("We calculated eQTLs for ",matchingGenes[geneRun]," for ",prettyNum(nrow(SNPloc$SNPloc), big.mark = ",")," SNPs (Run",geneRun,"/",length(matchingGenes),"-",date(),")\n", sep="")
+    if(verbose==TRUE){
+      now <- Sys.time()
+      
+      avgRuntime <- as.numeric(difftime(now, eqtlStart, units="secs"))/geneRun
+      reqTime <- sectoDay((length(matchingGenes)-geneRun)*avgRuntime)
+      
+      cat ("We calculated eQTLs for ",matchingGenes[geneRun]," for ",prettyNum(nrow(SNPloc$SNPloc), big.mark = ",")," SNPs - ", date(), ", remaing time: ", reqTime," for ",length(matchingGenes)-geneRun,"/",length(matchingGenes)," genes\n", sep="")
+    } 
     }
 
   # Return the result
