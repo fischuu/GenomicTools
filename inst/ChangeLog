@@ -19,6 +19,7 @@ Version 0.2.9.*:
 * (3) seqlength() function added
 * (4) MAF option added to eQTL and version dependency  for importVCF increased for critical bugfix 
 * (5) Plotting function adjusted to new MAF option
+* (6) Verbose output of eQTL() adjusted
 
 Version 0.2.8:
 * Released on Cran

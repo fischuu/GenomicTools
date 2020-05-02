@@ -263,7 +263,7 @@ eQTL <- function(gex=NULL, xAnnot=NULL, xSamples=NULL, geno=NULL, genoSamples=NU
           eqtl[[geneRun]] <- bedTemp          
         }
       }
-    if(verbose==TRUE) cat ("We calculated eQTLs for ",matchingGenes[geneRun]," for ",prettyNum(nrow(SNPloc$SNPloc), big.mark = ",")," SNPs (",date(),")\n", sep="")
+    if(verbose==TRUE) cat ("We calculated eQTLs for ",matchingGenes[geneRun]," for ",prettyNum(nrow(SNPloc$SNPloc), big.mark = ",")," SNPs (Run",geneRun,"/",length(matchingGenes),"-",date(),")\n", sep="")
     }
 
   # Return the result
