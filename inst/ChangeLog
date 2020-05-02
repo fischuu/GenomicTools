@@ -22,6 +22,7 @@ Version 0.2.9.*:
 * (6) Warning fixed caused by wrong vectorisation in joinEQTL() function
 * (7) gtfToBed() adjusts now the bases to bed-standard by default
 * (8) Verbose output of eQTL() adjusted
+* (9) Issue fixed in MAF checks, if all genotypes are missing 
 
 Version 0.2.8:
 * Released on Cran

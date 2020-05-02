@@ -2,7 +2,8 @@ eqtlLM.internal <- function(geno,gex, MAF){
   # Calculate MAF
     maf.snp <- sum(geno[geno<3])/(2*(sum(geno<3) ))
     maf.snp <- min(1-maf.snp, maf.snp)    
-  
+    if(is.nan(maf.snp)) maf.snp <- 0
+    
     res <- 1.3
     
     if(sum(is.na(geno)) < length(geno)){

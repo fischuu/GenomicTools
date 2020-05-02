@@ -5,6 +5,7 @@ eqtlDir <- function(genoGroups,gex,mc=mc,nper, testType, MAF){
       # Calculate MAF
       maf.snp <- sum(genoGroups[genoGroups[,i]<3,i])/(2*(sum(genoGroups[,i]<3) ))
       maf.snp <- min(1-maf.snp, maf.snp)
+      if(is.nan(maf.snp)) maf.snp <- 0
       
       # Genotypes are coded as '3' if there is missing data, only proced if there is valid data
       if(sum(genoGroups[,i]==3)<(nrow(genoGroups))){
