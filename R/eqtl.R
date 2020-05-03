@@ -255,7 +255,7 @@ eQTL <- function(gex=NULL, xAnnot=NULL, xSamples=NULL, geno=NULL, genoSamples=NU
         eqtl[[geneRun]] <- joinEQTL(eqtlTemp)
         eqtl[[geneRun]]$GeneInfo <- tempAnnot
       } else {
-        if(sum(p.values<=sig)==0){
+        if(sum(p.values<=sig, na.rm=TRUE)==0){
           eqtl[[geneRun]] <-  data.frame(chr="-1", SNP="-1", Location="-1", p.value="-1", Assoc.Gene=matchingGenes[geneRun], stringsAsFactors=FALSE)
         } else {
           #bedTemp <- joinEQTLsig(eqtlTemp)

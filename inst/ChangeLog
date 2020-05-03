@@ -23,6 +23,7 @@ Version 0.2.9.*:
 * (7) gtfToBed() adjusts now the bases to bed-standard by default
 * (8) Verbose output of eQTL() adjusted
 * (9) Issue fixed in MAF checks, if all genotypes are missing 
+* (10) Issue if NaN are present in tests and sig!=NULL is set
 
 Version 0.2.8:
 * Released on Cran
