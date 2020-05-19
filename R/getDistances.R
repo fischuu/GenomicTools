@@ -1,6 +1,53 @@
 library("GenomicTools")
 
-data <- importVCF("/home/fischuu/ownCloud/Luke/Projects/Genotype/Raccoon/GSC.vcf")
+data <- importVCF("/home/fischuu/ownCloud/Luke/Projects/Genotype/Whitefish/GSC.vcf")
+
+#test <- readLines("/home/fischuu/ownCloud/Luke/Projects/Genotype/Raccoon/plink.mendel")
+
+importPlinkMendel <- function(file){
+  
+  x <- readLines(file)
+  
+  header <- strsplit(x[1], "\t")[[1]]
+
+  splitPlink <- function(x){
+    tmp <- strsplit(x, "\t")[[1]]
+    out <- c(tmp[1:6], paste(tmp[7:11],collapse=""), tmp[12:13])
+    out
+  }
+    
+  
+  out <- do.call(rbind,lapply(x[-1], splitPlink))
+  colnames(out) <- header
+  
+  out
+}
+
+plinkMendel  <- importPlinkMendel(file="/home/fischuu/ownCloud/Luke/Projects/Genotype/Whitefish/plink.mendel")
+plinkMendel[,5] <- gsub("MOCKREFGENOME", "MockRefGenome", plinkMendel[,5])
+#plinkMendel[,5] <- gsub("-SNV", "", plinkMendel[,5])
+plinkMendel[,5] <- gsub(":", ".", plinkMendel[,5])
+
+errorSNPs <- data$map[is.element(data$map$snp.names,plinkMendel[,5]),]
+
+errorSNPs.info <- data$genotypesInfo[is.element(data$map$snp.names,plinkMendel[,5]),]
+
+coverage <- c()
+for(i in 1:nrow(plinkMendel)){
+  nrow <- which(errorSNPs$snp.names==plinkMendel[i,5])
+  #ncol <- which(colnames(errorSNPs.info)==plinkMendel[i,3])
+  coverage[i] <- errorSNPs.info[nrow,get(plinkMendel[i,3])]
+}
+
+errorCoverage <- apply(sapply(strsplit(coverage, ","), as.numeric),2,sum)
+
+totalCoverage <- c()
+for(i in 1:nrow(data$genotypesInfo)){
+
+  tmp <- data$genotypesInfo[i,]
+  totalCoverage[i] <- mean(apply(sapply(strsplit(as.vector(as.matrix(tmp)),","),as.numeric),2,sum),na.rm=TRUE)
+}
+
 
 # vcf: VCF object
 # n: n-fold comparison (2 or 3)
@@ -9,12 +56,16 @@ data <- importVCF("/home/fischuu/ownCloud/Luke/Projects/Genotype/Raccoon/GSC.vcf
 # average to the third sample
 getDistances <- function(vcf, n=2, n.snps=100){
   
+  numericMatrix <- apply(as.matrix(data$genotypes[,1:n.snps]),1,as.numeric)
+  numericMatrix[numericMatrix==3] <- NA
+  
   if(n==2){
     out <- matrix(0,nrow(vcf$genotypes), ncol=nrow(vcf$genotypes))
     for(i in 1:(nrow(vcf$genotypes)-1)){
-      for(j in (i+1):nrow(vcf$genotypes)){
-        numericMatrix <- apply(as.matrix(data$genotypes[c(i,j),1:n.snps]),1,as.numeric)
-        numericMatrix[numericMatrix==3] <- NA
+        diffMatrix <- abs(t(t(numericMatrix) - numericMatrix[i,])
+        out[i,] <- apply(diffMatrix,1,sum, na.rm=TRUE)
+                        
+            for(j in (i+1):nrow(vcf$genotypes)){
         diffVector <- apply(numericMatrix,1,diff, na.rm=TRUE)
         out[i,j] <- sum(abs(diffVector), na.rm=TRUE)/(length(diffVector)-sum(is.na(diffVector)))
         out[j,i] <- out[i,j]
