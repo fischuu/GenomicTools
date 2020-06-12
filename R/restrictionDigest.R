@@ -7,10 +7,14 @@ restrictionDigest <- function(fa, re1="AATTC", re2="GCATG"){
   # Cut the reference genome at all places the fit restriction enzyme 1
   tmp <- strsplit(fa, re1)
   
+  cutSites.re1 <- length(tmp)
+  
   # Cut all the cutted fragments at restriction enzyme 2
   out <- list()
+  cutSites.re2 <- 0
   for(i in 1:length(tmp)){
     out[[i]] <- strsplit(tmp[[i]],re2)
+    cutSites.re2 <- cutSites.re2 + length(out[[i]])
   }
   
   # Remove those fragments cutted by RE1 that did not contain a RE2 cut-site
@@ -35,7 +39,9 @@ restrictionDigest <- function(fa, re1="AATTC", re2="GCATG"){
   }
   
   out <- list(clusters=clusters,
-              clusters.bp=clusters.bp)
+              clusters.bp=clusters.bp,
+              cutsites.re1=cutsites.re1,
+              cutsites.re2=cutsites.re2)
 
   out  
 }

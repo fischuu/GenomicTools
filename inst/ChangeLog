@@ -25,6 +25,7 @@ Version 0.2.9.*:
 * (9) Issue fixed in MAF checks, if all genotypes are missing 
 * (10) Issue if NaN are present in tests and sig!=NULL is set
 * (11) restrictionDigest() function added
+* (12) Additional output for restrictionDigest() added
 
 Version 0.2.8:
 * Released on Cran
