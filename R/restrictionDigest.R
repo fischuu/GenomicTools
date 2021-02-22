@@ -3,7 +3,7 @@
 # restriction enzymes.
 
 restrictionDigest <- function(fa, re1="AATTC", re2="GCATG", use.rev=TRUE){
-   if(use.ref){
+   if(use.rev){
      out1 <- restrictionDigest.internal(fa=fa, re1=re1, re2=re2)
      out2 <- restrictionDigest.internal(fa=fa, re1=revcomp(re2), re2=revcomp(re1))
      
@@ -17,9 +17,7 @@ restrictionDigest <- function(fa, re1="AATTC", re2="GCATG", use.rev=TRUE){
                  cutsites.rev.re2=out2$cutsites.re2)
    } else {
      out <- restrictionDigest.internal(fa=fa, re1=re1, re2=re2)
-     
    } 
-  
   out
 }
 
