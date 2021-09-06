@@ -19,6 +19,35 @@ getKEGGPathwayOverview <- function(code="hsa"){
   out
 }
 
+getKEGGInformation <- function(x){
+  tmp <- readLines(paste("http://rest.kegg.jp/get/",x,sep=""))
+  output <- list()
+  for(i in 1:length(tmp)){
+  # This is the case that we find a new headline
+    if(substr(tmp[i],1,1)!=" "){
+    # We found a new FIELD entry, store the old one into the output list
+      if(i>1){
+        output[[eval(tmpName)]] <- tmpEntry
+      }
+    # Extract the inforamtion, first field the the headline, third field the entry and the rest the explanation.
+        tmpLine <- unique(strsplit(tmp[i], " ")[[1]])
+    # Create a temporary matrix that stores the information for that particular field
+        tmpEntry <- data.frame(Entry = tmpLine[3],
+                               Description = paste(tmpLine[4:length(tmpLine)], collapse=" "), stringsAsFactors = FALSE)
+        tmpName <- tmpLine[1]
+  # This is then the entry
+    } else {
+      # Extract the information, first field the the headline, third field the entry and the rest the explanation.
+      tmpLine <- unique(strsplit(tmp[i], " ")[[1]])
+      # Create a temporary matrix that stores the information for that particular field
+      tmpEntry2 <- data.frame(Entry = tmpLine[2],
+                              Description = paste(tmpLine[3:length(tmpLine)], collapse=" "), stringsAsFactors = FALSE)
+      tmpEntry <- rbind(tmpEntry, tmpEntry2)
+    }
+  }
+  output
+}
+
 getKEGGPathway <- function(pathway){
   tmp <- readLines(paste("http://rest.kegg.jp/get/",pathway,sep=""))
   ENTRY <- tmp[which(grepl("ENTRY",tmp)==TRUE)]
