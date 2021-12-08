@@ -11,6 +11,15 @@ getKEGGOrganisms <- function(url="http://rest.kegg.jp/list/organism"){
   out
 }
 
+getKEGGOrthologOverview <- function () 
+{
+    tmp <- readLines("http://rest.kegg.jp/list/KO/")
+    tmp <- strsplit(tmp, "\t")
+    out <- data.frame(ortholog = sapply(tmp, "[", 1), description = sapply(tmp, 
+        "[", 2))
+    out
+}
+
 getKEGGPathwayOverview <- function(code="hsa"){
   tmp <- readLines(paste("http://rest.kegg.jp/list/pathway/",code,sep=""))
   tmp <- strsplit(tmp,"\t")
