@@ -57,6 +57,45 @@ getKEGGInformation <- function(x){
   output
 }
 
+getKEGGModule <- function(module){
+  tmp <- readLines(paste("http://rest.kegg.jp/get/",module,sep=""))
+  ENTRY <- tmp[which(grepl("ENTRY",tmp)==TRUE)]
+  NAME <- tmp[which(grepl("NAME",tmp)==TRUE)]
+  DEFINITION <- tmp[which(grepl("DEFINITION",tmp)==TRUE)]
+  CLASS <- tmp[which(grepl("CLASS",tmp)==TRUE)]
+
+  ORTHOLOGY <- which(grepl("ORTHOLOGY",tmp)==TRUE)
+  leadingChr <- substr(tmp,0,1)
+  # Now get the orthology rows
+  if(length(ORTHOLOGY)>0){
+    orthologyStart <- ORTHOLOGY
+    checkThis <- ORTHOLOGY + 1
+    while(leadingChr[checkThis]==" "){
+      checkThis <- checkThis + 1
+    }
+    orthologyEnd <- checkThis - 1
+    ORTHOLOGY.tmp <- tmp[orthologyStart:orthologyEnd]
+    
+    ORTHOLOGY.tmp[1] <- gsub("ORTHOLOGY","         ",ORTHOLOGY.tmp[1])
+    ORTHOLOGY.tmp <- trimws(ORTHOLOGY.tmp)
+    
+    ORTHOLOGY.tmp <- strsplit(ORTHOLOGY.tmp, " ")
+    
+    ORTHOLOGY.out <- data.frame(Orthology=sapply(ORTHOLOGY.tmp,"[",1),
+                                Desc=trimws(sapply(sapply(ORTHOLOGY.tmp,"[",-1), paste, collapse=" "))
+                                )
+    
+  } else {
+    ORTHOLOGY.out <- "Not available"
+  }
+  out <- list(Entry = ENTRY,
+              Name = NAME,
+              Definition = DEFINITION,
+              Class = CLASS,
+              Orthology = ORTHOLOGY.out)
+  out
+}
+  
 getKEGGPathway <- function(pathway){
   tmp <- readLines(paste("http://rest.kegg.jp/get/",pathway,sep=""))
   ENTRY <- tmp[which(grepl("ENTRY",tmp)==TRUE)]
@@ -67,6 +106,7 @@ getKEGGPathway <- function(pathway){
   ORGANISM <- tmp[which(grepl("ORGANISM",tmp)==TRUE)]
   GENE <- which(grepl("GENE",tmp)==TRUE)
   COMPOUND <- which(grepl("COMPOUND",tmp)==TRUE)
+  MODULE <- which(grepl("MODULE",tmp)==TRUE)
   leadingChr <- substr(tmp,0,1)
   # Now get the gene rows
    if(length(GENE)>0){
@@ -102,12 +142,32 @@ getKEGGPathway <- function(pathway){
     } else {
       COMPOUND <- "Not available"
     }
+  # Now get the module rows
+  if(length(MODULE)>0){
+    moduleStart <- MODULE
+    checkThis <- MODULE + 1
+    while(leadingChr[checkThis]==" "){
+      checkThis <- checkThis + 1
+    }
+    moduleEnd <- checkThis - 1
+    MODULE.tmp <- tmp[moduleStart:moduleEnd]
+    
+    MODULE.tmp[1] <- gsub("MODULE","      ",MODULE.tmp[1])
+    MODULE.tmp <- trimws(MODULE.tmp)
+    
+    MODULE.out <- data.frame(Module=substr(MODULE.tmp,1,6),
+                            Desc=trimws(substr(MODULE.tmp, 7,nchar(MODULE.tmp))))
+    
+  } else {
+    MODULE.out <- "Not available"
+  }
   out <- list(Entry = ENTRY,
               Name = NAME,
               Description = DESCRIPTION,
               Class = CLASS,
               Pathway_map= PATHWAY_MAP,
               Organism = ORGANISM,
+              Module = MODULE.out,
               Gene = GENE,
               Compound = COMPOUND)
   out
