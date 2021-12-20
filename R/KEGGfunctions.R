@@ -98,15 +98,15 @@ getKEGGModule <- function(module){
   
 getKEGGPathway <- function(pathway){
   tmp <- readLines(paste("http://rest.kegg.jp/get/",pathway,sep=""))
-  ENTRY <- tmp[which(grepl("ENTRY",tmp)==TRUE)]
-  NAME <- tmp[which(grepl("NAME",tmp)==TRUE)]
-  DESCRIPTION <- tmp[which(grepl("DESCRIPTION",tmp)==TRUE)]
-  CLASS <- tmp[which(grepl("CLASS",tmp)==TRUE)]
-  PATHWAY_MAP <- tmp[which(grepl("PATHWAY_MAP",tmp)==TRUE)]
-  ORGANISM <- tmp[which(grepl("ORGANISM",tmp)==TRUE)]
-  GENE <- which(grepl("GENE",tmp)==TRUE)
-  COMPOUND <- which(grepl("COMPOUND",tmp)==TRUE)
-  MODULE <- which(grepl("MODULE",tmp)==TRUE)
+  ENTRY <- tmp[which(grepl("^ENTRY",tmp)==TRUE)]
+  NAME <- tmp[which(grepl("^NAME",tmp)==TRUE)]
+  DESCRIPTION <- tmp[which(grepl("^DESCRIPTION",tmp)==TRUE)]
+  CLASS <- tmp[which(grepl("^CLASS",tmp)==TRUE)]
+  PATHWAY_MAP <- tmp[which(grepl("^PATHWAY_MAP",tmp)==TRUE)]
+  ORGANISM <- tmp[which(grepl("^ORGANISM",tmp)==TRUE)]
+  GENE <- which(grepl("^GENE",tmp)==TRUE)
+  COMPOUND <- which(grepl("^COMPOUND",tmp)==TRUE)
+  MODULE <- which(grepl("^MODULE",tmp)==TRUE)
   leadingChr <- substr(tmp,0,1)
   # Now get the gene rows
    if(length(GENE)>0){
