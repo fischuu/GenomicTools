@@ -17,8 +17,8 @@
   \tabular{ll}{
     Package: \tab GenomicTools\cr
     Type: \tab Package\cr
-    Version: \tab 0.3.1\cr
-    Date: \tab 2021-12-20\cr
+    Version: \tab 0.3.2\cr
+    Date: \tab 2022-01-18\cr
     License: \tab GPL\cr
     LazyLoad: \tab yes\cr
   }

@@ -76,7 +76,7 @@ getKEGGModule <- function(module){
     orthologyEnd <- checkThis - 1
     ORTHOLOGY.tmp <- tmp[orthologyStart:orthologyEnd]
     
-    ORTHOLOGY.tmp[1] <- gsub("ORTHOLOGY","         ",ORTHOLOGY.tmp[1])
+    ORTHOLOGY.tmp[1] <- gsub("^ORTHOLOGY","         ",ORTHOLOGY.tmp[1])
     ORTHOLOGY.tmp <- trimws(ORTHOLOGY.tmp)
     
     ORTHOLOGY.tmp <- strsplit(ORTHOLOGY.tmp, " ")
@@ -107,6 +107,7 @@ getKEGGPathway <- function(pathway){
   GENE <- which(grepl("^GENE",tmp)==TRUE)
   COMPOUND <- which(grepl("^COMPOUND",tmp)==TRUE)
   MODULE <- which(grepl("^MODULE",tmp)==TRUE)
+  ORTHOLOGY <- which(grepl("^ORTHOLOGY",tmp)==TRUE)
   leadingChr <- substr(tmp,0,1)
   # Now get the gene rows
    if(length(GENE)>0){
@@ -161,6 +162,27 @@ getKEGGPathway <- function(pathway){
   } else {
     MODULE.out <- "Not available"
   }
+  if(length(ORTHOLOGY)>0){
+    orthologyStart <- ORTHOLOGY
+    checkThis <- ORTHOLOGY + 1
+    while(leadingChr[checkThis]==" "){
+      checkThis <- checkThis + 1
+    }
+    orthologyEnd <- checkThis - 1
+    ORTHOLOGY.tmp <- tmp[orthologyStart:orthologyEnd]
+    
+    ORTHOLOGY.tmp[1] <- gsub("^ORTHOLOGY","         ",ORTHOLOGY.tmp[1])
+    ORTHOLOGY.tmp <- trimws(ORTHOLOGY.tmp)
+    
+    ORTHOLOGY.tmp <- strsplit(ORTHOLOGY.tmp, " ")
+    
+    ORTHOLOGY.out <- data.frame(Orthology=sapply(ORTHOLOGY.tmp,"[",1),
+                                Desc=trimws(sapply(sapply(ORTHOLOGY.tmp,"[",-1), paste, collapse=" "))
+    )
+    
+  } else {
+    ORTHOLOGY.out <- "Not available"
+  }
   out <- list(Entry = ENTRY,
               Name = NAME,
               Description = DESCRIPTION,
@@ -168,6 +190,7 @@ getKEGGPathway <- function(pathway){
               Pathway_map= PATHWAY_MAP,
               Organism = ORGANISM,
               Module = MODULE.out,
+              Orthology = ORTHOLOGY.out,
               Gene = GENE,
               Compound = COMPOUND)
   out

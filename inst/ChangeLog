@@ -14,6 +14,7 @@ Planned improvements for 0.4:
 * Reduce redundancy between eQTL and QTL
 
 Version 0.3.*:
+* (2) Orthologies are now also extracted from the function getKEGGPathway()
 * (1) REGEX for grep of starting and ending lines in getKEGGPathway adjusted
 
 Version 0.2.*:
