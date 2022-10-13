@@ -344,8 +344,7 @@ eQTL <-
                 eqtlTemp[[tempRun]] <- list(
                   GeneLoc = rep(tempRun, ncol(genoGroups)),
                   TestedSNP = SNPloc[[1]],
-                  p.values = eqtlLM(genoGroups, gex[, geneRun], mc =
-                      mc)
+                  p.values = eqtlLM(genoGroups, gex[, geneRun], mc)
                 )
               }
               else {

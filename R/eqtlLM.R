@@ -10,10 +10,9 @@ eqtlLM.internal <- function(geno, gex, MAF) {
   
   if (sum(is.na(geno)) < length(geno)) {
     temp <- lm(gex ~ geno)
-    if (is.na(temp$coefficients[2])) {
-      res <- 1.2
-      res <- summary(temp)$coefficients[2, 4]
-    }
+    ifelse(is.na(temp$coefficients[2]),
+      res <- 1.2 ,
+      res <- summary(temp)$coefficients[2, 4])
   }
   
   if (maf.snp <= MAF) {
@@ -24,8 +23,8 @@ eqtlLM.internal <- function(geno, gex, MAF) {
 
 eqtlLM <- function(genoGroups,
   gex,
-  MAF = MAF,
-  mc = mc) {
+  MAF,
+  mc = 1) {
   if (is.matrix(genoGroups)) {
     if (mc == 1) {
       res <-
@@ -33,8 +32,8 @@ eqtlLM <- function(genoGroups,
           genoGroups,
           2,
           eqtlLM.internal,
-          gex = gex,
-          MAF = MAF
+          gex,
+          MAF
         ))
     }
     else {
@@ -66,10 +65,11 @@ eqtlLM.naive <- function(genoGroups, gex) {
     if (sum(is.na(genoGroups[, i])) < (nrow(genoGroups))) {
       fitData <- data.frame(x = genoGroups[, i], y = gex)
       temp <- lm(y ~ x, data = fitData)
-      if (is.na(temp$coefficients[2])) {
-        output[i] <- 1.25
+      ifelse(
+        is.na(temp$coefficients[2]),
+        output[i] <- 1.25 ,
         output[i] <- summary(temp)$coefficients[2, 4]
-      }
+      )
     }
     else {
       output[i] <- 1.5

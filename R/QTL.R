@@ -254,7 +254,7 @@ QTL <-
                 list(
                   GeneLoc = rep(phenoRun, ncol(genoGroups)),
                   TestedSNP = SNPloc[[1]],
-                  p.values = eqtlLM(genoGroups, pheno[, phenoRun], mc = mc)
+                  p.values = eqtlLM(genoGroups, pheno[, phenoRun], mc)
                 )
             }
             else {
@@ -262,13 +262,13 @@ QTL <-
                 list(
                   GeneLoc = rep(phenoRun, 1),
                   TestedSNP = SNPloc[[1]],
-                  p.values = eqtlLM(genoGroups, pheno[, phenoRun], mc = mc)
+                  p.values = eqtlLM(genoGroups, pheno[, phenoRun], mc)
                 )
             }
             
           }
           else {
-            p.values <- eqtlLM(genoGroups, pheno[, phenoRun], mc = mc)
+            p.values <- eqtlLM(genoGroups, pheno[, phenoRun], mc)
             pPos <- p.values <= sig
             qtlTemp[[phenoRun]] <-
               cbind(SNPloc[[1]][pPos, c(1, 2, 4)], p.values[pPos])
