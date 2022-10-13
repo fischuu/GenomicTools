@@ -39,11 +39,10 @@ eqtlLM <- function(genoGroups,
     }
     else {
       res <-
-        as.vector(unlist(mclapply(1:dim(genoGroups)[2], function(i) {
+        as.vector(unlist(mclapply(1:dim(genoGroups)[2], function(i) 
           eqtlLM.internal(geno = genoGroups[, i],
             gex,
-            MAF
-        }), mc.cores = mc)))
+            MAF), mc.cores = mc)))
     }
   }
   else {

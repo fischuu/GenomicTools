@@ -8,11 +8,11 @@ rearrange <- function(genoGroups, rows.gex, genoSamples) {
   
   if (ncol(genoGroups) == 1) {
     output <- genoGroups[newOrder]
-    output <- genoGroups[newOrder, ])
+    output <- genoGroups[newOrder, ]
   }
   if (is.vector(output)) {
     names(output) <- genoSamples[newOrder]
-    rownames(output) <- genoSamples[newOrder])
+    rownames(output) <- genoSamples[newOrder]
   }
   
   output

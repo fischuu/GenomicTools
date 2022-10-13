@@ -96,9 +96,9 @@ plotGeneLocation <-
         mult <- rep(1, possibilities)
         mPos <- 1
         for (i in 2:length(x)) {
-          if ((x[i] == x[i - 1]) {
-            mult[mPos] <-
-              mult[mPos] + 1 , mPos <- mPos + 1
+          if ((x[i] == x[i - 1])) {
+            mult[mPos] <- mult[mPos] + 1
+            mPos <- mPos + 1
           }
         }
         mult
