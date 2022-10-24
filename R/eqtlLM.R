@@ -1,6 +1,6 @@
 eqtlLM.internal <- function(geno,gex, MAF){
   # Calculate MAF
-    maf.snp <- sum(geno[geno<3])/(2*(sum(geno<3) ))
+    maf.snp <- sum(geno[geno<3], na.rm=TRUE)/(2*(sum(geno<3, na.rm=TRUE) ))
     maf.snp <- min(1-maf.snp, maf.snp)    
     if(is.nan(maf.snp)) maf.snp <- 0
     
@@ -15,7 +15,7 @@ eqtlLM.internal <- function(geno,gex, MAF){
     
 }
 
-eqtlLM <- function(genoGroups, gex, MAF=MAF, mc=mc){
+eqtlLM <- function(genoGroups, gex, MAF=0, mc=1){
    if(is.matrix(genoGroups)){
       if(mc==1){
         res <- as.vector(apply(genoGroups,2,eqtlLM.internal, gex=gex, MAF=MAF))

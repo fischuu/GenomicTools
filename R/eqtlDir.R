@@ -1,9 +1,9 @@
-eqtlDir <- function(genoGroups,gex,mc=mc,nper, testType, MAF){
+eqtlDir <- function(genoGroups, gex, mc=1, nper, testType, MAF=0){
 
     innerFunction <- function(i)
     {
       # Calculate MAF
-      maf.snp <- sum(genoGroups[genoGroups[,i]<3,i])/(2*(sum(genoGroups[,i]<3) ))
+      maf.snp <- sum(genoGroups[genoGroups[,i]<3,i], na.rm=TRUE)/(2*(sum(genoGroups[,i]<3, na.rm=TRUE) ))
       maf.snp <- min(1-maf.snp, maf.snp)
       if(is.nan(maf.snp)) maf.snp <- 0
       
