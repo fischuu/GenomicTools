@@ -203,3 +203,11 @@ getKEGGPathwayImage <- function(pathway, folder=NULL){
   dlURL <- paste("http://rest.kegg.jp/get/",pathway,"/image",sep="")
   download.file(url=dlURL, destfile= file.path(folder,filename), mode="wb")
 }
+
+getKEGGModuleOverview <- function () 
+{
+  tmp <- readLines("http://rest.kegg.jp/list/module/")
+  tmp <- strsplit(tmp, "\t")
+  out <- data.frame(module = gsub("md:", "", sapply(tmp, "[", 1)), description = sapply(tmp, "[", 2))
+  out
+}
