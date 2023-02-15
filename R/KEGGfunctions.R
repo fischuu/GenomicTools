@@ -82,8 +82,7 @@ getKEGGModule <- function(module){
     ORTHOLOGY.tmp <- strsplit(ORTHOLOGY.tmp, " ")
     
     ORTHOLOGY.out <- data.frame(Orthology=sapply(ORTHOLOGY.tmp,"[",1),
-                                Desc=trimws(sapply(sapply(ORTHOLOGY.tmp,"[",-1), paste, collapse=" "))
-                                )
+                                Desc=apply(t(sapply(ORTHOLOGY.tmp,"[",-c(1,2))),1,paste, collapse=" "))
     
   } else {
     ORTHOLOGY.out <- "Not available"

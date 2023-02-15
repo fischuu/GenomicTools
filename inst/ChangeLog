@@ -14,6 +14,7 @@ Planned improvements for 0.4:
 * Reduce redundancy between eQTL and QTL
 
 Version 0.3.*:
+* (6) The getKEGGModule() function had an issue and reported repeatedly same orthologs.
 * (5) Added function getKEGGModuleOverview()
 * (2) Orthologies are now also extracted from the function getKEGGPathway()
 * (1) REGEX for grep of starting and ending lines in getKEGGPathway adjusted
