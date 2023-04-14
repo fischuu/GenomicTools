@@ -94,9 +94,7 @@ annotTrack
 
 ### An own gtf file
 GTF files are provided e.g. from Ensembl and can be downloaded from the corresponding webpage. For example the human annotation for
-Ensembl build 85 can be found here:
-
-[ftp://ftp.ensembl.org/pub/release-85/gtf/homo_sapiens/Homo_sapiens.GRCh38.85.gtf.gz](ftp://ftp.ensembl.org/pub/release-85/gtf/homo_sapiens/Homo_sapiens.GRCh38.85.gtf.gz)
+Ensembl build 85 can be found from the ensembl page.
 
 After downloading this file, it can be imported to R with
 

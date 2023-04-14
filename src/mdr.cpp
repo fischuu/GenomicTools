@@ -681,13 +681,13 @@ vec evalClassOne(const vec a, const vec one, const vec status){
  double fn = 0.0;
  for(unsigned int i=0;i<a.n_elem;i++){
    if(a(i)<3){
-    if((status(i)==0)&(classified(i)==0)){
+    if((status(i)==0)&&(classified(i)==0)){
       tn += 1.0;
-    } else if ((status(i)==1)&(classified(i)==1)){
+    } else if ((status(i)==1)&&(classified(i)==1)){
 	tp += 1.0;
-    } else if ((status(i)==1)&(classified(i)==0)){
+    } else if ((status(i)==1)&&(classified(i)==0)){
 	fn += 1.0;
-    } else if ((status(i)==0)&(classified(i)==1)){
+    } else if ((status(i)==0)&&(classified(i)==1)){
 	fp += 1.0; 
     }
    }
@@ -716,13 +716,13 @@ vec evalClassTwo(const mat a, const mat two, const vec status){
  double fn = 0.0;
  for(unsigned int i=0;i<a.n_rows;i++){
    if((a(i,0)<3) && (a(i,1)<3)){
-    if((status(i)==0)&(classified(i)==0)){
+    if((status(i)==0)&&(classified(i)==0)){
       tn += 1.0;
-    } else if ((status(i)==1)&(classified(i)==1)){
+    } else if ((status(i)==1)&&(classified(i)==1)){
 	tp += 1.0;
-    } else if ((status(i)==1)&(classified(i)==0)){
+    } else if ((status(i)==1)&&(classified(i)==0)){
 	fn += 1.0;
-    } else if ((status(i)==0)&(classified(i)==1)){
+    } else if ((status(i)==0)&&(classified(i)==1)){
 	fp += 1.0; 
     }
  }
@@ -752,13 +752,13 @@ vec evalClassThree(const mat a, const cube three, const vec status){
  double fn = 0.0;
  for(unsigned int i=0;i<a.n_rows;i++){
    if((a(i,0)<3) && (a(i,1)<3) && (a(i,2)<3)){
-      if((status(i)==0)&(classified(i)==0)){
+      if((status(i)==0)&&(classified(i)==0)){
 	tn += 1.0;
-      } else if ((status(i)==1)&(classified(i)==1)){
+      } else if ((status(i)==1)&&(classified(i)==1)){
 	  tp += 1.0;
-      } else if ((status(i)==1)&(classified(i)==0)){
+      } else if ((status(i)==1)&&(classified(i)==0)){
 	  fn += 1.0;
-      } else if ((status(i)==0)&(classified(i)==1)){
+      } else if ((status(i)==0)&&(classified(i)==1)){
 	  fp += 1.0; 
       }
    }
@@ -788,13 +788,13 @@ vec evalClassFour(const mat a, const cube four, const vec status){
  double fn = 0.0;
  for(unsigned int i=0;i<a.n_rows;i++){
    if((a(i,0)<3) && (a(i,1)<3) && (a(i,2)<3) && (a(i,3)<3)){
-      if((status(i)==0)&(classified(i)==0)){
+      if((status(i)==0)&&(classified(i)==0)){
 	tn += 1.0;
-      } else if ((status(i)==1)&(classified(i)==1)){
+      } else if ((status(i)==1)&&(classified(i)==1)){
 	  tp += 1.0;
-      } else if ((status(i)==1)&(classified(i)==0)){
+      } else if ((status(i)==1)&&(classified(i)==0)){
 	  fn += 1.0;
-      } else if ((status(i)==0)&(classified(i)==1)){
+      } else if ((status(i)==0)&&(classified(i)==1)){
 	  fp += 1.0; 
       }
    }

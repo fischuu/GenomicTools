@@ -1,5 +1,3 @@
-x <- "ATTGCGAGCT"
-
 revcomp <- function(x, rev=TRUE){
   out <- unlist(strsplit(x,""))
   for(i in 1:length(out)){

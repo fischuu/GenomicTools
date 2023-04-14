@@ -9,13 +9,14 @@
   This function determines the expected fragments from a DNA fragmentation with restriction enzymes.
 }
 \usage{
-  restrictionDigest(fa, re1="AATTC", re2="GCATG")
+  restrictionDigest(fa, re1="AATTC", re2="GCATG", use.rev=TRUE)
 }
 
 \arguments{
   \item{fa}{A reference genome in fasta format}
   \item{re1}{The first restriction enzyme sequence}
   \item{re2}{The second restriction enzyme sequence}
+  \item{use.rev}{Logical, should the reverse complement be used}
 }
 
 \details{
@@ -23,6 +24,7 @@
  performance improvements as well as input check. Further, it currently only works with two
 restriction enzymes.
 }
+
 \value{
  A list containing the clusters (\code{clusters}) and their lengths (code{cluster.bp})
 }
@@ -30,10 +32,6 @@ restriction enzymes.
 
 \author{
   Daniel Fischer
-}
-
-\examples{
-
 }
 
 \keyword{
