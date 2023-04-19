@@ -1,3 +1,5 @@
+# This function was removed and stays here commented in case it should come back...
+
 # visTrans <- function(snpGene, geneAnnot=NULL){
 #  
 #  if(!is.null(geneAnnot)) annotTrack <- TRUE

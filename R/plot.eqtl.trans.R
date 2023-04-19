@@ -1,7 +1,8 @@
 plot.trans <- function(x, genome){
 
   # Store the current par settings
-   .pardefault <- par(no.readonly = T)
+    .pardefault <- par(no.readonly = TRUE)
+    on.exit(par(.pardefault))            # code line i + 1
     par(mar=rep(0,4))
     circos.clear()
   

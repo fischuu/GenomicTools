@@ -189,6 +189,10 @@ plotIt <- function(x,sig,windowSize,centered,log,x2,annot, double){
 	  } else {
 	      # Put here what happens when we have an annotion (filter them, create the double plot, remove the center line...)
 	      ## THIS IS NOT PERFECT YET, I SHOULD USE LAYOUT, SO THAT THE FIELDS CAN BE OF DIFFERENT SIZE!!!
+	       
+	    oldpar <- par(no.readonly = TRUE)
+	    on.exit(par(oldpar))           
+	    
 	      par(mfrow=c(2,1),
                   oma=c(0,0,2,0),
                   mar=c(0,4.1,0,2.1))
@@ -237,6 +241,9 @@ plotIt <- function(x,sig,windowSize,centered,log,x2,annot, double){
 
 	  # Now plot the annotation spot
 	  if(!is.null(annot)){
+     	        oldpar <- par(no.readonly = TRUE)
+	            on.exit(par(oldpar))         
+	    
               par(oma=c(1,0,0,0),
                   mar=c(3,4.1,0.1,2.1), new=TRUE)
 	      plot(c(-10,-10),ylim=c(0,1),xlim=c(0,20),xlab="Chromosomal Position in MB",ylab="",main="",sub=paste("Chr",temp$GeneInfo[sub,1],":",minX,"-",maxX),xaxt="n")
