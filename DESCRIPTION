@@ -2,8 +2,8 @@ Package: GenomicTools
 Type: Package
 Title: Collection of Tools for Genomic Data Analysis
 Version: 0.4
-Date: 2023-04-14
-Author: Daniel Fischer
+Date: 2023-04-19
+Authors@R: c(person(given = "Daniel", family = "Fischer", role = c("aut","cre"), email = "daniel.fischer@luke.fi", comment=c(ORCID="0000-0002-7513-683X")))
 Maintainer: Daniel Fischer <daniel.fischer@luke.fi>
 Depends: R (>= 3.3), gMWT (>= 1.1), Rcpp (>= 0.9.13), data.table (>= 1.9.6), GenomicTools.fileHandler (>= 0.1.5.8)
 Imports: circlize, snpStats
@@ -13,4 +13,3 @@ Description: A loose collection of tools for the analysis of expression and geno
 VignetteBuilder: knitr
 License: GPL (>= 2)
 LazyLoad: yes
-RoxygenNote: 7.1.1
