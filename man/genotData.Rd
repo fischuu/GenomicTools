@@ -22,5 +22,8 @@
 \examples{
 data(genotData)
 }
+
+\value{A data.table}
+
 \keyword{datasets}
  

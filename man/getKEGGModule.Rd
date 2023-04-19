@@ -20,7 +20,7 @@
   This function extracts module information KEGG database.
 }
 \value{
-  A lsit with module information
+  A list with module information
 }
 
 \author{

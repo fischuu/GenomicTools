@@ -58,5 +58,7 @@
 }
 }
 
+\value{An eQTL plot}
+
 \keyword{methods}
 \keyword{hplot}

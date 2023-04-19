@@ -30,5 +30,7 @@
 # plot(res)
 }
 
+\value{A mdr plot}
+
 \keyword{methods}
 \keyword{hplot}

@@ -31,5 +31,8 @@
 data(annotTrack)
 annotTrack
 }
+
+\value{A data.table}
+
 \keyword{datasets}
  

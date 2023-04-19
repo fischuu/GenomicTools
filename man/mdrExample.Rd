@@ -23,5 +23,8 @@
 data(mdrExample)
 mdrExample[1:5,1:5]
 }
+
+\value{A data.frame}
+
 \keyword{datasets}
  

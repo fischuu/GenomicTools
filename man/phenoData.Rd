@@ -23,5 +23,8 @@
 \examples{
 data(phenoData)
 }
+
+\value{An example dataset}
+
 \keyword{datasets}
  

@@ -27,5 +27,7 @@
 # res
 }
 
+\value{A mdr object}
+
 \keyword{methods}
 \keyword{print}

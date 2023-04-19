@@ -32,5 +32,7 @@
 # summary(lm.myEQTL)
 }
 
+\value{A summary for an eqtl object}
+
 \keyword{methods}
 \keyword{print}

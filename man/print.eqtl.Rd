@@ -37,5 +37,7 @@ print(myeqtl, sig=0.05)
 }
 }
 
+\value{An eqtl object}
+
 \keyword{methods}
 \keyword{print}

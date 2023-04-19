@@ -1,0 +1,11 @@
+bibentry(bibtype = "Article",  
+         title   = "The {R}-package {GenomicTools} for multifactor dimensionality reduction and the analysis of (exploratory) Quantitative Trait Loci",
+         author  = c(person(given = "Daniel", family = "Fischer", email = "daniel.fischer@luke.fi", comment=c(ORCID="0000-0002-7513-683X"))),
+         journal      = "Comput Methods Programs Biomed",
+         year         = "2017",
+         volume       = "151",
+         pages        = "171--177",
+         doi          = "10.1016/j.cmpb.2017.08.012", 
+         url          = "https://www.sciencedirect.com/science/article/pii/S0169260716308549",
+         header  = "To cite gMWT in publications use:"
+)

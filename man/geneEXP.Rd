@@ -24,5 +24,8 @@
 \examples{
 data(Xgene)
 }
+
+\value{A matrix}
+
 \keyword{datasets}
  

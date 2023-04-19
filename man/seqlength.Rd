@@ -19,6 +19,7 @@
 \details{
 This is basically a wrapper around the \code{nchar}-function
 }
+
 \value{
  An vector containing the sequence lengths of an fa-object.
 }

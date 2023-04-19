@@ -45,5 +45,7 @@ plot(qtlresult, which=2)
 }
 }
 
+\value{A qtl plot}
+
 \keyword{methods}
 \keyword{hplot}
