@@ -10,6 +10,7 @@ importFrom("parallel", "mclapply", "detectCores")
 #importFrom("stringr", "str_replace_all")
 importFrom("snpStats", "switch.alleles")
 importFrom("utils", "download.file", "head")
+importFrom("methods", "is")
 
 S3method(print,eqtl)
 S3method(plot,eqtl)

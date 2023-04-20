@@ -6,7 +6,7 @@ Date: 2023-04-19
 Authors@R: c(person(given = "Daniel", family = "Fischer", role = c("aut","cre"), email = "daniel.fischer@luke.fi", comment=c(ORCID="0000-0002-7513-683X")))
 Maintainer: Daniel Fischer <daniel.fischer@luke.fi>
 Depends: R (>= 3.3), gMWT (>= 1.1), Rcpp (>= 0.9.13), data.table (>= 1.9.6), GenomicTools.fileHandler (>= 0.1.5.8)
-Imports: circlize, snpStats
+Imports: circlize, snpStats, methods
 Suggests: knitr, rmarkdown
 LinkingTo: Rcpp, RcppArmadillo
 Description: A loose collection of tools for the analysis of expression and genotype data, currently with the main focus on (e)QTL and MDR analysis.
