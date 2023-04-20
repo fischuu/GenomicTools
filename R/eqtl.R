@@ -9,7 +9,7 @@ eQTL <- function(gex=NULL, xAnnot=NULL, xSamples=NULL, geno=NULL, genoSamples=NU
     }  
   
   # Check if the xAnnot is in bed or in gtf format
-    if(sum(class(xAnnot)=="gtf")>0){
+    if(sum(is(xAnnot, "gtf"))>0){
       if(verbose) cat("xAnnot is given in gtf format (from importGTF). We transform it with gtfToBed() into required bed-format.\n")
       xAnnot <- gtfToBed(xAnnot)
     }
@@ -87,9 +87,9 @@ eQTL <- function(gex=NULL, xAnnot=NULL, xSamples=NULL, geno=NULL, genoSamples=NU
         } 
     # Case: No string provided, assume that genotype data was read in properly
       } else {
-        if(class(geno)=="PedMap"){
+        if(is(geno, "PedMap")){
           genoData <- geno
-        } else if(class(geno)=="vcf"){
+        } else if(is(geno, "vcf")){
           genoData <- geno
           
           # In the other possibility is that the genotypes are just given in a matrix or vector form:    
