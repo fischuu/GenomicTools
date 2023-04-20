@@ -30,7 +30,7 @@
       genome <- humanGenome68
       warning("Warning!!! No genome information provided, use the default (Ensembl Human, build 68).")
     }
-    plot.trans(x, genome)
+    plotTrans(x, genome)
   } else {
     plotSingle.eqtl(x=x, file=file, which=which, sig=sig, verbose=verbose, centered=centered,log=log,...)
   }

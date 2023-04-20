@@ -1,4 +1,4 @@
-plot.trans <- function(x, genome){
+plotTrans <- function(x, genome){
 
   # Store the current par settings
     .pardefault <- par(no.readonly = TRUE)
