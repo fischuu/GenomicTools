@@ -58,9 +58,9 @@ QTL <- function(pheno, phenoSamples=NULL, geno=NULL, genoSamples=NULL, method="L
         } 
       # CASE: No string provided, assume that genotype data was read in properly
        } else {
-          if(class(geno)=="PedMap"){
+          if(is(geno, "PedMap")){
              genoData <- geno
-          } else if(class(geno)=="vcf"){
+          } else if(is(geno, "vcf")){
             genoData <- geno
             
       # In the other possibility is that the genotypes are just given in a matrix or vector form:    
