@@ -1,4 +1,4 @@
-`plot.eqtl` <- function(x, file=NULL, which=NULL, sig=0.01, verbose=TRUE, centered=TRUE,log=FALSE, mc.cores=1, genome=NULL,...){
+`plot.eqtl` <- function(x, file=NULL, which=NULL, sig=0.01, verbose=TRUE, centered=TRUE,log=FALSE, mc.cores=1, genome=NULL, exon.annot=NULL, bed.file=NULL, ...){
   if(is.null(x$windowSize)){
     humanGenome68 <- data.frame(chr=c(1:22,"X","Y"),
                                 length=c(249250621, 
@@ -32,11 +32,11 @@
     }
     plotTrans(x, genome)
   } else {
-    plotSingle.eqtl(x=x, file=file, which=which, sig=sig, verbose=verbose, centered=centered,log=log,...)
+    plotSingle.eqtl(x=x, file=file, which=which, sig=sig, verbose=verbose, centered=centered,log=log, exon.annot=exon.annot, bed.file=bed.file, ...)
   }
 }
 
-`plotSingle.eqtl` <- function(x, file=NULL, which=NULL, sig=0.01, verbose=TRUE, centered=TRUE,log=FALSE,x2=NULL, annot=NULL, double=FALSE,...){
+`plotSingle.eqtl` <- function(x, file=NULL, which=NULL, sig=0.01, verbose=TRUE, centered=TRUE,log=FALSE,x2=NULL, annot=NULL, double=FALSE, exon.annot=exon.annot, bed.file=bed.file, ...){
   if(x$type=="full")
   {
     windowSize <- x$windowSize
@@ -47,10 +47,10 @@
 
     if(is.null(file))
     {
-      plotIt(x=x,sig=sig,windowSize=windowSize,centered=centered,log=log,x2=x2,annot=annot,double=double)
+      plotIt(x=x,sig=sig,windowSize=windowSize,centered=centered,log=log,x2=x2,annot=annot,double=double, exon.annot=exon.annot, bed.file=bed.file)
     } else {
       pdf(file=file,width=10,height=10)
-	plotIt(x=x,sig=sig,windowSize=windowSize,centered=centered,log=log,x2=x2,annot=annot, double=double)
+	plotIt(x=x,sig=sig,windowSize=windowSize,centered=centered,log=log,x2=x2,annot=annot, double=double, exon.annot=exon.annot, bed.file=bed.file)
       dev.off()
     }
     invisible()
@@ -75,7 +75,7 @@
 	windowSize <- tempEQTL$windowSize
 	xx <- tempEQTL$eqtl
       	#if(!is.null(which)==TRUE) xx <- xx
-	plotIt(x=xx,sig=sig,windowSize=windowSize,centered=centered,log=log,x2=x2,annot=annot, double=double)
+	plotIt(x=xx,sig=sig,windowSize=windowSize,centered=centered,log=log,x2=x2,annot=annot, double=double, exon.annot=exon.annot, bed.file=bed.file)
       } else {
 	warning("Check your 'which' parameter, there are no expression and/or annotation for the object ",which[i],"\n")
       }
@@ -94,7 +94,7 @@
 } 
 
 
-plotIt <- function(x,sig,windowSize,centered,log,x2,annot, double){
+plotIt <- function(x,sig,windowSize,centered,log,x2,annot, double, exon.annot, bed.file){
   for(gene in 1:length(x))
   {
       temp <- x[[gene]]
@@ -105,10 +105,19 @@ plotIt <- function(x,sig,windowSize,centered,log,x2,annot, double){
           maxX <- as.numeric(temp$GeneInfo[1,][3] + windowSize*10^6)
 
 	  if(log==FALSE){
-	     plotY <- c(0,1.5)
+	     if(!is.null(exon.annot)){
+	       plotY <- c(-0.2,1.5) 
+	     } else {
+	       plotY <- c(0,1.5)  
+	     }
 	     plotYlab <- "p-value"
 	  } else {
-	     plotY <- c(0,5)
+	     if(!is.null(exon.annot)){
+	       plotY <- c(-0.2,5) 
+	     } else {
+	       plotY <- c(0,5)  
+	     }
+	     
 	     plotYlab <- "-log(p-value)"
 	  }
 
@@ -124,7 +133,58 @@ plotIt <- function(x,sig,windowSize,centered,log,x2,annot, double){
 	  # Plot the gene position
 	  xG <- (mean(unlist(c(temp$GeneInfo[1,][2:3])))-minX)/(windowSize*10^5)
 	  lines(c(xG,xG),c(-1,2),lty="dashed")
-      } else {
+      
+	  # First plot the gene
+	  if(!is.null(exon.annot)){
+	    tmp.exon <- exon.annot[exon.annot$gene_id==names(x),]
+	    tmp.exon$V4 <- (tmp.exon$V4 - minX)/(windowSize*10^5)
+	    tmp.exon$V5 <- (tmp.exon$V5 - minX)/(windowSize*10^5)
+	    right.side <- 0
+	    left.side <- 20
+	    for(exonRun in 1:nrow(tmp.exon)){
+	      right.side <- max(right.side, tmp.exon$V4, tmp.exon$V5)
+	      left.side <- min(left.side, tmp.exon$V4, tmp.exon$V5)
+	      rect(tmp.exon$V4, -0.1, tmp.exon$V4, -0.05, col="black")
+	    }
+	    rect(left.side, -0.1, right.side, -0.05, col=NA, border="blue")
+	  }
+	  
+	  # Now plot the surrounding genes also
+	  if(!is.null(exon.annot)){
+	    # Extract the correct chromosome
+	    chr.exon <- exon.annot[exon.annot$V1==x[[1]]$GeneInfo[["Chr"]],]
+	    chr.exon$V4 <- (chr.exon$V4 -minX)/(windowSize*10^5)
+	    chr.exon$V5 <- (chr.exon$V5 -minX)/(windowSize*10^5)
+	    
+	    # Filter for the right location
+	    chr.exon <- chr.exon[chr.exon$V4>0,]
+	    chr.exon <- chr.exon[chr.exon$V5>0,]
+	    chr.exon <- chr.exon[chr.exon$V4<20,]
+	    chr.exon <- chr.exon[chr.exon$V5<20,]
+	    
+	    # Extract the genes of interest
+	    local.genes <- unique(chr.exon$gene_id)
+	    
+	    # And now plot the genes one by one also
+	    if(length(local.genes)>0){
+	      
+	      for(loc_gene_run in 1:length(local.genes)){
+	        tmp.chr.exon <- chr.exon[chr.exon$gene_id==local.genes[loc_gene_run],]
+	        right.side <- 0
+	        left.side <- 20
+	        for(exonRun in 1:nrow(tmp.chr.exon)){
+	          right.side <- max(right.side, tmp.chr.exon$V4, tmp.chr.exon$V5)
+	          left.side <- min(left.side, tmp.chr.exon$V4, tmp.chr.exon$V5)
+	          rect(tmp.chr.exon$V4, -0.15, tmp.chr.exon$V4, -0.1, col="black")
+	        }
+	        rect(left.side, -0.15, right.side, -0.1, col=NA, border="red")
+	        
+	      }
+	    }
+	  }
+	  
+	  
+	  } else {
 	for(sub in 1:Nlocs)
 	{
 	  subPos <- temp$ProbeLoc==sub
@@ -139,13 +199,30 @@ plotIt <- function(x,sig,windowSize,centered,log,x2,annot, double){
 
 	  xPos <- (temp$TestedSNP[subPos,4]-minX)/(windowSize*10^5)
 	  yPos <- temp$p.values[subPos]
-          if(!is.null(x2)) yPos2 <- temp2$p.values[subPos]
+	 
+	  bedOut <- data.frame(temp$GeneInfo[1][1,1],
+	                       temp$TestedSNP[subPos,4],
+	                       temp$TestedSNP[subPos,4]+1,
+	                       temp$p.values,
+	                       names(x))
+	  
+	  if(!is.null(bed.file)){
+	    write.table(bedOut, file=bed.file, col.names = FALSE, row.names = FALSE, quote=FALSE, sep="\t")
+	  }
+	  
+    if(!is.null(x2)) yPos2 <- temp2$p.values[subPos]
 	  # eliminate rounding errors (drop all p-values which are a bit larger than 1 to 1)
 	  
 
           if(log==FALSE){
 	     tempPos <- (yPos>1) & (yPos < 1.2)
-	     plotY <- c(0,1.5)
+	     
+	     if(!is.null(exon.annot)){
+	       plotY <- c(-0.2, 1.5)  
+	     } else {
+	       plotY <- c(0,1.5)
+	     }
+	     
 	     plotYlab <- "p-value"
 	     #yPos[tempPos] <- 1
 	     col <- rep("green",length(subPos))
@@ -170,7 +247,12 @@ plotIt <- function(x,sig,windowSize,centered,log,x2,annot, double){
 	     }
              col <- rep("green",length(subPos))
 	     col[yPos > sig] <- "red" 
-	     plotY <- c(0,max(yPos))
+	     
+	     if(!is.null(exon.annot)){
+	       plotY <- c(-0.2,max(yPos))  
+	     } else {
+	       plotY <- c(0,max(yPos))
+	     }
 	     if(!is.null(x2)){
                 col2 <- rep("gold",length(subPos))
    	        col2[yPos2 > sig] <- "steelblue" 
@@ -239,6 +321,55 @@ plotIt <- function(x,sig,windowSize,centered,log,x2,annot, double){
 	  xG <- (mean(unlist(c(temp$GeneInfo[sub,][2:3])))-minX)/(windowSize*10^5)
 	  lines(c(xG,xG),c(-1,2+max(yPos)),lty="dashed")
 
+	  if(!is.null(exon.annot)){
+	    tmp.exon <- exon.annot[exon.annot$gene_id==names(x),]
+	    tmp.exon$V4 <- (tmp.exon$V4 -minX)/(windowSize*10^5)
+	    tmp.exon$V5 <- (tmp.exon$V5 -minX)/(windowSize*10^5)
+	    right.side <- 0
+	    left.side <- 20
+	    for(exonRun in 1:nrow(tmp.exon)){
+	      right.side <- max(right.side, tmp.exon$V4, tmp.exon$V5)
+	      left.side <- min(left.side, tmp.exon$V4, tmp.exon$V5)
+	      rect(tmp.exon$V4, -0.1, tmp.exon$V4, -0.05, col="black")
+	    }
+	    rect(left.side, -0.1, right.side, -0.05, col=NA, border="blue")
+	  }
+	  
+	  # Then plot the surrounding genes
+	  if(!is.null(exon.annot)){
+	    # Extract the correct chromosome
+	    chr.exon <- exon.annot[exon.annot$V1==x[[1]]$GeneInfo[["Chr"]],]
+	    chr.exon$V4 <- (chr.exon$V4 -minX)/(windowSize*10^5)
+	    chr.exon$V5 <- (chr.exon$V5 -minX)/(windowSize*10^5)
+	   
+	    # Filter for the right location
+	    chr.exon <- chr.exon[chr.exon$V4>0,]
+	    chr.exon <- chr.exon[chr.exon$V5>0,]
+	    chr.exon <- chr.exon[chr.exon$V4<20,]
+	    chr.exon <- chr.exon[chr.exon$V5<20,]
+	     
+	    # Extract the genes of interest
+	    local.genes <- unique(chr.exon$gene_id)
+	    
+	    # And now plot the genes one by one also
+	    if(length(local.genes)>0){
+	      
+	      for(loc_gene_run in 1:length(local.genes)){
+	        tmp.chr.exon <- chr.exon[chr.exon$gene_id==local.genes[loc_gene_run],]
+	        right.side <- 0
+	        left.side <- 20
+	        for(exonRun in 1:nrow(tmp.chr.exon)){
+	          right.side <- max(right.side, tmp.chr.exon$V4, tmp.chr.exon$V5)
+	          left.side <- min(left.side, tmp.chr.exon$V4, tmp.chr.exon$V5)
+	          rect(tmp.chr.exon$V4, -0.15, tmp.chr.exon$V4, -0.1, col="black")
+	        }
+	        rect(left.side, -0.15, right.side, -0.1, col=NA, border="red")
+	        
+	      }
+	    }
+	  }
+	  
+	  
 	  # Now plot the annotation spot
 	  if(!is.null(annot)){
      	        oldpar <- par(no.readonly = TRUE)

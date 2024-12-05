@@ -1,3 +1,22 @@
+create_matrix <- function(lst) {
+  # Define the row names (0, 1, 2)
+  row_names <- c("0", "1", "2")
+  
+  # Initialize an empty matrix filled with NA
+  result_matrix <- matrix(NA, nrow = length(row_names), ncol = length(lst), 
+                          dimnames = list(row_names, paste0("col", seq_along(lst))))
+  
+  # Populate the matrix
+  for (i in seq_along(lst)) {
+    medians <- lst[[i]]
+    if (!is.null(medians) && length(medians) > 0) {
+      result_matrix[names(medians), i] <- medians
+    }
+  }
+  
+  return(result_matrix)
+}
+
 pairwiseDiffs <- function(x){
   x <- c(0,cumsum(x))
   x1 <- x[1:(length(x)-1)]

@@ -227,17 +227,22 @@ eQTL <- function(gex=NULL, xAnnot=NULL, xSamples=NULL, geno=NULL, genoSamples=NU
             # if sig is set to Null all results will be reported - This might be very memory consuming!!!
               if(is.null(sig)){ 
                  if(is.matrix(genoGroups)){
+                   dirRun <- eqtlDir(genoGroups,gex[,geneRun], mc=mc, nper=nper, testType=testType, MAF=MAF)
                    eqtlTemp[[tempRun]] <- list(GeneLoc=rep(tempRun, ncol(genoGroups)),
                                                TestedSNP=SNPloc[[1]],
-                                               p.values=eqtlDir(genoGroups,gex[,geneRun], mc=mc, nper=nper, testType=testType, MAF=MAF))
+                                               p.values=unlist(sapply(dirRun, "[", 1)),
+                                               group_expressions=create_matrix(sapply(dirRun, "[", 2)))
                  } else {
+                   dirRun <- eqtlDir(genoGroups,gex[,geneRun], mc=mc, nper=nper, testType=testType, MAF=MAF)
                    eqtlTemp[[tempRun]] <- list(GeneLoc=rep(tempRun, 1),
                                                TestedSNP=SNPloc[[1]],
-                                               p.values=eqtlDir(genoGroups,gex[,geneRun], mc=mc, nper=nper, testType=testType, MAF=MAF))
+                                               p.values=unlist(sapply(dirRun, "[", 1)),
+                                               group_expressions=unlist(create_matrix(sapply(dirRun, "[", 2))))
                    
                  }
   	        } else {
-  	           p.values <- eqtlDir(genoGroups,gex[,geneRun],mc=mc,nper=nper, testType=testType, MAF=MAF)
+  	           dirRun <- eqtlDir(genoGroups,gex[,geneRun],mc=mc,nper=nper, testType=testType, MAF=MAF)
+  	           p.values <- dirRun$p_value
   	           pPos <- p.values<=sig
   	           eqtlTemp[[tempRun]] <- cbind(SNPloc[[1]][pPos,c(1,2,4)],p.values[pPos])
           	}

@@ -38,6 +38,10 @@ joinEQTL <- function(eqtlTemp){
   names(temp) <- c()
   output[[3]] <- temp
   names(output) <- c("ProbeLoc","TestedSNP","p.values")
+  if(length(eqtlTemp[[i]])==4){
+    output[[4]] <- eqtlTemp[[i]][[4]]
+    names(output) <- c("ProbeLoc","TestedSNP","p.values", "median_expressions")
+  }
   output
 
 }
