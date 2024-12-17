@@ -202,7 +202,7 @@ plotIt <- function(x,sig,windowSize,centered,log,x2,annot, double, exon.annot, b
 	 
 	  bedOut <- data.frame(temp$GeneInfo[1][1,1],
 	                       temp$TestedSNP[subPos,4],
-	                       temp$TestedSNP[subPos,4]+1,
+	                       temp$TestedSNP[subPos,4],
 	                       temp$p.values,
 	                       names(x))
 	  
