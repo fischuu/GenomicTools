@@ -31,6 +31,6 @@ S3method(summary,qtlRes)
 
 export(eQTL, QTL, gtfToBed, mdr, mdrEnsemble, recodeData,
        getKEGGInformation, getKEGGOrganisms, getKEGGPathwayOverview, getKEGGPathway, getKEGGModule, getKEGGOrthologOverview, getKEGGPathwayImage, getRSLocation,
-       seqlength, restrictionDigest, revcomp, getKEGGModuleOverview)
+       seqlength, restrictionDigest, revcomp, getKEGGModuleOverview, fixVCF)
 
 useDynLib(GenomicTools, .registration = TRUE)

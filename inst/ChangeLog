@@ -15,6 +15,7 @@ Planned improvements for 0.5:
 
 Version 0.5.*:
  
+ 5: Added the fixVCF function to fill up missing values based on read ratios
  4: Fixed a coordinate bug in the plot.eqtl bed output
  3: Added the option to add an annotation track to the eQTL plots
  2: BugFix in eQTL function that prevented the median expression to be correctly reported
